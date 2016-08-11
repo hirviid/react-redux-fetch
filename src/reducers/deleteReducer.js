@@ -20,7 +20,7 @@ const deleteReducer = (state=Immutable(INITIAL_STATE), action) => {
             if (action.meta.removeFromList && state.value) {
                 const idName = action.meta.removeFromList.idName;
                 const id = action.meta.removeFromList.id;
-                const val = filter(state.value, (value, key) => value[idName] !== id);
+                const val = filter(state.value, (value) => value[idName] !== id);
                 return fetchFulfill(state, Object.assign({},action,{value:val}));
             }
 

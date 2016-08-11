@@ -1,5 +1,4 @@
 import {FULFILLED} from '../constants/request';
-import Immutable from 'seamless-immutable';
 
 const fetchFulfill = (state, action) => {
     return state

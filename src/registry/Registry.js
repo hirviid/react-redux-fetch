@@ -21,7 +21,7 @@ class Registry {
      * Add custom reducers, in order to access the reqres state slice
      * @param {string} key - The slice in reqres state that the reducer should handle
      * @param {Function} reducer - A redux reducer function
-     * @return {Registry}
+     * @return {Registry} The current Registry instance
      */
     registerReducer(key, reducer) {
         this._reducers[key] = reducer;
@@ -37,9 +37,11 @@ class Registry {
      *  - {string} actionPrefix - a more human readable verb, to append to the action passed to the component. e.g.: 'create'
      *  - {Function} middleware - the redux middleware to handle the request
      *  - {Function} reducer - the redux reducer to handle the actions
+     * @return {Registry} The current Registry instance
      */
     registerRequestMethod(type, config) {
         this._requestTypes[type] = Object.assign({type}, config);
+        return this;
     }
 
     getRequestMethodConfig(type) {
@@ -47,8 +49,7 @@ class Registry {
     }
 
     /**
-     * @todo refactor to getAllRequestMethodConfigs
-     * @return {{}}
+     * @return {Array} Array of request method configurations
      */
     getAllRequestMethodConfigs() {
         return this._requestTypes;

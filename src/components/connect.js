@@ -28,7 +28,7 @@ function requestMethodToActionKey(key, requestMethod = defaultRequestType) {
     return 'dispatch' + key + capitalizeFirstLetter(requestMethodConfig.actionPrefix);
 }
 
-function factory(defaults = {}, options = {}) {
+function factory(/*defaults = {}, options = {}*/) {
 
     function connectImpl(map, mapStateToProps) {
         return connect(map, mapStateToProps);
@@ -54,14 +54,18 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
 
             /**
              * If the value passed to connect() is a function, execute the function and pass the props + context
-             * @return an object or array with request configurations
+             * @param {Object} props React props
+             * @param {Object} context React context
+             * @return {Array} an array with request configurations
              **/
             buildMappings = (props = this.props, context = this.context) => {
                 return isFunction(mapPropsToRequestsToProps) ? mapPropsToRequestsToProps(props, context || {}) : mapPropsToRequestsToProps;
             };
 
             /**
-             * @return functions for the WrappedComponent e.g.: 'dispatchUserFetch()'
+             * @param {Function} dispatch Redux dispatch function
+             * @param {Array} mappings Array of objects with shape: {resource: ..., type: ..., request: ...}
+             * @return {Object} functions for the WrappedComponent e.g.: 'dispatchUserFetch()'
              **/
             actionsFromProps = (dispatch, mappings) => {
                 let actions = {};
@@ -91,7 +95,9 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
             };
 
             /**
-             * @return all the resources the WrappedComponent requested
+             * @param {Object} fetchData The complete react-redux-fetch state leaf
+             * @param {Array} mappings Array of objects with shape: {resource: ..., type: ..., request: ...}
+             * @return {Object} all the resources the WrappedComponent requested
              */
             getFilteredFetchData = (fetchData, mappings) => {
                 let data = {};

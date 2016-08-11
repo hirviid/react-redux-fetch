@@ -4,7 +4,8 @@
   "description": "A declarative and customizable way to fetch data for React components and manage that data in the Redux state",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint src test",
+    "test": "mocha --compilers js:babel-core/register --recursive --require ./test/setup.js"
   },
   "repository": {
     "type": "git",
@@ -27,5 +28,11 @@
   "bugs": {
     "url": "https://github.com/hirviid/react-redux-fetch/issues"
   },
-  "homepage": "https://github.com/hirviid/react-redux-fetch#readme"
+  "homepage": "https://github.com/hirviid/react-redux-fetch#readme",
+  "devDependencies": {
+    "babel-eslint": "6.1.2",
+    "eslint": "3.2.2",
+    "eslint-config-rackt": "1.1.1",
+    "eslint-plugin-react": "6.0.0"
+  }
 }
