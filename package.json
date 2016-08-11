@@ -46,6 +46,7 @@
     "mocha": "3.0.2"
   },
   "dependencies": {
+    "lodash": "4.14.2",
     "seamless-immutable": "6.1.1"
   }
 }
