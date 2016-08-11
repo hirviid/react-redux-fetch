@@ -1,0 +1,31 @@
+{
+  "name": "react-redux-fetch",
+  "version": "0.0.1",
+  "description": "A declarative and customizable way to fetch data for React components and manage that data in the Redux state",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hirviid/react-redux-fetch.git"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "react",
+    "reactjs",
+    "redux",
+    "fetch",
+    "data",
+    "ajax",
+    "crud"
+  ],
+  "author": "David Van Gompel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hirviid/react-redux-fetch/issues"
+  },
+  "homepage": "https://github.com/hirviid/react-redux-fetch#readme"
+}
