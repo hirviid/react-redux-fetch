@@ -9,7 +9,7 @@ export default (store) => (next) => (action) => {
         if (methodConfigs.hasOwnProperty(method)) {
             let config = methodConfigs[method];
 
-            if (action.method === FETCH.for(method).REQUEST && config.middleware) {
+            if (action.type === FETCH.for(method).REQUEST && config.middleware) {
                 // if (!config.middleware) {
                 //     throw `Warning: Request for method ${method} has no matching middleware.`;
                 // }
