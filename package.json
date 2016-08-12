@@ -1,6 +1,6 @@
 {
   "name": "react-redux-fetch",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A declarative and customizable way to fetch data for React components and manage that data in the Redux state",
   "main": "./lib/index.js",
   "scripts": {
