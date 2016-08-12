@@ -7,7 +7,7 @@ class Registry {
     };
 
     _headers = defaultHeaders;
-    _requestTypes = {};
+    _requestMethodConfigs = {};
     _reducers = {};
 
     getHeaders() {
@@ -32,27 +32,27 @@ class Registry {
     }
 
     /**
-     * @param {string} type - a HTTP verb (e.g. 'post')
+     * @param {string} method - a HTTP verb (e.g. 'post')
      * @param {Object} config
      *  - {string} actionPrefix - a more human readable verb, to append to the action passed to the component. e.g.: 'create'
      *  - {Function} middleware - the redux middleware to handle the request
      *  - {Function} reducer - the redux reducer to handle the actions
      * @return {Registry} The current Registry instance
      */
-    registerRequestMethod(type, config) {
-        this._requestTypes[type] = Object.assign({type}, config);
+    registerRequestMethod(method, config) {
+        this._requestMethodConfigs[method] = Object.assign({method}, config);
         return this;
     }
 
     getRequestMethodConfig(type) {
-        return this._requestTypes[type];
+        return this._requestMethodConfigs[type];
     }
 
     /**
-     * @return {Array} Array of request method configurations
+     * @return {Object} Array of request method configurations
      */
     getAllRequestMethodConfigs() {
-        return this._requestTypes;
+        return this._requestMethodConfigs;
     }
 }
 

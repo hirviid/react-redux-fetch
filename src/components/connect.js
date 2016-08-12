@@ -64,7 +64,7 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
 
             /**
              * @param {Function} dispatch Redux dispatch function
-             * @param {Array} mappings Array of objects with shape: {resource: ..., type: ..., request: ...}
+             * @param {Array} mappings Array of objects with shape: {resource: ..., method: ..., request: ...}
              * @return {Object} functions for the WrappedComponent e.g.: 'dispatchUserFetch()'
              **/
             actionsFromProps = (dispatch, mappings) => {
@@ -79,7 +79,7 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
                         throw new Error(`'resource' property missing in mapping for '${getDisplayName(WrappedComponent)}'.`);
                     }
 
-                    const requestMethod = mapping.type || defaultRequestType;
+                    const requestMethod = mapping.method || defaultRequestType;
 
                     actions[requestMethodToActionKey(finalKey, requestMethod)] = (...args) => {
                         const finalConfig = isFunction(finalConfigFn) ? finalConfigFn(...args) : finalConfigFn;
@@ -96,7 +96,7 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
 
             /**
              * @param {Object} fetchData The complete react-redux-fetch state leaf
-             * @param {Array} mappings Array of objects with shape: {resource: ..., type: ..., request: ...}
+             * @param {Array} mappings Array of objects with shape: {resource: ..., method: ..., request: ...}
              * @return {Object} all the resources the WrappedComponent requested
              */
             getFilteredFetchData = (fetchData, mappings) => {

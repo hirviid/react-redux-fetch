@@ -3,15 +3,15 @@ import registry from '../registry';
 
 export default (store) => (next) => (action) => {
 
-    const types = registry.getAllRequestMethodConfigs();
+    const methodConfigs = registry.getAllRequestMethodConfigs();
 
-    for (let type in types) {
-        if (types.hasOwnProperty(type)) {
-            let config = types[type];
+    for (let method in methodConfigs) {
+        if (methodConfigs.hasOwnProperty(method)) {
+            let config = methodConfigs[method];
 
-            if (action.type === FETCH.for(type).REQUEST && config.middleware) {
+            if (action.method === FETCH.for(method).REQUEST && config.middleware) {
                 // if (!config.middleware) {
-                //     throw `Warning: Request for type ${type} has no matching middleware.`;
+                //     throw `Warning: Request for method ${method} has no matching middleware.`;
                 // }
                 return config.middleware(store, next, action, config);
             }
