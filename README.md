@@ -123,6 +123,10 @@ The action creates a new state tree `allPokemon`, inside the `fetch` state tree:
 
 ![GET_REQUEST/State](https://cloud.githubusercontent.com/assets/6641475/17690442/fa61e926-638e-11e6-94d4-2a16369ba8ee.png)
 
+The react-redux-fetch middleware takes this action and builds the request with [Fetch API](https://developer.mozilla.org/en/docs/Web/API/Fetch_API).
+This part of the state is passed as a prop to the PokemonList component:
+![PROPS/PENDING](https://cloud.githubusercontent.com/assets/6641475/17713820/264f9402-63fd-11e6-88a8-9ac2e01b2b5e.png)
+
 When the request fulfils (i.e. receiving a status code between 200 and 300), react-redux-fetch dispatches the action `react-redux-fetch/GET_FULFIL`:
 
 ![GET_FULFIL/Action](https://cloud.githubusercontent.com/assets/6641475/17690440/fa6070be-638e-11e6-9da8-90ee1b975373.png)
@@ -131,11 +135,36 @@ With updated state tree:
 
 ![GET_FULFIL/Action](https://cloud.githubusercontent.com/assets/6641475/17690443/fa645a08-638e-11e6-8b97-8e0a5ff2e657.png)
 
+This part of the state is passed as a prop to the PokemonList component:
+
+![PROPS/FULFILLED](https://cloud.githubusercontent.com/assets/6641475/17713773/e0d32628-63fc-11e6-878a-18bbcf64240d.png)
 
 ## API
 
 ### connect()
-TODO
+A higher order component to enhance your component with the react-redux-fetch functionality.
+
+Accepts an array: 
+```jsx
+connect([{
+   // ... configuration, see below
+}])(yourComponent);
+```
+
+Or a function returning an array. This function receives the props, which can then be used in your configuration to dynamically build your urls. 
+```jsx
+connect((props) => [{
+   // ... configuration, see below
+}])(yourComponent);
+```
+
+The returned array should be an array of objects, with the following properties:
+- `resource`: **String, required**. A name for your resource, this name will be used as a key in the state tree.
+- `method`: **String, optional**, default: 'get'. The request method that will be used for the request. One of 'get', 'post', 'put', 'delete'. Can be extended by adding new types to the registry (see below).
+- `request`: **Object|Function, required**. Use a function if you want to pass dynamic data to the request config (e.g. body data).
+    * `url`: **String, required**.  The URL to make the request to.
+    * `meta`: **Object, optional**. Everything passed to 'meta' will be passed to every part in the react-redux-fetch flow.
+
 
 ### registry
 TODO
