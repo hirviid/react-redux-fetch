@@ -117,7 +117,7 @@ The response object consists of:
 
 When calling `this.props.dispatchAllPokemonFetch();`, react-redux-fetch dispatches the action `react-redux-fetch/GET_REQUEST`: 
 
-![GET_REQUEST/Action](https://cloud.githubusercontent.com/assets/6641475/17690441/fa6086b2-638e-11e6-9588-15fa41e2fa2b.png =500x)
+![GET_REQUEST/Action](https://cloud.githubusercontent.com/assets/6641475/17690441/fa6086b2-638e-11e6-9588-15fa41e2fa2b.png | width=500)
 
 The action creates a new state tree `allPokemon`, inside the `fetch` state tree:
 
