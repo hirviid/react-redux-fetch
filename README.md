@@ -121,24 +121,24 @@ When calling `this.props.dispatchAllPokemonFetch();`, react-redux-fetch dispatch
 
 The action creates a new state tree `allPokemon`, inside the `fetch` state tree:
 
-![GET_REQUEST/State](https://cloud.githubusercontent.com/assets/6641475/17690442/fa61e926-638e-11e6-94d4-2a16369ba8ee.png =300x)
+<img src="https://cloud.githubusercontent.com/assets/6641475/17690442/fa61e926-638e-11e6-94d4-2a16369ba8ee.png" alt="GET_REQUEST/State" width="500" />
 
 The react-redux-fetch middleware takes this action and builds the request with [Fetch API](https://developer.mozilla.org/en/docs/Web/API/Fetch_API).
 This part of the state is passed as a prop to the PokemonList component:
 
-![PROPS/PENDING](https://cloud.githubusercontent.com/assets/6641475/17713820/264f9402-63fd-11e6-88a8-9ac2e01b2b5e.png =300x)
+<img src="https://cloud.githubusercontent.com/assets/6641475/17713820/264f9402-63fd-11e6-88a8-9ac2e01b2b5e.png" alt="GET_REQUEST/PENDING" width="300" />
 
 When the request fulfils (i.e. receiving a status code between 200 and 300), react-redux-fetch dispatches the action `react-redux-fetch/GET_FULFIL`:
 
-![GET_FULFIL/Action](https://cloud.githubusercontent.com/assets/6641475/17690440/fa6070be-638e-11e6-9da8-90ee1b975373.png =300x)
+<img src="https://cloud.githubusercontent.com/assets/6641475/17690440/fa6070be-638e-11e6-9da8-90ee1b975373.png" alt="GET_REQUEST/Action" width="500" />
 
 With updated state tree:
 
-![GET_FULFIL/Action](https://cloud.githubusercontent.com/assets/6641475/17690443/fa645a08-638e-11e6-8b97-8e0a5ff2e657.png =300x)
+<img src="https://cloud.githubusercontent.com/assets/6641475/17690443/fa645a08-638e-11e6-8b97-8e0a5ff2e657.png" alt="GET_FULFIL/Action" width="500" />
 
 This part of the state is passed as a prop to the PokemonList component:
 
-![PROPS/FULFILLED](https://cloud.githubusercontent.com/assets/6641475/17713773/e0d32628-63fc-11e6-878a-18bbcf64240d.png =300x)
+<img src="https://cloud.githubusercontent.com/assets/6641475/17713773/e0d32628-63fc-11e6-878a-18bbcf64240d.png" alt="PROPS/FULFILLED" width="300" />
 
 ## API
 
