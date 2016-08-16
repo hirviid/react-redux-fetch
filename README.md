@@ -22,9 +22,35 @@ The goal of this library is to minimize boilerplate code  of crud operations in 
 Redux provides a clean interface for handling data across your application, but integrating with a web service can become a quite cumbersome, repetitive task. [React-refetch by Heroku](https://github.com/heroku/react-refetch) provides a good alternative, but doesn't keep your fetched data in the application state, which makes it more difficult to debug, handle side effects (e.g. with redux-saga) and integrate with your redux actions. This module is strongly inspired by react-refetch; it exposes a `connect()` decorator to keep your components stateless. This function lets you map props to URLs. React-redux-fetch takes these mappings and creates functions which dispatch actions and passes them as props to your component. The response is also passed as a prop to your component with additional pending, fulfilled and rejected flags, just like react-refetch.
 
 ## Setup
-```jsx
-// TODO
-```
+
+1. Connect the react-redux-fetch middleware to the Store using `applyMiddleware`:
+    ```jsx
+    // ...
+    import {createStore, applyMiddleware} from 'redux'
+    import {middleware as fetchMiddleware} from 'react-redux-fetch'
+    
+    // ...
+    
+    const store = createStore(
+        reducer,
+        applyMiddleware(fetchMiddleware)
+    )
+    
+    // rest unchanged
+    ```
+
+2. Mount react-redux-fetch reducer to the state at `fetch`: 
+    ```jsx
+    import {combineReducers} from 'redux';
+    import {reducer as fetchReducer} from 'react-redux-fetch';
+    
+    const rootReducer = combineReducers({
+        // ... other reducers
+        fetch: fetchReducer
+    });
+    
+    export default rootReducer;
+    ```
 
 ## Basic example
 ```jsx
@@ -97,7 +123,7 @@ The action creates a new state tree `allPokemon`, inside the `fetch` state tree:
 
 ![GET_REQUEST/State](https://cloud.githubusercontent.com/assets/6641475/17690442/fa61e926-638e-11e6-94d4-2a16369ba8ee.png)
 
-When the request fulfils (i.e. status code between 200 and 300), react-redux-fetch dispatches the action `react-redux-fetch/GET_FULFIL`:
+When the request fulfils (i.e. receiving a status code between 200 and 300), react-redux-fetch dispatches the action `react-redux-fetch/GET_FULFIL`:
 
 ![GET_FULFIL/Action](https://cloud.githubusercontent.com/assets/6641475/17690440/fa6070be-638e-11e6-9da8-90ee1b975373.png)
 
