@@ -164,8 +164,20 @@ The returned array should be an array of objects, with the following properties:
 - `method`: **String, optional**, default: 'get'. The request method that will be used for the request. One of 'get', 'post', 'put', 'delete'. Can be extended by adding new types to the registry (see below).
 - `request`: **Object|Function, required**. Use a function if you want to pass dynamic data to the request config (e.g. body data).
     * `url`: **String, required**.  The URL to make the request to.
+    * `body`: **Object, optional**. The object that will be sent as JSON in the body of the request.
     * `meta`: **Object, optional**. Everything passed to 'meta' will be passed to every part in the react-redux-fetch flow.
 
 
 ### registry
+TODO
+
+## Examples
+
+### POST
+TODO
+
+### PUT
+TODO
+
+### DELETE
 TODO
