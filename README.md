@@ -175,7 +175,7 @@ import {container} from 'react-redux-fetch';
 ```
 
 The container provides a single entry point into customizing the different parts of react-redux-fetch.
-For now, the following customization is possible, but will be extended in the future:
+For now, the following customizations are possible, this will be extended in the future:
 
 - **requestMethods**
     Out-of-the-box, react-redux-refetch provides implementations for `get`, `post`, `put` and `delete` requests.
