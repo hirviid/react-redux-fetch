@@ -1,4 +1,6 @@
 import defaultHeaders from '../utils/defaultHeaders';
+import defaultRequestBuilder from '../utils/requestBuilder';
+import assert from '../utils/assert';
 
 class Registry {
 
@@ -9,12 +11,26 @@ class Registry {
     _headers = defaultHeaders;
     _requestMethodConfigs = {};
     _reducers = {};
+    _requestBuilder = defaultRequestBuilder;
 
     getHeaders() {
         return this._headers;
     }
     setHeaders(headers) {
         this._headers = headers;
+    }
+
+    /**
+     * Register a request builder
+     * @param {Function} requestBuilder - A function which should return anything fetch api can handle
+     * @return {Registry} The current registry instance
+     */
+    registerRequestBuilder(requestBuilder) {
+        this._requestBuilder = requestBuilder;
+        return this;
+    }
+    getRequestBuilder() {
+        return this._requestBuilder;
     }
 
     /**
@@ -40,6 +56,10 @@ class Registry {
      * @return {Registry} The current Registry instance
      */
     registerRequestMethod(method, config) {
+        assert.exists(method, '"method" is required');
+        assert.contains(config, 'actionPrefix');
+        assert.contains(config, 'middleware');
+        assert.contains(config, 'reducer');
         this._requestMethodConfigs[method] = Object.assign({method}, config);
         return this;
     }

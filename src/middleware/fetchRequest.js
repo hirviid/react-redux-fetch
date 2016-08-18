@@ -1,10 +1,10 @@
-import buildRequest from '../utils/buildRequest';
+import registry from '../registry';
 import handleResponse from '../utils/handleResponse';
 import onFulfillment from '../utils/onFulfillment';
 import onRejection from '../utils/onRejection';
 
 const fetchRequest = (store, next, action, config) => {
-    const req = buildRequest(action.url, {method: config.method, body: action.request.body});
+    const req = registry.getRequestBuilder()(action.url, {method: config.method, body: action.request.body});
     let meta = action.request.meta || {};
     next(action);
 

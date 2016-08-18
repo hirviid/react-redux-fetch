@@ -2,7 +2,7 @@ import isObject from 'lodash/isObject';
 import registry from '../registry';
 
 
-const buildRequest = (url, {body, method='get', headers=registry.getHeaders()} = {}) => {
+const requestBuilder = (url, {body, method='get', headers=registry.getHeaders()} = {}) => {
     return new Request(url, {
         method: method,
         headers: headers,
@@ -10,4 +10,4 @@ const buildRequest = (url, {body, method='get', headers=registry.getHeaders()} =
     });
 };
 
-export default buildRequest;
+export default requestBuilder;
