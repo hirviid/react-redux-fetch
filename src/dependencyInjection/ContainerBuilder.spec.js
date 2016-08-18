@@ -48,4 +48,19 @@ describe('Definition', () => {
         });
     });
 
+    describe('hasDefinition', () => {
+
+        const container = new ContainerBuilder();
+        container.register('FooBar', {foo: 'bar'});
+
+        it('should return true if container has definition', () => {
+           container.hasDefinition('FooBar').should.be.true;
+        });
+
+        it('should return false if container does not have definition', () => {
+           container.hasDefinition('BarFoo').should.be.false;
+        });
+
+    });
+
 });

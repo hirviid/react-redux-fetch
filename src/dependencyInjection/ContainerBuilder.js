@@ -42,30 +42,22 @@ class ContainerBuilder {
      */
     getDefinition(id) {
         id = id.toLowerCase();
-        if (!this.definitions.hasOwnProperty(id)) {
+        if (!this.hasDefinition(id)) {
             throw new Error(`Service ${id} not found`);
         }
         return this.definitions[id];
     }
 
+    /**
+     * @param {String} id The service identifier
+     *
+     * @return {boolean} True if container contains definition
+     */
+    hasDefinition(id) {
+        id = id.toLowerCase();
+        return this.definitions.hasOwnProperty(id);
+    }
+
 }
 
 export default ContainerBuilder;
-
-/*
-
-const container = new ContainerBuilder();
-
-container.register('requestMethods', {
-    'get': {},
-    'post': {},
-    'put': {},
-    'delete': {}
-});
-
-container.getDefinition('requestMethods').replaceArgument('post.middleware', ...);
-container.getDefinition('requestMethods').addArgument('patch', ...);
-
-container.register('requestHeaders', {'accept': '...', 'content-type': '...'});
-container.getDefinition('requestMethods').addArgument('token', '...');
- */

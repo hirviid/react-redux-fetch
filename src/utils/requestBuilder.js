@@ -1,8 +1,8 @@
 import isObject from 'lodash/isObject';
-import registry from '../registry';
+import container from '../container';
 
 
-const requestBuilder = (url, {body, method='get', headers=registry.getHeaders()} = {}) => {
+const requestBuilder = (url, {body, method='get', headers=container.getDefinition('requestHeaders').getArguments()} = {}) => {
     return new Request(url, {
         method: method,
         headers: headers,
