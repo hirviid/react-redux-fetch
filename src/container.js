@@ -23,31 +23,28 @@ function bootstrap() {
     container.register('requestMethods', {
         'get': {
             method: 'get',
-            actionPrefix: 'fetch',
             middleware: fetchRequest,
             reducer: getReducer
         },
         'post': {
             method: 'post',
-            actionPrefix: 'create',
             middleware: fetchRequest,
             reducer: postReducer
         },
         'put': {
             method: 'put',
-            actionPrefix: 'update',
             middleware: fetchRequest,
             reducer: putReducer
         },
         'delete': {
             method: 'delete',
-            actionPrefix: 'remove',
             middleware: fetchRequest,
             reducer: deleteReducer
         }
     });
 
     container.register('requestHeaders', requestHeaders);
+    container.register('reducers', {});
     container.register('requestBuilder', {build:requestBuilder});
     // container.getDefinition('requestMethods').addArgument('patch', '...');
     // container.getDefinition('requestMethods').addArgument('token', '...');

@@ -25,7 +25,7 @@ function requestMethodToActionKey(key, requestMethod = defaultRequestType) {
         throw new Error(`Request method ${requestMethod} not registered at react-redux-fetch. Use container.getDefinition('requestMethods').addArgument().`);
     }
 
-    return 'dispatch' + key + capitalizeFirstLetter(requestMethodConfig.actionPrefix);
+    return 'dispatch' + key + capitalizeFirstLetter(requestMethodConfig.method);
 }
 
 function factory(/*defaults = {}, options = {}*/) {
