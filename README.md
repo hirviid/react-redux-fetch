@@ -178,6 +178,7 @@ The container provides a single entry point into customizing the different parts
 For now, the following customizations are possible, this will be extended in the future:
 
 - **requestMethods**
+
     Out-of-the-box, react-redux-refetch provides implementations for `get`, `post`, `put` and `delete` requests.
     A new request method, e.g. `patch`, can be added like this:
     ```js
@@ -195,6 +196,7 @@ For now, the following customizations are possible, this will be extended in the
     ```
     
 - **requestHeaders**
+
     The default request headers are `'Accept': 'application/json'` and `'Content-Type': 'application/json'`. You can add request headers:
     ```js
     container.getDefinition('requestHeaders').addArgument('authorization', 'Bearer some.jwt.token');
@@ -205,6 +207,7 @@ For now, the following customizations are possible, this will be extended in the
     ```
     
 - **reducers**
+
     Additional reducers can be registered to work on a subset of the fetch state, without having to overwrite all reducers defined in requestMethods definition.
     For example, there is no out-of-the-box way of clearing state data. If you want to clear e.g. all todo items from a todo list, you can register a reducer to work on the 'todos' state.
     ```js
@@ -224,6 +227,7 @@ For now, the following customizations are possible, this will be extended in the
     
 
 - **requestBuilder**
+
     The requestBuilder is used by the default react-redux-fetch middleware. Takes a URL and request config and returns a Request object.
     To replace the default implementation:
     ```js
