@@ -61,9 +61,9 @@ class PokemonList extends React.Component {
     static propTypes = {
         // injected by react-redux-fetch
         /**
-         * @var {Function} dispatchAllPokemonFetch call this function to start fetching all Pokémon
+         * @var {Function} dispatchAllPokemonGet call this function to start fetching all Pokémon
          */
-        dispatchAllPokemonFetch: PropTypes.func.isRequired,
+        dispatchAllPokemonGet: PropTypes.func.isRequired,
         /**
          * @var {Object} allPokemon contains the result of the request + promise state (pending, fulfilled, rejected)
          */
@@ -71,7 +71,7 @@ class PokemonList extends React.Component {
     };
 
     componentWillMount() {
-        this.props.dispatchAllPokemonFetch();
+        this.props.dispatchAllPokemonGet();
     }
 
     render() {
@@ -108,14 +108,14 @@ Every entry in the config array passed to `connect()` is mapped to 2 properties,
 The function name consists of 3 parts:
  - dispatch:  to indicate that by calling this function a redux action is dispatched
  - [resourceName]: the name of the resource declared in the config
- - Fetch|Remove|Create|Update: a verb to indicate the method of the request (get/delete/post/put)
+ - [method]: The method of the request (Get/Delete/Post/Put)
 
 The response object consists of:
  - pending, fulfilled, rejected: Promise flags
  - value: The actual response body
  - meta: The actual response object
 
-When calling `this.props.dispatchAllPokemonFetch();`, react-redux-fetch dispatches the action `react-redux-fetch/GET_REQUEST`: 
+When calling `this.props.dispatchAllPokemonGet();`, react-redux-fetch dispatches the action `react-redux-fetch/GET_REQUEST`: 
 
 <img src="https://cloud.githubusercontent.com/assets/6641475/17690441/fa6086b2-638e-11e6-9588-15fa41e2fa2b.png" alt="GET_REQUEST/Action" width="500" />
 
@@ -168,8 +168,67 @@ The returned array should be an array of objects, with the following properties:
     * `meta`: **Object, optional**. Everything passed to 'meta' will be passed to every part in the react-redux-fetch flow.
 
 
-### registry
-TODO
+### container
+
+```js
+import {container} from 'react-redux-fetch';
+```
+
+The container provides a single entry point into customizing the different parts of react-redux-fetch.
+For now, the following customization is possible, but will be extended in the future:
+
+- **requestMethods**
+    Out-of-the-box, react-redux-refetch provides implementations for `get`, `post`, `put` and `delete` requests.
+    A new request method, e.g. `patch`, can be added like this:
+    ```js
+    container.getDefinition('requestMethods').addArgument('patch', {
+        method: 'patch', // The request method
+        middleware: fetchRequest, // The middleware to handle the actual fetching. 'fetchRequest' from 'react-redux-fetch' is a sensible default for any request method. 
+        reducer: patchReducer 
+    });
+    ```
+        
+    An existing request method definition can be altered like this:
+    ```js
+    // Replace middleware for POST requests with a mock
+    container.getDefinition('requestMethods').replaceArgument('post.middleware', mockFetchMiddleware);
+    ```
+    
+- **requestHeaders**
+    The default request headers are `'Accept': 'application/json'` and `'Content-Type': 'application/json'`. You can add request headers:
+    ```js
+    container.getDefinition('requestHeaders').addArgument('authorization', 'Bearer some.jwt.token');
+    ```
+    Or change a request header:
+    ```js
+    container.getDefinition('requestHeaders').replaceArgument('Content-Type', 'application/xml');
+    ```
+    
+- **reducers**
+    Additional reducers can be registered to work on a subset of the fetch state, without having to overwrite all reducers defined in requestMethods definition.
+    For example, there is no out-of-the-box way of clearing state data. If you want to clear e.g. all todo items from a todo list, you can register a reducer to work on the 'todos' state.
+    ```js
+    container.getDefinition('reducers').addArgument('todos', todosReducer);
+    ```
+    The todos state slice is passed to the reducer, which can return a new state when your custom redux action is dispatched:
+    ```js
+    function todosReducer(state, action) {
+        switch (action.type) {
+            case 'TODOS_RESET':
+                return state.set('value', null);
+               
+        }
+        return state;
+    }
+    ```
+    
+
+- **requestBuilder**
+    The requestBuilder is used by the default react-redux-fetch middleware. Takes a URL and request config and returns a Request object.
+    To replace the default implementation:
+    ```js
+    container.getDefinition('requestBuilder').replaceArgument('build', customRequestBuilder);
+    ```
 
 ## Examples
 
