@@ -19,7 +19,6 @@ function requestMethodToActionKey(key, requestMethod = defaultRequestType) {
     requestMethod = requestMethod.toLowerCase();
     key = capitalizeFirstLetter(key);
 
-    // const requestMethodConfig = registry.getRequestMethodConfig(requestMethod);
     const requestMethodConfig = container.getDefinition('requestMethods').getArgument(requestMethod);
 
     if (!requestMethodConfig) {
