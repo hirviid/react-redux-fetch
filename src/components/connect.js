@@ -6,7 +6,7 @@ import each from 'lodash/each';
 import noop from 'lodash/noop';
 import reactReduxFetchActions from '../actions';
 import {getFetchData} from '../reducers/selectors';
-import registry from '../registry';
+import container from '../container';
 import capitalizeFirstLetter from '../utils/capitalizeFirstLetter';
 
 const defaultRequestType = 'get';
@@ -19,10 +19,10 @@ function requestMethodToActionKey(key, requestMethod = defaultRequestType) {
     requestMethod = requestMethod.toLowerCase();
     key = capitalizeFirstLetter(key);
 
-    const requestMethodConfig = registry.getRequestMethodConfig(requestMethod);
+    const requestMethodConfig = container.getDefinition('requestMethods').getArgument(requestMethod);
 
     if (!requestMethodConfig) {
-        throw new Error(`Request method ${requestMethod} not registered at react-redux-fetch. Use registry.registerRequestMethod().`);
+        throw new Error(`Request method ${requestMethod} not registered at react-redux-fetch. Use container.getDefinition('requestMethods').addArgument().`);
     }
 
     return 'dispatch' + key + capitalizeFirstLetter(requestMethodConfig.actionPrefix);

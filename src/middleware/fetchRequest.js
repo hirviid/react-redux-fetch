@@ -1,10 +1,10 @@
-import buildRequest from '../utils/buildRequest';
+import container from '../container';
 import handleResponse from '../utils/handleResponse';
 import onFulfillment from '../utils/onFulfillment';
 import onRejection from '../utils/onRejection';
 
 const fetchRequest = (store, next, action, config) => {
-    const req = buildRequest(action.url, {method: config.method, body: action.request.body});
+    const req = container.getDefinition('requestBuilder').getArgument('build')(action.url, {method: config.method, body: action.request.body});
     let meta = action.request.meta || {};
     next(action);
 

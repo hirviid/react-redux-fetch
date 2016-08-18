@@ -1,9 +1,8 @@
 import {FETCH} from '../constants/actionTypes';
-import registry from '../registry';
+import container from '../container';
 
 export default (store) => (next) => (action) => {
-
-    const methodConfigs = registry.getAllRequestMethodConfigs();
+    const methodConfigs = container.getDefinition('requestMethods').getArguments();
 
     for (let method in methodConfigs) {
         if (methodConfigs.hasOwnProperty(method)) {

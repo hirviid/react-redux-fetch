@@ -1,13 +1,17 @@
 import Immutable from 'seamless-immutable';
 import reduce from 'lodash/reduce';
-import registry from '../registry';
+import container from '../container';
 import {PREFIX} from '../constants/actionTypes';
 
 const INITIAL_STATE = {};
 
 
 const handleCustomReducers = (state, action) => {
-    const additionalReducers = registry.getReducers();
+    if (!container.hasDefinition('reducers')) {
+        return state;
+    }
+
+    const additionalReducers = container.getDefinition('reducers');
 
     return reduce(additionalReducers, (s, additionalReducer, key) => {
         if (s.hasOwnProperty(key)) {
@@ -26,7 +30,7 @@ const reducer = (state = Immutable(INITIAL_STATE), action) => {
         return handleCustomReducers(state, action);
     }
 
-    const allRequestConfigs = registry.getAllRequestMethodConfigs();
+    const allRequestConfigs = container.getDefinition('requestMethods').getArguments();
 
     const stateLeaf = reduce(allRequestConfigs, (s, requestConfig) => {
         return requestConfig.reducer(s, action);
