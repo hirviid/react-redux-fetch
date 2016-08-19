@@ -65,9 +65,9 @@ class PokemonList extends React.Component {
          */
         dispatchAllPokemonGet: PropTypes.func.isRequired,
         /**
-         * @var {Object} allPokemon contains the result of the request + promise state (pending, fulfilled, rejected)
+         * @var {Object} allPokemonFetch contains the result of the request + promise state (pending, fulfilled, rejected)
          */
-        allPokemon: PropTypes.object
+        allPokemonFetch: PropTypes.object
     };
 
     componentWillMount() {
@@ -75,15 +75,15 @@ class PokemonList extends React.Component {
     }
 
     render() {
-        const {allPokemon} = this.props;
+        const {allPokemonFetch} = this.props;
 
-        if (allPokemon.rejected) {
+        if (allPokemonFetch.rejected) {
             return <div>Oops... Could not fetch Pokémon!</div>
         }
 
-        if (allPokemon.fulfilled) {
+        if (allPokemonFetch.fulfilled) {
             return <ul>
-                {allPokemon.value.results.map(pokemon => (
+                {allPokemonFetch.value.results.map(pokemon => (
                     <li key={pokemon.name}>{pokemon.name}</li>
                 ))}
             </ul>
@@ -114,6 +114,7 @@ The response object consists of:
  - pending, fulfilled, rejected: Promise flags
  - value: The actual response body
  - meta: The actual response object
+ its name is: [resourceName] + 'Fetch'
 
 When calling `this.props.dispatchAllPokemonGet();`, react-redux-fetch dispatches the action `react-redux-fetch/GET_REQUEST`: 
 
@@ -247,7 +248,7 @@ class Playground extends React.Component {
         pokemonOnField: PropTypes.object.isRequired,
         // injected by react-redux-fetch
         dispatchPokemonPost: PropTypes.func.isRequired,
-        pokemon: PropTypes.object
+        pokemonFetch: PropTypes.object
     };
 
     handleCatchPokemon = () => {
@@ -256,13 +257,13 @@ class Playground extends React.Component {
     };
 
     render() {
-        const {pokemonOnField, pokemon} = this.props;
+        const {pokemonOnField, pokemonFetch} = this.props;
 
         return (
             <div>
                 <h3>{pokemonOnField.name}</h3>
                 <img alt={pokemonOnField.name} src={pokemonOnField.sprites.front_default}/>
-                {!pokemon &&
+                {!pokemonFetch &&
                 <button onClick={this.handleCatchPokemon}>catch!</button>
                 }
             </div>

@@ -105,7 +105,7 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
                 each(mappings, (mapping) => {
                     const finalKey = mapping.resource;
 
-                    data[finalKey] = fetchData[finalKey] || {};
+                    data[finalKey + 'Fetch'] = fetchData[finalKey] || {};
                 });
 
                 return data;
