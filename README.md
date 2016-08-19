@@ -237,7 +237,52 @@ For now, the following customizations are possible, this will be extended in the
 ## Examples
 
 ### POST
-TODO
+```jsx
+import React, {PropTypes} from 'react';
+import connect from 'react-redux-fetch';
+
+class Playground extends React.Component {
+    static propTypes = {
+        // injected by parent
+        pokemonOnField: PropTypes.object.isRequired,
+        // injected by react-redux-fetch
+        dispatchPokemonPost: PropTypes.func.isRequired,
+        pokemon: PropTypes.object
+    };
+
+    handleCatchPokemon = () => {
+        const {pokemonOnField, dispatchPokemonPost} = this.props;
+        dispatchPokemonPost(pokemonOnField.id, pokemonOnField.name, pokemonOnField.sprites.front_default);
+    };
+
+    render() {
+        const {pokemonOnField, pokemon} = this.props;
+
+        return (
+            <div>
+                <h3>{pokemonOnField.name}</h3>
+                <img alt={pokemonOnField.name} src={pokemonOnField.sprites.front_default}/>
+                {!pokemon &&
+                <button onClick={this.handleCatchPokemon}>catch!</button>
+                }
+            </div>
+        );
+    }
+}
+
+
+export default connect([{
+    resource: 'pokemon',
+    method: 'post',
+    request: (id, name, image) => ({
+        url: '/api/pokemon/catch',
+        body: {
+            id,
+            name,
+            image
+        })
+}])(Playground);
+```
 
 ### PUT
 TODO
