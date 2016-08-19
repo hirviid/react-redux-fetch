@@ -110,11 +110,10 @@ The function name consists of 3 parts:
  - [resourceName]: the name of the resource declared in the config
  - [method]: The method of the request (Get/Delete/Post/Put)
 
-The response object consists of:
+The response object, with name: [resourceName] + 'Fetch', consists of:
  - pending, fulfilled, rejected: Promise flags
  - value: The actual response body
  - meta: The actual response object
- its name is: [resourceName] + 'Fetch'
 
 When calling `this.props.dispatchAllPokemonGet();`, react-redux-fetch dispatches the action `react-redux-fetch/GET_REQUEST`: 
 
