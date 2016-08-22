@@ -285,7 +285,53 @@ export default connect([{
 ```
 
 ### PUT
-TODO
+Analogous to POST
 
 ### DELETE
-TODO
+```jsx
+import React, {PropTypes} from 'react';
+import connect from 'react-redux-fetch';
+
+class Pokemon extends React.Component {
+    static propTypes = {
+        // injected by parent
+        myPokemon: PropTypes.object.isRequired,
+        // injected by react-redux-fetch
+        dispatchPokemonDelete: PropTypes.func.isRequired
+    };
+
+    handleReleasePokemon = () => {
+        this.props.dispatchPokemonDelete(this.props.myPokemon.id);
+    };
+
+    render() {
+        const {myPokemon, dispatchPokemonDelete} = this.props;
+
+        return (
+            <div>
+                <h3>{myPokemon.name}</h3>
+                <img alt={myPokemon.name} src={myPokemon.image}/>
+                <button onClick={this.handleReleasePokemon}>catch!</button>
+            </div>
+        );
+    }
+}
+
+
+export default connect([{
+    resource: 'pokemon',
+    method: 'delete',
+    request: (id) => ({
+        url: `/api/pokemon/${id}/release`,
+        meta: {
+            removeFromList: {
+                idName: 'id',
+                id: id
+            }
+        }
+}])(Pokemon);
+```
+A special property `removeFromList` can be specified in `meta`, which removes an element from the state if the resource value is a list.
+(In the example, the `pokemon` state contains a collection of Pokémon.)
+- `idName`: The id-key of the object to find and delete
+- `id`: The id-value of the object to find and delete
