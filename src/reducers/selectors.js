@@ -1,3 +1,9 @@
 
-export const getFetchData = (state) => state.fetch;
-export const getValue = (state, resource) => state.fetch[resource] && state.fetch[resource].value;
+export const getModel = (state) => state.repository;
+
+export const getRepository = (repositoryName) => ({
+    fromState: (state) => state.repository[repositoryName] && state.repository[repositoryName].value
+});
+export const getPromise = (repositoryName) => ({
+    fromState: (state) => state.repository[repositoryName]
+});

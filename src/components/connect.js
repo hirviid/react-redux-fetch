@@ -5,7 +5,7 @@ import merge from 'lodash/merge';
 import each from 'lodash/each';
 import noop from 'lodash/noop';
 import reactReduxFetchActions from '../actions';
-import {getFetchData} from '../reducers/selectors';
+import {getModel} from '../reducers/selectors';
 import container from '../container';
 import capitalizeFirstLetter from '../utils/capitalizeFirstLetter';
 
@@ -22,7 +22,7 @@ function requestMethodToActionKey(key, requestMethod = defaultRequestType) {
     const requestMethodConfig = container.getDefinition('requestMethods').getArgument(requestMethod);
 
     if (!requestMethodConfig) {
-        throw new Error(`Request method ${requestMethod} not registered at react-redux-fetch. Use container.getDefinition('requestMethods').addArgument().`);
+        throw new Error(`Request method ${requestMethod} not registered at react-redux-fetch. Use container.registerRequestMethod().`);
     }
 
     return 'dispatch' + key + capitalizeFirstLetter(requestMethodConfig.method);
@@ -125,7 +125,7 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
         ReactReduxFetch.displayName = `ReactReduxFetch.connect(${getDisplayName(WrappedComponent)})`;
 
         const mapStateToProps = (state) => (merge({
-                fetchData: getFetchData(state)
+                fetchData: getModel(state)
             }, comMapStateToProps(state))
         );
 
