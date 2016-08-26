@@ -60,7 +60,7 @@ npm install --save react-redux-fetch
     
     const rootReducer = combineReducers({
         // ... other reducers
-        fetch: fetchReducer
+        repository: fetchReducer
     });
     
     export default rootReducer;
