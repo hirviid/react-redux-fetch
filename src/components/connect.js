@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect as reduxConnect } from 'react-redux';
 import isFunction from 'lodash/isFunction';
 import merge from 'lodash/merge';
@@ -46,11 +46,6 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
     return function wrapWithReactReduxFetch(WrappedComponent) {
 
         class ReactReduxFetch extends Component {
-
-            static propTypes = {
-                dispatch: PropTypes.func.isRequired,
-                fetchData: PropTypes.object
-            };
 
             /**
              * If the value passed to connect() is a function, execute the function and pass the props + context
@@ -123,6 +118,11 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
         }
 
         ReactReduxFetch.displayName = `ReactReduxFetch.connect(${getDisplayName(WrappedComponent)})`;
+
+        // ReactReduxFetch.propTypes = {
+        //     dispatch: React.PropTypes.func.isRequired,
+        //     fetchData: React.PropTypes.object
+        // };
 
         const mapStateToProps = (state) => (merge({
                 fetchData: getModel(state)
