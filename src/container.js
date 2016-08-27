@@ -84,8 +84,17 @@ class ContainerFacade {
     }
 
     /**
+     * Replace existing request headers
+     * @param {Object} requestHeaders The new request headers (e.g. {'Accept': 'application/json'})
+     * @return {Definition} A Definition instance
+     */
+    replaceRequestHeaders(requestHeaders) {
+        return this.container.register('requestHeaders', requestHeaders);
+    }
+
+    /**
      * Facade method to register a request method at the container
-     * @param {String} method The request method to add the config for (e.g 'post')
+     * @param {String} method The request method to add the config for (e.g. 'post')
      * @param {Object} config The config object ({middleware, reducer})
      * @return {Definition} A Definition instance
      */
