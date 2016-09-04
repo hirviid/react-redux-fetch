@@ -4,6 +4,7 @@ import {FETCH} from '../constants/actionTypes';
 import {INIT} from '../constants/request';
 import fetchRequest from '../utils/fetchRequest';
 import fetchFulfill from '../utils/fetchFulfill';
+import fetchReject from '../utils/fetchReject';
 
 const INITIAL_STATE = {
     ...INIT,
@@ -25,6 +26,8 @@ const deleteReducer = (state=Immutable(INITIAL_STATE), action) => {
             }
 
             return fetchFulfill(state, action);
+        case FETCH.for('get').REJECT:
+            return fetchReject(state, action);
     }
 
     return state;

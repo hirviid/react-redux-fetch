@@ -11,7 +11,7 @@ const fetchRequest = (store, next, action, config) => {
     return fetch(req).then(function (response) {
         meta.response = response;
         return response;
-    }).then(handleResponse).then(onFulfillment(store, next, action, meta, config.method), onRejection(store, next, action, meta));
+    }).then(handleResponse).then(onFulfillment(store, next, action, meta, config.method), onRejection(store, next, action, meta, config.method));
 };
 
 export default fetchRequest;

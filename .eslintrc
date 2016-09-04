@@ -20,6 +20,7 @@
         "node": true
     },
     "rules": {
+        "no-console": 2,
         "valid-jsdoc": 2,
         "react/jsx-uses-react": 1,
         "react/jsx-no-undef": 2,

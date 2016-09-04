@@ -80,10 +80,10 @@ describe('actions', () => {
                 it('should have properties: type, key, url, request', () => {
 
                     rejectAction.should.be.an.object;
-                    rejectAction.should.have.keys(['type', 'key', 'url', 'request']);
+                    rejectAction.should.have.keys(['type', 'key', 'reason', 'meta']);
                     rejectAction.key.should.equal('a');
-                    rejectAction.url.should.equal('b');
-                    rejectAction.request.should.equal('c');
+                    rejectAction.reason.should.equal('b');
+                    rejectAction.meta.should.equal('c');
                 });
 
             });
