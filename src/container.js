@@ -15,6 +15,7 @@ import postReducer from './reducers/postReducer';
 import putReducer from './reducers/putReducer';
 import requestHeaders from './utils/defaultHeaders';
 import requestBuilder from './utils/requestBuilder';
+import equals from './utils/equals';
 import assert from './utils/assert';
 
 class ContainerFacade {
@@ -51,6 +52,7 @@ class ContainerFacade {
         this.container.register('requestHeaders', requestHeaders);
         this.container.register('reducers', {});
         this.container.register('requestBuilder', {build: requestBuilder});
+        this.container.register('utils', {equals});
         // container.getDefinition('requestMethods').addArgument('patch', '...');
         // container.getDefinition('requestMethods').addArgument('token', '...');
     }
@@ -61,6 +63,10 @@ class ContainerFacade {
 
     hasDefinition() {
         return this.container.hasDefinition(...arguments);
+    }
+
+    getUtil(name) {
+        return this.container.getDefinition('utils').getArgument(name);
     }
 
     /**

@@ -47,6 +47,8 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
 
         class ReactReduxFetch extends Component {
 
+            comparisonCache = {};
+
             /**
              * If the value passed to connect() is a function, execute the function and pass the props + context
              * @param {Object} props React props
@@ -75,13 +77,17 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
                     }
 
                     const requestMethod = mapping.method || defaultRequestType;
+                    const actionKey = requestMethodToActionKey(finalKey, requestMethod);
 
-                    actions[requestMethodToActionKey(finalKey, requestMethod)] = (...args) => {
+                    actions[actionKey] = (...args) => {
                         const finalConfig = isFunction(finalConfigFn) ? finalConfigFn(...args) : finalConfigFn;
-                        const reduxAction = reactReduxFetchActions.for(requestMethod).request(finalKey, finalConfig.url, finalConfig);
 
-                        dispatch(reduxAction);
-                        return reduxAction;
+                        if (finalConfig.force || !container.getUtil('equals')(this.comparisonCache[actionKey], finalConfig.comparison)) {
+                            const reduxAction = reactReduxFetchActions.for(requestMethod).request(finalKey, finalConfig.url, finalConfig);
+                            dispatch(reduxAction);
+                        }
+
+                        this.comparisonCache[actionKey] = finalConfig.comparison;
                     };
 
                 });
