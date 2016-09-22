@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
-import { connect as reduxConnect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect as reduxConnect} from 'react-redux';
 import isFunction from 'lodash/isFunction';
 import merge from 'lodash/merge';
 import each from 'lodash/each';
-import noop from 'lodash/noop';
 import reactReduxFetchActions from '../actions';
 import {getModel} from '../reducers/selectors';
 import container from '../container';
@@ -41,7 +40,7 @@ export default factory({
     //TODO add defaults
 });
 
-function connect(mapPropsToRequestsToProps, componentMapStateToProps = noop, componentMapDispatchToProps = noop) {
+function connect(mapPropsToRequestsToProps, componentMapStateToProps = null, componentMapDispatchToProps = null) {
 
     return function wrapWithReactReduxFetch(WrappedComponent) {
 
@@ -132,10 +131,15 @@ function connect(mapPropsToRequestsToProps, componentMapStateToProps = noop, com
 
         const mapStateToProps = (state) => (merge({
                 fetchData: getModel(state)
-            }, componentMapStateToProps(state))
+            }, isFunction(componentMapStateToProps) ? componentMapStateToProps(state) : {})
         );
 
-        return reduxConnect(mapStateToProps, componentMapDispatchToProps)(ReactReduxFetch);
+        const mapDispatchToProps = (dispatch) => (merge({
+                dispatch
+            }, isFunction(componentMapDispatchToProps) ? componentMapDispatchToProps(dispatch) : {})
+        );
+
+        return reduxConnect(mapStateToProps, mapDispatchToProps)(ReactReduxFetch);
     };
 
 }
