@@ -30,8 +30,8 @@ function requestMethodToActionKey(key, requestMethod = defaultRequestType) {
 
 function factory(/*defaults = {}, options = {}*/) {
 
-    function connectImpl(map, mapStateToProps) {
-        return connect(map, mapStateToProps);
+    function connectImpl(map, mapStateToProps, mapDispatchToProps) {
+        return connect(map, mapStateToProps, mapDispatchToProps);
     }
 
     return connectImpl;
@@ -41,7 +41,7 @@ export default factory({
     //TODO add defaults
 });
 
-function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
+function connect(mapPropsToRequestsToProps, componentMapStateToProps = noop, componentMapDispatchToProps = noop) {
 
     return function wrapWithReactReduxFetch(WrappedComponent) {
 
@@ -132,10 +132,10 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
 
         const mapStateToProps = (state) => (merge({
                 fetchData: getModel(state)
-            }, comMapStateToProps(state))
+            }, componentMapStateToProps(state))
         );
 
-        return reduxConnect(mapStateToProps)(ReactReduxFetch);
+        return reduxConnect(mapStateToProps, componentMapDispatchToProps)(ReactReduxFetch);
     };
 
 }
