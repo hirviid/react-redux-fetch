@@ -1,1 +1,3 @@
-export default from './reducer';
+import Reducer from './reducer';
+
+export default Reducer;
