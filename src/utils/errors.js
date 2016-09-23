@@ -1,20 +1,19 @@
-const newError = (cause) => {
-    let e = new Error(parse(cause));
-    e.cause = cause;
-    return e;
+const parse = (cause) => {
+  const error = cause.error;
+  const message = cause.message;
+
+  if (error) {
+    return error;
+  } else if (message) {
+    return message;
+  }
+  return '';
 };
 
-const parse = (cause) => {
-    let error = cause.error;
-    let message = cause.message;
-
-    if (error) {
-        return error;
-    } else if (message) {
-        return message;
-    } else {
-        return '';
-    }
+const newError = (cause) => {
+  const e = new Error(parse(cause));
+  e.cause = cause;
+  return e;
 };
 
 export default newError;

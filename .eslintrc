@@ -1,34 +1,23 @@
 {
-    "parser": "babel-eslint",
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:import/warnings"
-    ],
-    "parserOptions": {
-        "ecmaVersion": 6,
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "jsx": true,
-            "experimentalObjectRestSpread": true
-        }
-    },
-    "env": {
-        "es6": true,
-        "browser": true,
-        "mocha": true,
-        "node": true
-    },
-    "rules": {
-        "no-console": 2,
-        "valid-jsdoc": 2,
-        "react/jsx-uses-react": 1,
-        "react/jsx-no-undef": 2,
-        "react/jsx-wrap-multilines": 2,
-        "react/prop-types": 0,
-        "import/no-named-as-default": 0
-    },
-    "plugins": [
-        "react"
-    ]
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "mocha": true,
+    "node": true
+  },
+  "rules": {
+    "import/no-extraneous-dependencies": 0,
+    "react/forbid-prop-types": [1, {"forbid": ["any"]}],
+    "react/jsx-filename-extension": 0
+  }
 }

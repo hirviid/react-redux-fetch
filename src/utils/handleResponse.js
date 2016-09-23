@@ -1,19 +1,18 @@
 import newError from './errors';
 
 const handleResponse = (response) => {
-    if (response.headers.get('content-length') === '0' || response.status === 204) {
-        return;
-    }
+  if (response.headers.get('content-length') === '0' || response.status === 204) {
+    return null;
+  }
 
-    let json = response.json();
+  const json = response.json();
 
-    if (response.status >= 200 && response.status < 300) {
-        return json;
-    } else {
-        return json.then(function (cause) {
-            return Promise.reject(newError(cause));
-        });
-    }
+  return (response.status >= 200 && response.status < 300) ?
+    json
+    :
+    json.then(cause => (
+      Promise.reject(newError(cause))
+    ));
 };
 
 export default handleResponse;
