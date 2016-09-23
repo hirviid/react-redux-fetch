@@ -1,11 +1,10 @@
-import React, { Component, PropTypes } from 'react';
-import { connect as reduxConnect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect as reduxConnect} from 'react-redux';
 import isFunction from 'lodash/isFunction';
 import merge from 'lodash/merge';
 import each from 'lodash/each';
-import noop from 'lodash/noop';
 import reactReduxFetchActions from '../actions';
-import {getFetchData} from '../reducers/selectors';
+import {getModel} from '../reducers/selectors';
 import container from '../container';
 import capitalizeFirstLetter from '../utils/capitalizeFirstLetter';
 
@@ -22,16 +21,16 @@ function requestMethodToActionKey(key, requestMethod = defaultRequestType) {
     const requestMethodConfig = container.getDefinition('requestMethods').getArgument(requestMethod);
 
     if (!requestMethodConfig) {
-        throw new Error(`Request method ${requestMethod} not registered at react-redux-fetch. Use container.getDefinition('requestMethods').addArgument().`);
+        throw new Error(`Request method ${requestMethod} not registered at react-redux-fetch. Use container.registerRequestMethod().`);
     }
 
-    return 'dispatch' + key + capitalizeFirstLetter(requestMethodConfig.actionPrefix);
+    return 'dispatch' + key + capitalizeFirstLetter(requestMethodConfig.method);
 }
 
 function factory(/*defaults = {}, options = {}*/) {
 
-    function connectImpl(map, mapStateToProps) {
-        return connect(map, mapStateToProps);
+    function connectImpl(map, mapStateToProps, mapDispatchToProps) {
+        return connect(map, mapStateToProps, mapDispatchToProps);
     }
 
     return connectImpl;
@@ -41,16 +40,13 @@ export default factory({
     //TODO add defaults
 });
 
-function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
+function connect(mapPropsToRequestsToProps, componentMapStateToProps = null, componentMapDispatchToProps = null) {
 
     return function wrapWithReactReduxFetch(WrappedComponent) {
 
         class ReactReduxFetch extends Component {
 
-            static propTypes = {
-                dispatch: PropTypes.func.isRequired,
-                fetchData: PropTypes.object
-            };
+            comparisonCache = {};
 
             /**
              * If the value passed to connect() is a function, execute the function and pass the props + context
@@ -80,13 +76,17 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
                     }
 
                     const requestMethod = mapping.method || defaultRequestType;
+                    const actionKey = requestMethodToActionKey(finalKey, requestMethod);
 
-                    actions[requestMethodToActionKey(finalKey, requestMethod)] = (...args) => {
+                    actions[actionKey] = (...args) => {
                         const finalConfig = isFunction(finalConfigFn) ? finalConfigFn(...args) : finalConfigFn;
-                        const reduxAction = reactReduxFetchActions.for(requestMethod).request(finalKey, finalConfig.url, finalConfig);
 
-                        dispatch(reduxAction);
-                        return reduxAction;
+                        if (finalConfig.force || !container.getUtil('equals')(this.comparisonCache[actionKey], finalConfig.comparison)) {
+                            const reduxAction = reactReduxFetchActions.for(requestMethod).request(finalKey, finalConfig.url, finalConfig);
+                            dispatch(reduxAction);
+                        }
+
+                        this.comparisonCache[actionKey] = finalConfig.comparison;
                     };
 
                 });
@@ -105,7 +105,7 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
                 each(mappings, (mapping) => {
                     const finalKey = mapping.resource;
 
-                    data[finalKey] = fetchData[finalKey] || {};
+                    data[finalKey + 'Fetch'] = fetchData[finalKey] || {};
                 });
 
                 return data;
@@ -124,12 +124,22 @@ function connect(mapPropsToRequestsToProps, comMapStateToProps = noop) {
 
         ReactReduxFetch.displayName = `ReactReduxFetch.connect(${getDisplayName(WrappedComponent)})`;
 
+        // ReactReduxFetch.propTypes = {
+        //     dispatch: React.PropTypes.func.isRequired,
+        //     fetchData: React.PropTypes.object
+        // };
+
         const mapStateToProps = (state) => (merge({
-                fetchData: getFetchData(state)
-            }, comMapStateToProps(state))
+                fetchData: getModel(state)
+            }, isFunction(componentMapStateToProps) ? componentMapStateToProps(state) : {})
         );
 
-        return reduxConnect(mapStateToProps)(ReactReduxFetch);
+        const mapDispatchToProps = (dispatch) => (merge({
+                dispatch
+            }, isFunction(componentMapDispatchToProps) ? componentMapDispatchToProps(dispatch) : {})
+        );
+
+        return reduxConnect(mapStateToProps, mapDispatchToProps)(ReactReduxFetch);
     };
 
 }

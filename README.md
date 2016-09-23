@@ -8,18 +8,32 @@ A declarative and customizable way to fetch data for React components and manage
 
 [![build status](https://img.shields.io/travis/hirviid/react-redux-fetch/master.svg?style=flat-square)](https://travis-ci.org/hirviid/react-redux-fetch) [![npm version](https://img.shields.io/npm/v/react-redux-fetch.svg?style=flat-square)](https://www.npmjs.com/package/react-redux-fetch)
 
-
-## Installation
-
-```
-npm install --save react-redux-fetch
-```
+## Table of contents
+* [Goal](#goal)
+* [Motivation](#motivation)
+* [Installation](#installation)
+* [Setup](#setup)
+* [Basic example](#basic-example)
+* [How does it work?](#how-does-it-work)
+* [API](#api)
+    - [Connect](#connect)
+    - [Container](#container)
+* [Examples](#examples)
+    - [POST](#post)
+    - [PUT](#put)
+    - [DELETE](#delete)
 
 ## Goal
 The goal of this library is to minimize boilerplate code  of crud operations in react/redux applications.
 
 ## Motivation
 Redux provides a clean interface for handling data across your application, but integrating with a web service can become a quite cumbersome, repetitive task. [React-refetch by Heroku](https://github.com/heroku/react-refetch) provides a good alternative, but doesn't keep your fetched data in the application state, which makes it more difficult to debug, handle side effects (e.g. with redux-saga) and integrate with your redux actions. This module is strongly inspired by react-refetch; it exposes a `connect()` decorator to keep your components stateless. This function lets you map props to URLs. React-redux-fetch takes these mappings and creates functions which dispatch actions and passes them as props to your component. The response is also passed as a prop to your component with additional pending, fulfilled and rejected flags, just like react-refetch.
+
+## Installation
+
+```
+npm install --save react-redux-fetch
+```
 
 ## Setup
 
@@ -46,7 +60,7 @@ Redux provides a clean interface for handling data across your application, but 
     
     const rootReducer = combineReducers({
         // ... other reducers
-        fetch: fetchReducer
+        repository: fetchReducer
     });
     
     export default rootReducer;
@@ -61,29 +75,29 @@ class PokemonList extends React.Component {
     static propTypes = {
         // injected by react-redux-fetch
         /**
-         * @var {Function} dispatchAllPokemonFetch call this function to start fetching all Pokémon
+         * @var {Function} dispatchAllPokemonGet call this function to start fetching all Pokémon
          */
-        dispatchAllPokemonFetch: PropTypes.func.isRequired,
+        dispatchAllPokemonGet: PropTypes.func.isRequired,
         /**
-         * @var {Object} allPokemon contains the result of the request + promise state (pending, fulfilled, rejected)
+         * @var {Object} allPokemonFetch contains the result of the request + promise state (pending, fulfilled, rejected)
          */
-        allPokemon: PropTypes.object
+        allPokemonFetch: PropTypes.object
     };
 
     componentWillMount() {
-        this.props.dispatchAllPokemonFetch();
+        this.props.dispatchAllPokemonGet();
     }
 
     render() {
-        const {allPokemon} = this.props;
+        const {allPokemonFetch} = this.props;
 
-        if (allPokemon.rejected) {
+        if (allPokemonFetch.rejected) {
             return <div>Oops... Could not fetch Pokémon!</div>
         }
 
-        if (allPokemon.fulfilled) {
+        if (allPokemonFetch.fulfilled) {
             return <ul>
-                {allPokemon.value.results.map(pokemon => (
+                {allPokemonFetch.value.results.map(pokemon => (
                     <li key={pokemon.name}>{pokemon.name}</li>
                 ))}
             </ul>
@@ -108,14 +122,14 @@ Every entry in the config array passed to `connect()` is mapped to 2 properties,
 The function name consists of 3 parts:
  - dispatch:  to indicate that by calling this function a redux action is dispatched
  - [resourceName]: the name of the resource declared in the config
- - Fetch|Remove|Create|Update: a verb to indicate the method of the request (get/delete/post/put)
+ - [method]: The method of the request (Get/Delete/Post/Put)
 
-The response object consists of:
+The response object, with name: [resourceName] + 'Fetch', consists of:
  - pending, fulfilled, rejected: Promise flags
  - value: The actual response body
  - meta: The actual response object
 
-When calling `this.props.dispatchAllPokemonFetch();`, react-redux-fetch dispatches the action `react-redux-fetch/GET_REQUEST`: 
+When calling `this.props.dispatchAllPokemonGet();`, react-redux-fetch dispatches the action `react-redux-fetch/GET_REQUEST`: 
 
 <img src="https://cloud.githubusercontent.com/assets/6641475/17690441/fa6086b2-638e-11e6-9588-15fa41e2fa2b.png" alt="GET_REQUEST/Action" width="500" />
 
@@ -168,16 +182,170 @@ The returned array should be an array of objects, with the following properties:
     * `meta`: **Object, optional**. Everything passed to 'meta' will be passed to every part in the react-redux-fetch flow.
 
 
-### registry
-TODO
+### container
+
+```js
+import {container} from 'react-redux-fetch';
+```
+
+The container provides a single entry point into customizing the different parts of react-redux-fetch.
+For now, the following customizations are possible, this will be extended in the future:
+
+- **requestMethods**
+
+    Out-of-the-box, react-redux-refetch provides implementations for `get`, `post`, `put` and `delete` requests.
+    A new request method, e.g. `patch`, can be added like this:
+    ```js
+    container.getDefinition('requestMethods').addArgument('patch', {
+        method: 'patch', // The request method
+        middleware: fetchRequest, // The middleware to handle the actual fetching. 'fetchRequest' from 'react-redux-fetch' is a sensible default for any request method. 
+        reducer: patchReducer 
+    });
+    ```
+        
+    An existing request method definition can be altered like this:
+    ```js
+    // Replace middleware for POST requests with a mock
+    container.getDefinition('requestMethods').replaceArgument('post.middleware', mockFetchMiddleware);
+    ```
+    
+- **requestHeaders**
+
+    The default request headers are `'Accept': 'application/json'` and `'Content-Type': 'application/json'`. You can add request headers:
+    ```js
+    container.getDefinition('requestHeaders').addArgument('authorization', 'Bearer some.jwt.token');
+    ```
+    Or change a request header:
+    ```js
+    container.getDefinition('requestHeaders').replaceArgument('Content-Type', 'application/xml');
+    ```
+    
+- **reducers**
+
+    Additional reducers can be registered to work on a subset of the fetch state, without having to overwrite all reducers defined in requestMethods definition.
+    For example, there is no out-of-the-box way of clearing state data. If you want to clear e.g. all todo items from a todo list, you can register a reducer to work on the 'todos' state.
+    ```js
+    container.getDefinition('reducers').addArgument('todos', todosReducer);
+    ```
+    The todos state slice is passed to the reducer, which can return a new state when your custom redux action is dispatched:
+    ```js
+    function todosReducer(state, action) {
+        switch (action.type) {
+            case 'TODOS_RESET':
+                return state.set('value', null);
+               
+        }
+        return state;
+    }
+    ```
+    
+
+- **requestBuilder**
+
+    The requestBuilder is used by the default react-redux-fetch middleware. Takes a URL and request config and returns a Request object.
+    To replace the default implementation:
+    ```js
+    container.getDefinition('requestBuilder').replaceArgument('build', customRequestBuilder);
+    ```
 
 ## Examples
 
 ### POST
-TODO
+```jsx
+import React, {PropTypes} from 'react';
+import connect from 'react-redux-fetch';
+
+class Playground extends React.Component {
+    static propTypes = {
+        // injected by parent
+        pokemonOnField: PropTypes.object.isRequired,
+        // injected by react-redux-fetch
+        dispatchPokemonPost: PropTypes.func.isRequired,
+        pokemonFetch: PropTypes.object
+    };
+
+    handleCatchPokemon = () => {
+        const {pokemonOnField, dispatchPokemonPost} = this.props;
+        dispatchPokemonPost(pokemonOnField.id, pokemonOnField.name, pokemonOnField.sprites.front_default);
+    };
+
+    render() {
+        const {pokemonOnField, pokemonFetch} = this.props;
+
+        return (
+            <div>
+                <h3>{pokemonOnField.name}</h3>
+                <img alt={pokemonOnField.name} src={pokemonOnField.sprites.front_default}/>
+                {!pokemonFetch &&
+                <button onClick={this.handleCatchPokemon}>catch!</button>
+                }
+            </div>
+        );
+    }
+}
+
+
+export default connect([{
+    resource: 'pokemon',
+    method: 'post',
+    request: (id, name, image) => ({
+        url: '/api/pokemon/catch',
+        body: {
+            id,
+            name,
+            image
+        })
+}])(Playground);
+```
 
 ### PUT
-TODO
+Analogous to POST
 
 ### DELETE
-TODO
+```jsx
+import React, {PropTypes} from 'react';
+import connect from 'react-redux-fetch';
+
+class Pokemon extends React.Component {
+    static propTypes = {
+        // injected by parent
+        myPokemon: PropTypes.object.isRequired,
+        // injected by react-redux-fetch
+        dispatchPokemonDelete: PropTypes.func.isRequired
+    };
+
+    handleReleasePokemon = () => {
+        this.props.dispatchPokemonDelete(this.props.myPokemon.id);
+    };
+
+    render() {
+        const {myPokemon, dispatchPokemonDelete} = this.props;
+
+        return (
+            <div>
+                <h3>{myPokemon.name}</h3>
+                <img alt={myPokemon.name} src={myPokemon.image}/>
+                <button onClick={this.handleReleasePokemon}>catch!</button>
+            </div>
+        );
+    }
+}
+
+
+export default connect([{
+    resource: 'pokemon',
+    method: 'delete',
+    request: (id) => ({
+        url: `/api/pokemon/${id}/release`,
+        meta: {
+            removeFromList: {
+                idName: 'id',
+                id: id
+            }
+        }
+}])(Pokemon);
+```
+A special property `removeFromList` can be specified in `meta`, which removes an element from the state if the resource value is a list.
+(In the example, the `pokemon` state contains a collection of Pokémon.)
+- `idName`: The id-key of the object to find and delete
+- `id`: The id-value of the object to find and delete

@@ -1,6 +1,6 @@
 {
   "name": "react-redux-fetch",
-  "version": "0.1.5",
+  "version": "0.2.2",
   "description": "A declarative and customizable way to fetch data for React components and manage that data in the Redux state",
   "main": "./lib/index.js",
   "scripts": {
@@ -39,6 +39,7 @@
     "babel-eslint": "6.1.2",
     "babel-loader": "6.2.4",
     "babel-plugin-transform-decorators-legacy": "1.3.4",
+    "babel-preset-es2015": "6.14.0",
     "babel-preset-es2015-loose": "7.0.0",
     "babel-preset-react": "6.11.1",
     "babel-preset-stage-0": "6.5.0",
@@ -52,6 +53,9 @@
   },
   "dependencies": {
     "lodash": "4.14.2",
+    "react": "15.3.1",
+    "react-redux": "4.4.5",
+    "redux": "3.6.0",
     "seamless-immutable": "6.1.1"
   }
 }

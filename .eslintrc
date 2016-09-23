@@ -20,10 +20,12 @@
         "node": true
     },
     "rules": {
+        "no-console": 2,
         "valid-jsdoc": 2,
         "react/jsx-uses-react": 1,
         "react/jsx-no-undef": 2,
         "react/jsx-wrap-multilines": 2,
+        "react/prop-types": 0,
         "import/no-named-as-default": 0
     },
     "plugins": [
