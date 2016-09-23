@@ -1,6 +1,7 @@
-export const PREFIX = 'react-redux-fetch/';
+// @flow
+export const PREFIX:string = 'react-redux-fetch/';
 
-export const FETCH = {
+export const FETCH:Object = {
   for: verb => ({
     REQUEST: `${PREFIX}${verb.toUpperCase()}_REQUEST`,
     FULFILL: `${PREFIX}${verb.toUpperCase()}_FULFIL`,

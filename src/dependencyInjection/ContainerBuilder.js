@@ -1,8 +1,9 @@
+// @flow
 import Definition from './Definition';
 
 class ContainerBuilder {
 
-  definitions = {};
+  definitions:Object = {};
 
   /**
    * Registers a service definition.
@@ -15,7 +16,7 @@ class ContainerBuilder {
    *
    * @return {Definition} A Definition instance
    */
-  register(id, obj) {
+  register(id:string, obj:Object): Definition {
     return this.setDefinition(id, new Definition(obj));
   }
 
@@ -27,7 +28,7 @@ class ContainerBuilder {
    *
    * @return {Definition} the service definition
    */
-  setDefinition(id, definition) {
+  setDefinition(id: string, definition: Definition): Definition {
     const finalId = id.toLowerCase();
     this.definitions[finalId] = definition;
     return definition;
@@ -40,7 +41,7 @@ class ContainerBuilder {
    *
    * @return {Definition} A Definition instance
    */
-  getDefinition(id) {
+  getDefinition(id:string): Definition {
     const finalId = id.toLowerCase();
     if (!this.hasDefinition(finalId)) {
       throw new Error(`Service ${finalId} not found`);
@@ -53,7 +54,7 @@ class ContainerBuilder {
    *
    * @return {boolean} True if container contains definition
    */
-  hasDefinition(id) {
+  hasDefinition(id:string): boolean {
     const finalId = id.toLowerCase();
     return !!this.definitions[finalId];
   }

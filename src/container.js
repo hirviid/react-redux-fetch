@@ -1,4 +1,5 @@
 /*
+ * // @flow
  * react-redux-fetch knows how to handle the following services:
  *     - requestMethods
  *     - requestHeaders
@@ -6,7 +7,7 @@
  *     - responseHandler (TODO)
  *     - requestBuilder
  */
-
+import Definition from './dependencyInjection/Definition';
 import ContainerBuilder from './dependencyInjection/ContainerBuilder';
 import fetchRequest from './middleware/fetchRequest';
 import getReducer from './reducers/getReducer';
@@ -19,6 +20,8 @@ import equals from './utils/equals';
 import assert from './utils/assert';
 
 class ContainerFacade {
+
+  container: ContainerBuilder;
 
   constructor() {
     this.container = new ContainerBuilder();
@@ -57,15 +60,15 @@ class ContainerFacade {
     // container.getDefinition('requestMethods').addArgument('token', '...');
   }
 
-  getDefinition(...rest) {
+  getDefinition(...rest: any): Definition {
     return this.container.getDefinition(...rest);
   }
 
-  hasDefinition(...rest) {
+  hasDefinition(...rest: any): boolean {
     return this.container.hasDefinition(...rest);
   }
 
-  getUtil(name) {
+  getUtil(name: string): Function {
     return this.container.getDefinition('utils').getArgument(name);
   }
 
@@ -75,7 +78,7 @@ class ContainerFacade {
    * @param {Function} reducer The reducer for the state part
    * @return {Definition} A Definition instance
    */
-  registerReducer(stateName, reducer) {
+  registerReducer(stateName:string, reducer:Function): Definition {
     return this.container.getDefinition('reducers').addArgument(stateName, reducer);
   }
 
@@ -85,7 +88,7 @@ class ContainerFacade {
    * @param {String} value Header field value (e.g. 'application/json')
    * @return {Definition} A Definition instance
    */
-  registerRequestHeader(name, value) {
+  registerRequestHeader(name:string, value:string): Definition {
     return this.container.getDefinition('requestHeaders').addArgument(name, value);
   }
 
@@ -94,7 +97,7 @@ class ContainerFacade {
    * @param {Object} newRequestHeaders The new request headers (e.g. {'Accept': 'application/json'})
    * @return {Definition} A Definition instance
    */
-  replaceRequestHeaders(newRequestHeaders) {
+  replaceRequestHeaders(newRequestHeaders:Object): Definition {
     return this.container.register('requestHeaders', newRequestHeaders);
   }
 
@@ -104,11 +107,11 @@ class ContainerFacade {
    * @param {Object} config The config object ({middleware, reducer})
    * @return {Definition} A Definition instance
    */
-  registerRequestMethod(method, config) {
-    assert.contains(config, 'middleware', `Property 'middleware' is missing from the ${method} request method config. 
+  registerRequestMethod(method: string, config: Object): Definition {
+    assert.contains(config, 'middleware', `Property 'middleware' is missing from the ${method} request method config.
         You can use fetchRequestMiddleware: import {fetchRequestMiddleware} from 'react-redux-fetch.`);
     assert.contains(config, 'reducer', `Property 'reducer' is missing from the ${method} request method config.
-        You should pass a reducer function which handles actions for your ${method} request method. 
+        You should pass a reducer function which handles actions for your ${method} request method.
         See https://github.com/hirviid/react-redux-fetch/blob/master/src/reducers/getReducer.js for an example.`);
 
     return this.container.getDefinition('requestMethods').addArgument(method, Object.assign({ method }, config));
@@ -118,10 +121,10 @@ class ContainerFacade {
    * Facade method to change a specific property of a request method configuration
    * @param {String} method The request method to change the config for (e.g 'post')
    * @param {String} key The config key (e.g. 'reducer')
-   * @param {*} value The value to set
+   * @param {any} value The value to set
    * @return {Definition} A Definition instance
    */
-  changeRequestMethodConfig(method, key, value) {
+  changeRequestMethodConfig(method: string, key: string, value: any): Definition {
     assert.exists(this.container.getDefinition('requestMethods').getArguments()[method],
       `Nothing to replace, no request method '${method}' registered, use container.registerRequestMethod() to register ${method} requests.`);
 
