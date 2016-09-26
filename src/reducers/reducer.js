@@ -11,7 +11,7 @@ const handleCustomReducers = (state, action) => {
     return state;
   }
 
-  const additionalReducers = container.getDefinition('reducers');
+  const additionalReducers = container.getDefinition('reducers').getArguments();
 
   return reduce(additionalReducers, (s, additionalReducer, key) => {
     if (s[key]) {
