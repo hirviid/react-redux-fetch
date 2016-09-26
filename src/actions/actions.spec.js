@@ -74,5 +74,29 @@ describe('actions', () => {
         });
       });
     });
+
+    describe('requestActionCreator()', () => {
+      it('should return a function', () => {
+        actions.requestActionCreator().should.be.a('function');
+      });
+
+      describe('()', () => {
+        const mapping = {
+          resource: 'john',
+          request: {
+            url: 'http://john.doe',
+          },
+        };
+        const actionCreator = actions.requestActionCreator(mapping);
+
+        it('should return an object', () => {
+          actionCreator().should.be.an('object');
+        });
+
+        it('should equal a request action', () => {
+          actionCreator().should.eql(actions.for('get').request('john', 'http://john.doe', { url: 'http://john.doe' }));
+        });
+      });
+    });
   });
 });
