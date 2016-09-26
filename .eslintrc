@@ -18,6 +18,7 @@
   "rules": {
     "import/no-extraneous-dependencies": 0,
     "react/forbid-prop-types": [1, {"forbid": ["any"]}],
-    "react/jsx-filename-extension": 0
+    "react/jsx-filename-extension": 0,
+    "eol-last": 1
   }
 }
