@@ -9,7 +9,6 @@ const fetchRequest = (store, next, action, config) => {
     body: action.request.body,
   });
   const meta = action.request.meta || {};
-  next(action);
 
   return fetch(req).then((response) => {
     meta.response = response;
