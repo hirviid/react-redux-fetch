@@ -22,6 +22,7 @@ A declarative and customizable way to fetch data for React components and manage
     - [POST](#post)
     - [PUT](#put)
     - [DELETE](#delete)
+* [Code snippets](./docs/index)
 
 ## Goal
 The goal of this library is to minimize boilerplate code  of crud operations in react/redux applications.
@@ -42,27 +43,27 @@ npm install --save react-redux-fetch
     // ...
     import {createStore, applyMiddleware} from 'redux'
     import {middleware as fetchMiddleware} from 'react-redux-fetch'
-    
+
     // ...
-    
+
     const store = createStore(
         reducer,
         applyMiddleware(fetchMiddleware)
     )
-    
+
     // rest unchanged
     ```
 
-2. Mount react-redux-fetch reducer to the state at `fetch`: 
+2. Mount react-redux-fetch reducer to the state at `fetch`:
     ```jsx
     import {combineReducers} from 'redux';
     import {reducer as fetchReducer} from 'react-redux-fetch';
-    
+
     const rootReducer = combineReducers({
         // ... other reducers
         repository: fetchReducer
     });
-    
+
     export default rootReducer;
     ```
 
@@ -117,7 +118,7 @@ export default connect([{
 ```
 
 ## How does it work?
-Every entry in the config array passed to `connect()` is mapped to 2 properties, a function to make the actually request and an object containing the response. 
+Every entry in the config array passed to `connect()` is mapped to 2 properties, a function to make the actually request and an object containing the response.
 
 The function name consists of 3 parts:
  - dispatch:  to indicate that by calling this function a redux action is dispatched
@@ -129,7 +130,7 @@ The response object, with name: [resourceName] + 'Fetch', consists of:
  - value: The actual response body
  - meta: The actual response object
 
-When calling `this.props.dispatchAllPokemonGet();`, react-redux-fetch dispatches the action `react-redux-fetch/GET_REQUEST`: 
+When calling `this.props.dispatchAllPokemonGet();`, react-redux-fetch dispatches the action `react-redux-fetch/GET_REQUEST`:
 
 <img src="https://cloud.githubusercontent.com/assets/6641475/17690441/fa6086b2-638e-11e6-9588-15fa41e2fa2b.png" alt="GET_REQUEST/Action" width="500" />
 
@@ -159,14 +160,14 @@ This part of the state is passed as a prop to the PokemonList component:
 ### connect()
 A higher order component to enhance your component with the react-redux-fetch functionality.
 
-Accepts an array: 
+Accepts an array:
 ```jsx
 connect([{
    // ... configuration, see below
 }])(yourComponent);
 ```
 
-Or a function returning an array. This function receives the props, which can then be used in your configuration to dynamically build your urls. 
+Or a function returning an array. This function receives the props, which can then be used in your configuration to dynamically build your urls.
 ```jsx
 connect((props) => [{
    // ... configuration, see below
@@ -198,17 +199,17 @@ For now, the following customizations are possible, this will be extended in the
     ```js
     container.getDefinition('requestMethods').addArgument('patch', {
         method: 'patch', // The request method
-        middleware: fetchRequest, // The middleware to handle the actual fetching. 'fetchRequest' from 'react-redux-fetch' is a sensible default for any request method. 
-        reducer: patchReducer 
+        middleware: fetchRequest, // The middleware to handle the actual fetching. 'fetchRequest' from 'react-redux-fetch' is a sensible default for any request method.
+        reducer: patchReducer
     });
     ```
-        
+
     An existing request method definition can be altered like this:
     ```js
     // Replace middleware for POST requests with a mock
     container.getDefinition('requestMethods').replaceArgument('post.middleware', mockFetchMiddleware);
     ```
-    
+
 - **requestHeaders**
 
     The default request headers are `'Accept': 'application/json'` and `'Content-Type': 'application/json'`. You can add request headers:
@@ -219,7 +220,7 @@ For now, the following customizations are possible, this will be extended in the
     ```js
     container.getDefinition('requestHeaders').replaceArgument('Content-Type', 'application/xml');
     ```
-    
+
 - **reducers**
 
     Additional reducers can be registered to work on a subset of the fetch state, without having to overwrite all reducers defined in requestMethods definition.
@@ -233,12 +234,12 @@ For now, the following customizations are possible, this will be extended in the
         switch (action.type) {
             case 'TODOS_RESET':
                 return state.set('value', null);
-               
+
         }
         return state;
     }
     ```
-    
+
 
 - **requestBuilder**
 

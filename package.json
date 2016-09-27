@@ -47,7 +47,7 @@
     "babel-preset-stage-0": "6.5.0",
     "babel-register": "6.11.6",
     "chai": "3.5.0",
-    "eslint": "3.5.0",
+    "eslint": "3.6.1",
     "eslint-config-airbnb": "11.1.0",
     "eslint-plugin-import": "1.15.0",
     "eslint-plugin-jsx-a11y": "2.2.2",
