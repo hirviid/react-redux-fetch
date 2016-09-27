@@ -22,7 +22,7 @@ A declarative and customizable way to fetch data for React components and manage
     - [POST](#post)
     - [PUT](#put)
     - [DELETE](#delete)
-* [Code snippets](./docs/README.md)
+* [Code snippets](./docs/index.md)
 
 ## Goal
 The goal of this library is to minimize boilerplate code  of crud operations in react/redux applications.
