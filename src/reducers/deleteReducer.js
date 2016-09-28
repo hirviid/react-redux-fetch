@@ -17,7 +17,7 @@ const deleteReducer = (state = immutable(INITIAL_STATE), action) => {
     case FETCH.for('delete').REQUEST:
       return fetchRequest(state, action);
     case FETCH.for('delete').FULFILL:
-      if (action.meta.removeFromList && state.value) {
+      if (action.meta && action.meta.removeFromList && state.value) {
         const idName = action.meta.removeFromList.idName;
         const id = action.meta.removeFromList.id;
         const val = filter(state.value, value => value[idName] !== id);

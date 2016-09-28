@@ -9,7 +9,7 @@ describe('deleteReducer', () => {
   describe('@@INIT', () => {
     const newState = deleteReducer(undefined, {});
 
-    it('should set pending to true', () => {
+    it('should set pending to false', () => {
       newState.pending.should.equal(false);
     });
 
