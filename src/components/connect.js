@@ -69,7 +69,10 @@ function connect(mapPropsToRequestsToProps,
           }
 
           const requestMethod = mapping.method || defaultRequestType;
-          const actionKey = requestMethodToActionKey(finalKey, requestMethod);
+          const actionKey = requestMethodToActionKey(
+            mapping.resourceAction || finalKey,
+            requestMethod
+          );
 
           actions[actionKey] = (...args) => {
             const finalConfig = isFunction(finalConfigFn) ? finalConfigFn(...args) : finalConfigFn;
