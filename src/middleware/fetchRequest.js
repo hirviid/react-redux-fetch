@@ -3,9 +3,9 @@ import handleResponse from '../utils/handleResponse';
 import onFulfillment from '../utils/onFulfillment';
 import onRejection from '../utils/onRejection';
 
-const fetchRequest = (store, next, action, config) => {
-  const req = container.getDefinition('requestBuilder').getArgument('build')(action.url, {
-    method: config.method,
+const fetchRequest = (store, next, action) => {
+  const req = container.getDefinition('requestBuilder').getArgument('build')(action.request.url, {
+    method: action.method,
     body: action.request.body,
   });
   const meta = action.request.meta || {};
@@ -14,8 +14,8 @@ const fetchRequest = (store, next, action, config) => {
     meta.response = response;
     return response;
   }).then(handleResponse).then(
-    onFulfillment(store, next, action, meta, config.method),
-    onRejection(store, next, action, meta, config.method)
+    onFulfillment(store, next, action, meta),
+    onRejection(store, next, action, meta)
   );
 };
 

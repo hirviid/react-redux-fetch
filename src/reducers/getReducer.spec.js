@@ -34,6 +34,7 @@ describe('getReducer', () => {
     const action = {
       type: FETCH.for('get').REQUEST,
       key: 'toGet',
+      request: { meta: {} },
     };
     const newState = getReducer(state.toGet, action);
 
@@ -65,7 +66,7 @@ describe('getReducer', () => {
         id: 2,
         text: 'new text',
       },
-      meta: null,
+      request: { meta: null },
     };
 
     it('should store the new value', () => {
@@ -101,10 +102,12 @@ describe('getReducer', () => {
           id: 2,
           text: 'new text',
         },
-        meta: {
-          addToList: {
-            idName: 'id',
-            id: 2,
+        request: {
+          meta: {
+            addToList: {
+              idName: 'id',
+              id: 2,
+            },
           },
         },
       };

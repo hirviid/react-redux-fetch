@@ -1,10 +1,13 @@
+import merge from 'lodash/merge';
 import actions from '../actions';
 
-const onRejection = (store, next, action, meta, requestType) => reason => (
-  next(actions.for(requestType).reject(
-    action.key,
-    reason,
-    meta
+const onRejection = (store, next, action, meta) => reason => (
+  next(actions.for(action.method).reject(
+    merge(
+      action, {
+        reason,
+        request: { meta },
+      })
   ))
 );
 

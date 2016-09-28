@@ -4,6 +4,6 @@ const fetchFulfill = (state, action) =>
   state
     .merge(FULFILLED)
     .setIn(['value'], action.value)
-    .setIn(['meta'], action.meta);
+    .setIn(['meta'], action.request.meta);
 
 export default fetchFulfill;

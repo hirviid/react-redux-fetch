@@ -8,7 +8,7 @@ import fetchReject from '../utils/fetchReject';
 const INITIAL_STATE = {
   ...INIT,
   value: null,
-  meta: null,
+  request: { meta: null },
 };
 
 const postReducer = (state = immutable(INITIAL_STATE), action) => {

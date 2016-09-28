@@ -22,11 +22,11 @@ const handleCustomReducers = (state, action) => {
 };
 
 const reducer = (state = immutable(INITIAL_STATE), action) => {
-  const key = action.key;
+  const resourceName = action.resource && action.resource.name;
 
-  // If action has no 'key', or doesn't include our custom prefix,
+  // If action has no 'resourceName', or doesn't include our custom prefix,
   // we're not interested and we can return the state
-  if (!key || action.type.indexOf(PREFIX) === -1) {
+  if (!resourceName || action.type.indexOf(PREFIX) === -1) {
     return handleCustomReducers(state, action);
   }
 
@@ -34,9 +34,9 @@ const reducer = (state = immutable(INITIAL_STATE), action) => {
 
   const stateLeaf = reduce(allRequestConfigs, (s, requestConfig) =>
     requestConfig.reducer(s, action),
-  state[key]);
+  state[resourceName]);
 
-  return handleCustomReducers(state.set(key, stateLeaf), action);
+  return handleCustomReducers(state.set(resourceName, stateLeaf), action);
 };
 
 export default reducer;

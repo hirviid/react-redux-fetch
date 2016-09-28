@@ -9,7 +9,7 @@ import fetchReject from '../utils/fetchReject';
 const INITIAL_STATE = {
   ...INIT,
   value: null,
-  meta: null,
+  request: { meta: null },
 };
 
 const deleteReducer = (state = immutable(INITIAL_STATE), action) => {
@@ -17,9 +17,9 @@ const deleteReducer = (state = immutable(INITIAL_STATE), action) => {
     case FETCH.for('delete').REQUEST:
       return fetchRequest(state, action);
     case FETCH.for('delete').FULFILL:
-      if (action.meta && action.meta.removeFromList && state.value) {
-        const idName = action.meta.removeFromList.idName;
-        const id = action.meta.removeFromList.id;
+      if (action.request.meta && action.request.meta.removeFromList && state.value) {
+        const idName = action.request.meta.removeFromList.idName;
+        const id = action.request.meta.removeFromList.id;
         const val = filter(state.value, value => value[idName] !== id);
         return fetchFulfill(state, Object.assign({}, action, { value: val }));
       }

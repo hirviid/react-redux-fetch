@@ -9,7 +9,7 @@ import fetchReject from '../utils/fetchReject';
 const INITIAL_STATE = {
   ...INIT,
   value: null,
-  meta: null,
+  request: { meta: null },
 };
 
 const getReducer = (state = immutable(INITIAL_STATE), action) => {
@@ -17,9 +17,9 @@ const getReducer = (state = immutable(INITIAL_STATE), action) => {
     case FETCH.for('get').REQUEST:
       return fetchRequest(state, action);
     case FETCH.for('get').FULFILL:
-      if (action.meta && action.meta.addToList && state.value) {
-        const idName = action.meta.addToList.idName;
-        const id = action.meta.addToList.id;
+      if (action.request.meta && action.request.meta.addToList && state.value) {
+        const idName = action.request.meta.addToList.idName;
+        const id = action.request.meta.addToList.id;
         const newValue = state.value ? map(state.value, (item) => {
           if (item[idName] === id) {
             return action.value;

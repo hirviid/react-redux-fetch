@@ -39,62 +39,54 @@ describe('actions', () => {
       });
 
       describe('request()', () => {
-        const requestAction = actionCreators.request('a', 'b', 'c');
+        const requestAction = actionCreators.request({
+          resource: { name: 'a' },
+          request: {
+            url: 'www.react-redux-fetch.com',
+          },
+        });
 
-        it('should have properties: type, key, url, request', () => {
+        it('should have properties: type, resource, request', () => {
           requestAction.should.be.an('object');
-          requestAction.should.have.keys(['type', 'key', 'url', 'request']);
-          requestAction.key.should.equal('a');
-          requestAction.url.should.equal('b');
-          requestAction.request.should.equal('c');
+          requestAction.should.have.keys(['type', 'resource', 'request']);
+          requestAction.resource.should.eql({ name: 'a' });
+          requestAction.request.should.eql({ url: 'www.react-redux-fetch.com' });
         });
       });
 
       describe('fulfill()', () => {
-        const fulfillAction = actionCreators.fulfill('a', 'b', 'c');
+        const fulfillAction = actionCreators.fulfill({
+          resource: { name: 'a' },
+          value: 'b',
+          request: {
+            meta: { john: 'doe' },
+          },
+        });
 
-        it('should have properties: type, key, value, meta', () => {
+        it('should have properties: type, resource, value, request', () => {
           fulfillAction.should.be.an('object');
-          fulfillAction.should.have.keys(['type', 'key', 'value', 'meta']);
-          fulfillAction.key.should.equal('a');
+          fulfillAction.should.have.keys(['type', 'resource', 'value', 'request']);
+          fulfillAction.resource.should.eql({ name: 'a' });
           fulfillAction.value.should.equal('b');
-          fulfillAction.meta.should.equal('c');
+          fulfillAction.request.should.eql({ meta: { john: 'doe' } });
         });
       });
 
       describe('reject()', () => {
-        const rejectAction = actionCreators.reject('a', 'b', 'c');
-
-        it('should have properties: type, key, url, request', () => {
-          rejectAction.should.be.an('object');
-          rejectAction.should.have.keys(['type', 'key', 'reason', 'meta']);
-          rejectAction.key.should.equal('a');
-          rejectAction.reason.should.equal('b');
-          rejectAction.meta.should.equal('c');
-        });
-      });
-    });
-
-    describe('requestActionCreator()', () => {
-      it('should return a function', () => {
-        actions.requestActionCreator().should.be.a('function');
-      });
-
-      describe('()', () => {
-        const mapping = {
-          resource: 'john',
+        const rejectAction = actionCreators.reject({
+          resource: { name: 'a' },
+          reason: 'b',
           request: {
-            url: 'http://john.doe',
+            meta: { john: 'doe' },
           },
-        };
-        const actionCreator = actions.requestActionCreator(mapping);
-
-        it('should return an object', () => {
-          actionCreator().should.be.an('object');
         });
 
-        it('should equal a request action', () => {
-          actionCreator().should.eql(actions.for('get').request('john', 'http://john.doe', { url: 'http://john.doe' }));
+        it('should have properties: type, resource, reason, request', () => {
+          rejectAction.should.be.an('object');
+          rejectAction.should.have.keys(['type', 'resource', 'reason', 'request']);
+          rejectAction.resource.should.eql({ name: 'a' });
+          rejectAction.reason.should.equal('b');
+          rejectAction.request.should.eql({ meta: { john: 'doe' } });
         });
       });
     });

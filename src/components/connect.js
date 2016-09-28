@@ -3,28 +3,18 @@ import { connect as reduxConnect } from 'react-redux';
 import isFunction from 'lodash/isFunction';
 import merge from 'lodash/merge';
 import each from 'lodash/each';
-import reactReduxFetchActions from '../actions';
+import reduce from 'lodash/reduce';
+// import reactReduxFetchActions from '../actions';
 import { getModel } from '../reducers/selectors';
-import container from '../container';
+// import container from '../container';
 import capitalizeFirstLetter from '../utils/capitalizeFirstLetter';
+import buildActionsFromMappings,
+{ ensureResourceIsObject, validateResourceObject } from '../utils/buildActionsFromMappings';
 
-const defaultRequestType = 'get';
+// const defaultRequestType = 'get';
 
 function getDisplayName(WrappedComponent) {
   return WrappedComponent.displayName || WrappedComponent.name || 'Component';
-}
-
-function requestMethodToActionKey(key, requestMethod = defaultRequestType) {
-  const finalRequestMethod = requestMethod.toLowerCase();
-  const finalKey = capitalizeFirstLetter(key);
-
-  const requestMethodConfig = container.getDefinition('requestMethods').getArgument(finalRequestMethod);
-
-  if (!requestMethodConfig) {
-    throw new Error(`Request method ${finalRequestMethod} not registered at react-redux-fetch. Use container.registerRequestMethod().`);
-  }
-
-  return `dispatch${finalKey}${capitalizeFirstLetter(requestMethodConfig.method)}`;
 }
 
 function connect(mapPropsToRequestsToProps,
@@ -43,9 +33,11 @@ function connect(mapPropsToRequestsToProps,
         const data = {};
 
         each(mappings, (mapping) => {
-          const finalKey = mapping.resource;
+          const resource = ensureResourceIsObject(mapping);
+          validateResourceObject(resource);
+          const resourceName = resource.name;
 
-          data[`${finalKey}Fetch`] = fetchData[finalKey] || {};
+          data[`${resourceName}Fetch`] = fetchData[resourceName] || {};
         });
 
         return data;
@@ -57,39 +49,13 @@ function connect(mapPropsToRequestsToProps,
        *                {resource: ..., method: ..., request: ...}
        * @return {Object} functions for the WrappedComponent e.g.: 'dispatchUserFetch()'
        **/
-      actionsFromProps = (dispatch, mappings) => {
-        const actions = {};
-
-        each(mappings, (mapping) => {
-          const finalConfigFn = mapping.request;
-          const finalKey = mapping.resource;
-
-          if (!finalKey) {
-            throw new Error(`'resource' property missing in mapping for '${getDisplayName(WrappedComponent)}'.`);
-          }
-
-          const requestMethod = mapping.method || defaultRequestType;
-          const actionKey = requestMethodToActionKey(
-            mapping.resourceAction || finalKey,
-            requestMethod
-          );
-
-          actions[actionKey] = (...args) => {
-            const finalConfig = isFunction(finalConfigFn) ? finalConfigFn(...args) : finalConfigFn;
-
-            if (finalConfig.force || !container.getUtil('equals')(this.comparisonCache[actionKey], finalConfig.comparison)) {
-              const reduxAction = reactReduxFetchActions
-                .for(requestMethod)
-                .request(finalKey, finalConfig.url, finalConfig);
-              dispatch(reduxAction);
-            }
-
-            this.comparisonCache[actionKey] = finalConfig.comparison;
-          };
-        });
-
-        return actions;
-      };
+      actionsFromProps = (dispatch, mappings) =>
+        reduce(buildActionsFromMappings(mappings), (actions, action, key) =>
+          Object.assign(
+            {},
+            actions,
+            { [`dispatch${capitalizeFirstLetter(key)}`]: (...args) => { dispatch(action(...args)); } }
+          ), {});
 
       /**
        * If the value passed to connect() is a function,
@@ -103,8 +69,6 @@ function connect(mapPropsToRequestsToProps,
           mapPropsToRequestsToProps(props, context || {})
           : mapPropsToRequestsToProps
       );
-
-      comparisonCache = {};
 
       render() {
         const { fetchData, ...other } = this.props;
