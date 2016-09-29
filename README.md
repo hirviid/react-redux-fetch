@@ -134,7 +134,7 @@ When calling `this.props.dispatchAllPokemonGet();`, react-redux-fetch dispatches
 
 <img src="https://cloud.githubusercontent.com/assets/6641475/17690441/fa6086b2-638e-11e6-9588-15fa41e2fa2b.png" alt="GET_REQUEST/Action" width="500" />
 
-The action creates a new state tree `allPokemon`, inside the `fetch` state tree:
+The action creates a new state tree `allPokemon`, inside the `repository` state tree:
 
 <img src="https://cloud.githubusercontent.com/assets/6641475/17690442/fa61e926-638e-11e6-94d4-2a16369ba8ee.png" alt="GET_REQUEST/State" width="500" />
 
@@ -143,7 +143,7 @@ This part of the state is passed as a prop to the PokemonList component:
 
 <img src="https://cloud.githubusercontent.com/assets/6641475/17713820/264f9402-63fd-11e6-88a8-9ac2e01b2b5e.png" alt="GET_REQUEST/PENDING" width="300" />
 
-When the request fulfils (i.e. receiving a status code between 200 and 300), react-redux-fetch dispatches the action `react-redux-fetch/GET_FULFIL`:
+When the request fulfills (i.e. receiving a status code between 200 and 300), react-redux-fetch dispatches the action `react-redux-fetch/GET_FULFIL`:
 
 <img src="https://cloud.githubusercontent.com/assets/6641475/17690440/fa6070be-638e-11e6-9da8-90ee1b975373.png" alt="GET_REQUEST/Action" width="500" />
 
@@ -167,20 +167,24 @@ connect([{
 }])(yourComponent);
 ```
 
-Or a function returning an array. This function receives the props, which can then be used in your configuration to dynamically build your urls.
+Or a function returning an array. This function receives the props and context, which can then be used in your configuration to dynamically build your urls.
 ```jsx
-connect((props) => [{
+connect((props, context) => [{
    // ... configuration, see below
 }])(yourComponent);
 ```
 
 The returned array should be an array of objects, with the following properties:
-- `resource`: **String, required**. A name for your resource, this name will be used as a key in the state tree.
+- `resource`: **Object|String, required**. When used as a string, this is the same as `resource: { name: 'myResource' }`.
+    * `name`: **String, required**. A name for your resource, this name will be used as a key in the state tree, if no `action` is defined in `resource`, the `name` is used in the dispatch prop, e.g.: `name: 'myResource'` => `dispatchMyResourceGet`.
+    * `action`: **String, optional**. A name to use in the dispatch function that's created and passed as a prop. (e.g. `action: 'myAction'` => `dispatchMyActionGet`).
 - `method`: **String, optional**, default: 'get'. The request method that will be used for the request. One of 'get', 'post', 'put', 'delete'. Can be extended by adding new types to the registry (see below).
 - `request`: **Object|Function, required**. Use a function if you want to pass dynamic data to the request config (e.g. body data).
     * `url`: **String, required**.  The URL to make the request to.
     * `body`: **Object, optional**. The object that will be sent as JSON in the body of the request.
     * `meta`: **Object, optional**. Everything passed to 'meta' will be passed to every part in the react-redux-fetch flow.
+    * `comparison`: **Any, optional**. If provided, a new request is not made if the `comparison` value between dispatch calls is the same.
+    * `force`: **boolean, optional**. If `true`, overrules the `comparison` property.
 
 
 ### container
@@ -197,7 +201,7 @@ For now, the following customizations are possible, this will be extended in the
     Out-of-the-box, react-redux-refetch provides implementations for `get`, `post`, `put` and `delete` requests.
     A new request method, e.g. `patch`, can be added like this:
     ```js
-    container.getDefinition('requestMethods').addArgument('patch', {
+    container.registerRequestMethod('patch', {
         method: 'patch', // The request method
         middleware: fetchRequest, // The middleware to handle the actual fetching. 'fetchRequest' from 'react-redux-fetch' is a sensible default for any request method.
         reducer: patchReducer
@@ -207,18 +211,18 @@ For now, the following customizations are possible, this will be extended in the
     An existing request method definition can be altered like this:
     ```js
     // Replace middleware for POST requests with a mock
-    container.getDefinition('requestMethods').replaceArgument('post.middleware', mockFetchMiddleware);
+    container.changeRequestMethodConfig('post', 'middleware', mockFetchMiddleware);
     ```
 
 - **requestHeaders**
 
     The default request headers are `'Accept': 'application/json'` and `'Content-Type': 'application/json'`. You can add request headers:
     ```js
-    container.getDefinition('requestHeaders').addArgument('authorization', 'Bearer some.jwt.token');
+    container.registerRequestHeader('authorization', 'Bearer some.jwt.token');
     ```
-    Or change a request header:
+    Or replace the request headers:
     ```js
-    container.getDefinition('requestHeaders').replaceArgument('Content-Type', 'application/xml');
+    container.replaceRequestHeaders('requestHeaders', { 'Content-Type', 'application/xml' });
     ```
 
 - **reducers**
@@ -226,7 +230,7 @@ For now, the following customizations are possible, this will be extended in the
     Additional reducers can be registered to work on a subset of the fetch state, without having to overwrite all reducers defined in requestMethods definition.
     For example, there is no out-of-the-box way of clearing state data. If you want to clear e.g. all todo items from a todo list, you can register a reducer to work on the 'todos' state.
     ```js
-    container.getDefinition('reducers').addArgument('todos', todosReducer);
+    container.registerReducer('todos', todosReducer);
     ```
     The todos state slice is passed to the reducer, which can return a new state when your custom redux action is dispatched:
     ```js
