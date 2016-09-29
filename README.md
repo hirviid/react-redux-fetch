@@ -176,7 +176,7 @@ connect((props, context) => [{
 
 The returned array should be an array of objects, with the following properties:
 - `resource`: **Object|String, required**. When used as a string, this is the same as `resource: { name: 'myResource' }`.
-    * `name`: **String, required**. A name for your resource, this name will be used as a key in the state tree, if no `action` is defined in `resource`, the `name` is used in the dispatch prop, e.g.: `name: 'myResource'` => `dispatchMyResourceGet`.
+    * `name`: **String, required**. A name for your resource, this name will be used as a key in the state tree. If no `action` is defined in `resource`, the `name` is used in the dispatch prop, e.g.: `name: 'myResource'` => `dispatchMyResourceGet`.
     * `action`: **String, optional**. A name to use in the dispatch function that's created and passed as a prop. (e.g. `action: 'myAction'` => `dispatchMyActionGet`).
 - `method`: **String, optional**, default: 'get'. The request method that will be used for the request. One of 'get', 'post', 'put', 'delete'. Can be extended by adding new types to the registry (see below).
 - `request`: **Object|Function, required**. Use a function if you want to pass dynamic data to the request config (e.g. body data).
@@ -190,7 +190,7 @@ The returned array should be an array of objects, with the following properties:
 ### container
 
 ```js
-import {container} from 'react-redux-fetch';
+import { container } from 'react-redux-fetch';
 ```
 
 The container provides a single entry point into customizing the different parts of react-redux-fetch.
@@ -202,9 +202,9 @@ For now, the following customizations are possible, this will be extended in the
     A new request method, e.g. `patch`, can be added like this:
     ```js
     container.registerRequestMethod('patch', {
-        method: 'patch', // The request method
-        middleware: fetchRequest, // The middleware to handle the actual fetching. 'fetchRequest' from 'react-redux-fetch' is a sensible default for any request method.
-        reducer: patchReducer
+      method: 'patch', // The request method
+      middleware: fetchRequest, // The middleware to handle the actual fetching. 'fetchRequest' from 'react-redux-fetch' is a sensible default for any request method.
+      reducer: patchReducer
     });
     ```
 
@@ -235,12 +235,12 @@ For now, the following customizations are possible, this will be extended in the
     The todos state slice is passed to the reducer, which can return a new state when your custom redux action is dispatched:
     ```js
     function todosReducer(state, action) {
-        switch (action.type) {
-            case 'TODOS_RESET':
-                return state.set('value', null);
+      switch (action.type) {
+        case 'TODOS_RESET':
+          return state.set('value', null);
 
-        }
-        return state;
+      }
+      return state;
     }
     ```
 
@@ -252,6 +252,13 @@ For now, the following customizations are possible, this will be extended in the
     ```js
     container.getDefinition('requestBuilder').replaceArgument('build', customRequestBuilder);
     ```
+
+### buildActionsFromMappings
+
+```js
+import { buildActionsFromMappings } from 'react-redux-fetch';
+```
+
 
 ## Examples
 
