@@ -259,6 +259,19 @@ For now, the following customizations are possible, this will be extended in the
 import { buildActionsFromMappings } from 'react-redux-fetch';
 ```
 
+The function internally used by `connect()`. You can use this function to create the fetch redux actions without a React Component.
+`buildActionsFromMappings(config)` accepts the same configuration options as `connect()`.
+
+```js
+const actions = buildActionsFromMappings([{
+  resource: 'todos',
+  request: {
+    url: apiRoutes.getTodos(),
+  },
+}]);
+
+store.dispatch(actions.todosGet());
+```
 
 ## Examples
 
