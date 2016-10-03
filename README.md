@@ -18,6 +18,7 @@ A declarative and customizable way to fetch data for React components and manage
 * [API](#api)
     - [Connect](#connect)
     - [Container](#container)
+    - [buildActionsFromMappings](#buildActionsFromMappings)
 * [Examples](#examples)
     - [POST](#post)
     - [PUT](#put)
