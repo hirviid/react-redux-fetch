@@ -374,3 +374,7 @@ A special property `removeFromList` can be specified in `meta`, which removes an
 (In the example, the `pokemon` state contains a collection of Pokémon.)
 - `idName`: The id-key of the object to find and delete
 - `id`: The id-value of the object to find and delete
+
+## Code snippets
+
+[Code snippets](./docs/README.md)
