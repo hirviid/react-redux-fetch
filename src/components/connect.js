@@ -50,11 +50,16 @@ function connect(mapPropsToRequestsToProps,
        * @return {Object} functions for the WrappedComponent e.g.: 'dispatchUserFetch()'
        **/
       actionsFromProps = (dispatch, mappings) =>
-        reduce(buildActionsFromMappings(mappings), (actions, action, key) =>
+        reduce(buildActionsFromMappings(mappings), (actions, actionCreator, key) =>
           Object.assign(
             {},
             actions,
-            { [`dispatch${capitalizeFirstLetter(key)}`]: (...args) => action !== null && dispatch(action(...args)) }
+            { [`dispatch${capitalizeFirstLetter(key)}`]: (...args) => {
+              const action = actionCreator(...args);
+              if (action) {
+                dispatch(action);
+              }
+            } }
           ), {});
 
       /**
