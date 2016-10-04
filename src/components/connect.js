@@ -54,7 +54,7 @@ function connect(mapPropsToRequestsToProps,
           Object.assign(
             {},
             actions,
-            { [`dispatch${capitalizeFirstLetter(key)}`]: (...args) => { dispatch(action(...args)); } }
+            { [`dispatch${capitalizeFirstLetter(key)}`]: (...args) => action !== null && dispatch(action(...args)) }
           ), {});
 
       /**
