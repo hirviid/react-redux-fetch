@@ -17,7 +17,7 @@ const putReducer = (state = immutable(INITIAL_STATE), action) => {
       return fetchRequest(state, action);
     case FETCH.for('put').FULFILL:
       return fetchFulfill(state, action);
-    case FETCH.for('get').REJECT:
+    case FETCH.for('put').REJECT:
       return fetchReject(state, action);
     default:
       return state;

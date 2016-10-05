@@ -17,7 +17,7 @@ const postReducer = (state = immutable(INITIAL_STATE), action) => {
       return fetchRequest(state, action);
     case FETCH.for('post').FULFILL:
       return fetchFulfill(state, action);
-    case FETCH.for('get').REJECT:
+    case FETCH.for('post').REJECT:
       return fetchReject(state, action);
     default:
       return state;

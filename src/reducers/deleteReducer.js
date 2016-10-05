@@ -25,7 +25,7 @@ const deleteReducer = (state = immutable(INITIAL_STATE), action) => {
       }
 
       return fetchFulfill(state, action);
-    case FETCH.for('get').REJECT:
+    case FETCH.for('delete').REJECT:
       return fetchReject(state, action);
     default:
       return state;
