@@ -93,9 +93,9 @@ function connect(mapPropsToRequestsToProps,
       fetchData: React.PropTypes.object,
     };
 
-    const mapStateToProps = state => (merge({
+    const mapStateToProps = (state, props) => (merge({
       fetchData: getModel(state),
-    }, isFunction(componentMapStateToProps) ? componentMapStateToProps(state) : {}));
+    }, isFunction(componentMapStateToProps) ? componentMapStateToProps(state, props) : {}));
 
     const mapDispatchToProps = dispatch => (merge({
       dispatch,
