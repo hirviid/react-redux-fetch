@@ -11,7 +11,7 @@ const forMethod = verb => ({
   reject: data => action(FETCH.for(verb).REJECT)(omitType(data)),
 });
 
-const clear = resource => action(CLEAR)({ resource });
+const clear = resourceName => action(CLEAR)({ resource: { name: resourceName } });
 
 export default {
   for: forMethod,

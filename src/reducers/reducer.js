@@ -32,7 +32,7 @@ const reducer = (state = immutable(INITIAL_STATE), action) => {
 
   // If clearing a repository
   if (action.type === CLEAR) {
-    return state.setIn(['repository', resourceName], null);
+    return state.setIn([resourceName], null);
   }
 
   // Otherwise
