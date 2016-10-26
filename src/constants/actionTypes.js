@@ -8,3 +8,5 @@ export const FETCH:Object = {
     REJECT: `${PREFIX}${verb.toUpperCase()}_REJECT`,
   }),
 };
+
+export const CLEAR:string = `${PREFIX}CLEAR`;

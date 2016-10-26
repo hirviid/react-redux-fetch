@@ -1,7 +1,7 @@
 import immutable from 'seamless-immutable';
 import reduce from 'lodash/reduce';
 import container from '../container';
-import { PREFIX } from '../constants/actionTypes';
+import { PREFIX, CLEAR } from '../constants/actionTypes';
 
 const INITIAL_STATE = {};
 
@@ -30,6 +30,12 @@ const reducer = (state = immutable(INITIAL_STATE), action) => {
     return handleCustomReducers(state, action);
   }
 
+  // If clearing a repository
+  if (action.type === CLEAR) {
+    return state.setIn(['repository', resourceName], null);
+  }
+
+  // Otherwise
   const allRequestConfigs = container.getDefinition('requestMethods').getArguments();
 
   const stateLeaf = reduce(allRequestConfigs, (s, requestConfig) =>

@@ -1,5 +1,5 @@
 import omit from 'lodash/fp/omit';
-import { FETCH } from '../constants/actionTypes';
+import { FETCH, CLEAR } from '../constants/actionTypes';
 
 const omitType = omit('type');
 
@@ -11,6 +11,9 @@ const forMethod = verb => ({
   reject: data => action(FETCH.for(verb).REJECT)(omitType(data)),
 });
 
+const clear = resource => action(CLEAR)({ resource });
+
 export default {
   for: forMethod,
+  clear,
 };
