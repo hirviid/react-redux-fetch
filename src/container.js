@@ -18,6 +18,7 @@ import requestHeaders from './utils/defaultHeaders';
 import requestBuilder from './utils/requestBuilder';
 import equals from './utils/equals';
 import componentHelpers from './utils/componentHelpers';
+import handleResponse from './utils/handleResponse';
 import assert from './utils/assert';
 
 class ContainerFacade {
@@ -56,7 +57,7 @@ class ContainerFacade {
     this.container.register('requestHeaders', requestHeaders);
     this.container.register('reducers', {});
     this.container.register('requestBuilder', { build: requestBuilder });
-    this.container.register('utils', { equals, componentHelpers });
+    this.container.register('utils', { equals, componentHelpers, handleResponse });
     // container.getDefinition('requestMethods').addArgument('patch', '...');
     // container.getDefinition('requestMethods').addArgument('token', '...');
   }
@@ -71,6 +72,10 @@ class ContainerFacade {
 
   getUtil(name: string): Function {
     return this.container.getDefinition('utils').getArgument(name);
+  }
+
+  setUtil(name: string, util: any) {
+    return this.container.getDefinition('utils').addArgument(name, util);
   }
 
   /**

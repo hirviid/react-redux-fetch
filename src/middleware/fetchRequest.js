@@ -1,5 +1,4 @@
 import container from '../container';
-import handleResponse from '../utils/handleResponse';
 import onFulfillment from '../utils/onFulfillment';
 import onRejection from '../utils/onRejection';
 
@@ -13,7 +12,7 @@ const fetchRequest = (store, next, action) => {
   return fetch(req).then((response) => {
     meta.response = response;
     return response;
-  }).then(handleResponse).then(
+  }).then(container.getUtil('handleResponse')).then(
     onFulfillment(store, next, action, meta),
     onRejection(store, next, action, meta)
   );
