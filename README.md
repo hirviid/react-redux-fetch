@@ -1,5 +1,3 @@
-**THIS IS A WORK IN PROGRESS**
-
 React Redux Fetch
 =================
 
@@ -23,6 +21,7 @@ A declarative and customizable way to fetch data for React components and manage
     - [PUT](#put)
     - [DELETE](#delete)
 * [Code snippets](./docs/README.md)
+* [Versioning](#versioning)
 
 ## Goal
 The goal of this library is to minimize boilerplate code  of crud operations in react/redux applications.
@@ -378,3 +377,7 @@ A special property `removeFromList` can be specified in `meta`, which removes an
 ## Code snippets
 
 [Code snippets](./docs/README.md)
+
+## Versioning
+
+[Semver](http://semver.org/) is followed as closely as possible. For updates and migration instructions, see the [changelog](https://github.com/hirviid/react-redux-fetch/wiki/Changelog).
