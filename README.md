@@ -53,7 +53,7 @@ npm install --save react-redux-fetch
     // rest unchanged
     ```
 
-2. Mount react-redux-fetch reducer to the state at `fetch`:
+2. Mount react-redux-fetch reducer to the state at `repository`:
     ```jsx
     import {combineReducers} from 'redux';
     import {reducer as fetchReducer} from 'react-redux-fetch';
