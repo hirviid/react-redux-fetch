@@ -10,6 +10,7 @@ import { getModel } from '../reducers/selectors';
 import capitalizeFirstLetter from '../utils/capitalizeFirstLetter';
 import buildActionsFromMappings,
 { ensureResourceIsObject, validateResourceObject } from '../utils/buildActionsFromMappings';
+import helpers from '../utils/helpers';
 
 // const defaultRequestType = 'get';
 
@@ -93,13 +94,20 @@ function connect(mapPropsToRequestsToProps,
       fetchData: React.PropTypes.object,
     };
 
-    const mapStateToProps = (state, props) => (merge({
-      fetchData: getModel(state),
-    }, isFunction(componentMapStateToProps) ? componentMapStateToProps(state, props) : {}));
 
-    const mapDispatchToProps = dispatch => (merge({
-      dispatch,
-    }, isFunction(componentMapDispatchToProps) ? componentMapDispatchToProps(dispatch) : {}));
+    const mapStateToProps = (state, props) => (
+      merge(
+        { fetchData: getModel(state) },
+        helpers.ensureObject(componentMapStateToProps, [state, props])
+      )
+    );
+
+    const mapDispatchToProps = dispatch => (
+      merge(
+        { dispatch },
+        helpers.ensureObject(componentMapDispatchToProps, [dispatch])
+      )
+    );
 
     return reduxConnect(mapStateToProps, mapDispatchToProps)(ReactReduxFetch);
   };
