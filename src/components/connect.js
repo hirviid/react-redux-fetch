@@ -99,7 +99,9 @@ function connect(mapPropsToRequestsToProps,
 
     const mapDispatchToProps = dispatch => (merge({
       dispatch,
-    }, isFunction(componentMapDispatchToProps) ? componentMapDispatchToProps(dispatch) : {}));
+    }, isFunction(componentMapDispatchToProps)
+      ? componentMapDispatchToProps(dispatch)
+      : componentMapDispatchToProps));
 
     return reduxConnect(mapStateToProps, mapDispatchToProps)(ReactReduxFetch);
   };
