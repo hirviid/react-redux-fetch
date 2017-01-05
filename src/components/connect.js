@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect as reduxConnect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import isFunction from 'lodash/isFunction';
+import isObject from 'lodash/isObject';
 import merge from 'lodash/merge';
 import each from 'lodash/each';
 import reduce from 'lodash/reduce';
@@ -102,12 +104,15 @@ function connect(mapPropsToRequestsToProps,
       )
     );
 
-    const mapDispatchToProps = dispatch => (
-      merge(
-        { dispatch },
-        helpers.ensureObject(componentMapDispatchToProps, [dispatch])
-      )
-    );
+    let mapDispatchToProps;
+
+    if (isFunction(componentMapDispatchToProps)) {
+      mapDispatchToProps = dispatch => (merge({ dispatch },
+        componentMapDispatchToProps(dispatch)));
+    } else if (isObject(componentMapDispatchToProps)) {
+      mapDispatchToProps = dispatch => (merge({ dispatch },
+        bindActionCreators(componentMapDispatchToProps, dispatch)));
+    }
 
     return reduxConnect(mapStateToProps, mapDispatchToProps)(ReactReduxFetch);
   };
