@@ -3,6 +3,7 @@
   "version": "0.6.5",
   "description": "A declarative and customizable way to fetch data for React components and manage that data in the Redux state",
   "main": "./lib/index.js",
+  "types": "./react-redux-fetch.d.ts",
   "scripts": {
     "build": "babel src --out-dir lib",
     "clean": "rimraf lib dist coverage",
@@ -17,7 +18,8 @@
     "url": "git+https://github.com/hirviid/react-redux-fetch.git"
   },
   "files": [
-    "lib"
+    "lib",
+    "react-redux-fetch.d.ts"
   ],
   "keywords": [
     "react",
