@@ -6,6 +6,7 @@ const fetchRequest = (store, next, action) => {
   const req = container.getDefinition('requestBuilder').getArgument('build')(action.request.url, {
     method: action.method,
     body: action.request.body,
+    headers: action.request.headers,
   });
   const meta = action.request.meta || {};
 
@@ -14,7 +15,7 @@ const fetchRequest = (store, next, action) => {
     return response;
   }).then(container.getUtil('handleResponse')).then(
     onFulfillment(store, next, action, meta),
-    onRejection(store, next, action, meta)
+    onRejection(store, next, action, meta),
   );
 };
 
