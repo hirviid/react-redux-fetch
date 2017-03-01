@@ -1,12 +1,10 @@
 import newError from './errors';
 
 const handleResponse = (response) => {
-  if (!response.ok) {
-    return Promise.reject(newError(response.statusText ? response.statusText : 'Request failed'));
-  }
-
   if (response.headers.get('content-length') === '0' || response.status === 204) {
-    return null;
+    return response.ok
+      ? null
+      : Promise.reject(newError(response.statusText ? response.statusText : 'Request failed'));
   }
 
   const json = response.json();
