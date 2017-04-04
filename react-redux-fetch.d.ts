@@ -51,9 +51,9 @@ declare module 'react-redux-fetch' {
 
   export function connect<TStateProps, TDispatchProps, TOwnProps>(
     fetchItems: FetchConfigType<TStateProps & TDispatchProps & TOwnProps>,
-    mapStateToProps?: RR.FuncOrSelf<RR.MapStateToProps<TStateProps, TOwnProps>>,
-    mapDispatchToProps?: RR.FuncOrSelf<RR.MapDispatchToPropsFunction<TDispatchProps, TOwnProps> | RR.MapDispatchToPropsObject>,
+    mapStateToProps?: RR.MapStateToProps<TStateProps, TOwnProps> | RR.MapStateToPropsFactory<TStateProps, TOwnProps>,
+    mapDispatchToProps?: RR.MapDispatchToProps<TDispatchProps, TOwnProps> | RR.MapDispatchToPropsFactory<TDispatchProps, TOwnProps>,
   ) : RR.ComponentDecorator<TStateProps & TDispatchProps, TOwnProps>;
-  
+
   export default connect;
 }
