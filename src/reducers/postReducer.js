@@ -19,9 +19,7 @@ const postReducer = (state = immutable(INITIAL_STATE), action) => {
     case FETCH.for('post').FULFILL:
       if (state.value) {
         const newAction = createAddToListAction(state, action);
-        if (newAction) {
-          return fetchFulfill(state, newAction);
-        }
+        return fetchFulfill(state, newAction);
       }
 
       return fetchFulfill(state, action);

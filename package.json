@@ -62,11 +62,11 @@
   },
   "dependencies": {
     "lodash": "4.14.2",
-    "seamless-immutable": "6.1.1"
+    "seamless-immutable": "^7.1.2"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0-0",
-    "redux": "^2.0.0 || ^3.0.0",
-    "react-redux": "^4.0.0 || ^5.0.0"
+    "react-redux": "^4.0.0 || ^5.0.0",
+    "redux": "^2.0.0 || ^3.0.0"
   }
 }

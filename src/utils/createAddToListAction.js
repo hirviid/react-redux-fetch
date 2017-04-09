@@ -10,7 +10,7 @@ import type { PromiseState, FulfillAction } from '../types';
 export default function createAddToListAction(
   state: PromiseState,
   action: FulfillAction
-): FulfillAction | false {
+): FulfillAction {
   if (action.request.meta && action.request.meta.addToList) {
     const { path, idName } = action.request.meta.addToList;
     const stateValue = path ? at(state.value, path)[0] : state.value;
@@ -42,5 +42,5 @@ export default function createAddToListAction(
     );
   }
 
-  return false;
+  return action;
 }

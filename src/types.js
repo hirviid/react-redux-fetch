@@ -16,6 +16,10 @@ export type FulfillAction = {
   value: *,
   request: {
     meta?: {
+      removeFromList?: {
+        path?: string,
+        idName: string,
+      },
       addToList?: {
         path?: string,
         idName: string,

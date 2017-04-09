@@ -19,9 +19,7 @@ const getReducer = (state = immutable(INITIAL_STATE), action) => {
     case FETCH.for('get').FULFILL:
       if (state.value) {
         const newAction = createAddToListAction(state, action);
-        if (newAction) {
-          return fetchFulfill(state, newAction);
-        }
+        return fetchFulfill(state, newAction);
       }
 
       return fetchFulfill(state, action);
