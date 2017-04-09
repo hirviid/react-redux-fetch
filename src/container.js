@@ -74,7 +74,7 @@ class ContainerFacade {
     return this.container.getDefinition('utils').getArgument(name);
   }
 
-  setUtil(name: string, util: any) {
+  setUtil(name: string, util: any): Definition {
     return this.container.getDefinition('utils').addArgument(name, util);
   }
 
