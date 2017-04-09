@@ -1,6 +1,4 @@
 import immutable from 'seamless-immutable';
-import get from 'lodash/get';
-
 import { FETCH } from '../constants/actionTypes';
 import { INIT } from '../constants/request';
 import fetchRequest from '../utils/fetchRequest';
@@ -19,9 +17,11 @@ const getReducer = (state = immutable(INITIAL_STATE), action) => {
     case FETCH.for('get').REQUEST:
       return fetchRequest(state, action);
     case FETCH.for('get').FULFILL:
-      if (get(action, 'request.meta.addToList') && state.value) {
+      if (state.value) {
         const newAction = createAddToListAction(state, action);
-        return fetchFulfill(state, newAction);
+        if (newAction) {
+          return fetchFulfill(state, newAction);
+        }
       }
 
       return fetchFulfill(state, action);

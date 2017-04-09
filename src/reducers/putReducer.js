@@ -4,6 +4,7 @@ import { INIT } from '../constants/request';
 import fetchRequest from '../utils/fetchRequest';
 import fetchFulfill from '../utils/fetchFulfill';
 import fetchReject from '../utils/fetchReject';
+import createAddToListAction from '../utils/createAddToListAction';
 
 const INITIAL_STATE = {
   ...INIT,
@@ -16,6 +17,13 @@ const putReducer = (state = immutable(INITIAL_STATE), action) => {
     case FETCH.for('put').REQUEST:
       return fetchRequest(state, action);
     case FETCH.for('put').FULFILL:
+      if (state.value) {
+        const newAction = createAddToListAction(state, action);
+        if (newAction) {
+          return fetchFulfill(state, newAction);
+        }
+      }
+
       return fetchFulfill(state, action);
     case FETCH.for('put').REJECT:
       return fetchReject(state, action);
