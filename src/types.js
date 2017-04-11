@@ -7,8 +7,8 @@ export type PromiseState = {
   value: *,
   request: {
     meta: *,
-  }
-}
+  },
+};
 
 export type FulfillAction = {
   type: string,
@@ -19,6 +19,7 @@ export type FulfillAction = {
       removeFromList?: {
         path?: string,
         idName: string,
+        id?: number | string | Array<number | string>,
       },
       addToList?: {
         path?: string,
@@ -26,4 +27,4 @@ export type FulfillAction = {
       },
     },
   },
-}
+};

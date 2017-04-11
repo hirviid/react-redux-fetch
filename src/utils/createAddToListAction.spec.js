@@ -9,11 +9,7 @@ describe('createAddToListAction()', () => {
   const state = immutable({
     pending: true,
     fulfilled: false,
-    value: [
-        { id: 1, text: 'old text' },
-        { id: 2, text: 'old text' },
-        { id: 3, text: 'old text' },
-    ],
+    value: [{ id: 1, text: 'old text' }, { id: 2, text: 'old text' }, { id: 3, text: 'old text' }],
   });
 
   describe('existing item', () => {
@@ -72,6 +68,64 @@ describe('createAddToListAction()', () => {
         { id: 3, text: 'old text' },
         { id: 4, text: 'new text' },
       ]);
+    });
+  });
+
+  describe('deep path', () => {
+    const deepState = {
+      pending: true,
+      fulfilled: false,
+      value: {
+        prop1: 'a',
+        prop2: { a: 1, b: 2 },
+        prop3: {
+          prop4: 'b',
+          prop5: [
+            { id: 1, text: 'old text' },
+            { id: 2, text: 'old text' },
+            { id: 3, text: 'old text' },
+          ],
+        },
+      },
+    };
+
+    const deepAction = {
+      type: FETCH.for('get').FULFILL,
+      key: 'myList',
+      value: {
+        prop3: {
+          prop5: {
+            id: 4,
+            text: 'new text',
+          },
+        },
+      },
+      request: {
+        meta: {
+          addToList: {
+            path: 'prop3.prop5',
+            idName: 'id',
+            id: 2,
+          },
+        },
+      },
+    };
+
+    it('only replaces the correct leaf', () => {
+      const action = createAddToListAction(deepState, deepAction);
+      action.value.should.eql({
+        prop1: 'a',
+        prop2: { a: 1, b: 2 },
+        prop3: {
+          prop4: 'b',
+          prop5: [
+            { id: 1, text: 'old text' },
+            { id: 2, text: 'old text' },
+            { id: 3, text: 'old text' },
+            { id: 4, text: 'new text' },
+          ],
+        },
+      });
     });
   });
 });

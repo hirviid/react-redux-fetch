@@ -1,6 +1,6 @@
 // @flow
+import immutable from 'seamless-immutable';
 import at from 'lodash/at';
-import set from 'lodash/set';
 import filter from 'lodash/filter';
 import isArray from 'lodash/isArray';
 import reduce from 'lodash/reduce';
@@ -9,7 +9,7 @@ import type { PromiseState, FulfillAction } from '../types';
 
 export default function createAddToListAction(
   state: PromiseState,
-  action: FulfillAction
+  action: FulfillAction,
 ): FulfillAction {
   if (action.request.meta && action.request.meta.addToList) {
     const { path, idName } = action.request.meta.addToList;
@@ -19,27 +19,31 @@ export default function createAddToListAction(
     const itemsAdded = [];
 
     if (!isArray(stateValue)) {
-      throw Error('Cannot use \'meta.addToList\' if the value in the state is not an array!');
+      throw Error("Cannot use 'meta.addToList' if the value in the state is not an array!");
     }
 
-    const newValue = reduce(stateValue, (s, item) => {
-      const itemFromActionValueList = find(actionValueList, { [idName]: item[idName] });
-      if (itemFromActionValueList) {
-        itemsAdded.push(itemFromActionValueList[idName]);
-      }
-      const newS = [...s, itemFromActionValueList || item];
-      return newS;
-    }, []);
+    const newValue = reduce(
+      stateValue,
+      (s, item) => {
+        const itemFromActionValueList = find(actionValueList, { [idName]: item[idName] });
+        if (itemFromActionValueList) {
+          itemsAdded.push(itemFromActionValueList[idName]);
+        }
+        const newS = [...s, itemFromActionValueList || item];
+        return newS;
+      },
+      [],
+    );
 
     const itemsToAppend = filter(actionValueList, o => itemsAdded.indexOf(o[idName]) === -1);
 
     const finalValue = [...newValue, ...itemsToAppend];
 
-    return Object.assign(
-      {},
-      action,
-      { value: path ? set({}, path, finalValue) : finalValue }
-    );
+    return Object.assign({}, action, {
+      value: path
+        ? immutable.from(state.value).setIn(path.split('.'), finalValue, { deep: true })
+        : finalValue,
+    });
   }
 
   return action;
