@@ -15,11 +15,17 @@
     "mocha": true,
     "node": true
   },
+  "plugins": [
+    "flowtype"
+  ],
   "rules": {
     "import/no-extraneous-dependencies": 0,
     "import/prefer-default-export": 0,
     "react/forbid-prop-types": [1, {"forbid": ["any"]}],
     "react/jsx-filename-extension": 0,
     "eol-last": 1
+  },
+  "globals": {
+    "ReactClass": true
   }
 }

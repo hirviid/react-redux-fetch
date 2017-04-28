@@ -7,7 +7,7 @@ const onRejection = (store, next, action, meta) => reason => (
       action, {
         reason,
         request: { meta },
-      })
+      }),
   ))
 );
 

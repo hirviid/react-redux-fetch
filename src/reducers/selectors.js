@@ -2,7 +2,7 @@
 /* @flow */
 type ReduxState = Object;
 type Repository = Object;
-type PromiseStateData = Object | Array<Object>;
+type PromiseStateData = *;
 
 type PromiseState = {
   pending: boolean,
@@ -11,7 +11,7 @@ type PromiseState = {
   value: PromiseStateData,
 };
 
-export const getModel:Repository = (state:ReduxState) => state.repository;
+export const getModel = (state: ReduxState): Repository => state.repository;
 
 /**
  * getRepository()
@@ -19,10 +19,10 @@ export const getModel:Repository = (state:ReduxState) => state.repository;
  *  - selectors.getRepository('repositoryName')(reduxState)
  *  - selectors.getRepository('repositoryName').fromState(reduxState)
  */
-export const getRepository:Function = (repositoryName:string) => {
-  const fromState:PromiseStateData = (state:ReduxState) =>
+export const getRepository = (repositoryName: string) => {
+  const fromState = (state: ReduxState): PromiseStateData =>
     state.repository[repositoryName] && state.repository[repositoryName].value;
-  const ret:PromiseStateData = (state:ReduxState) => fromState(state);
+  const ret = (state: ReduxState): PromiseStateData => fromState(state);
   ret.fromState = fromState;
   return ret;
 };
@@ -33,9 +33,9 @@ export const getRepository:Function = (repositoryName:string) => {
  *  - selectors.getPromise('repositoryName')(reduxState)
  *  - selectors.getPromise('repositoryName').fromState(reduxState)
  */
-export const getPromise:Function = (repositoryName:string) => {
-  const fromState:PromiseState = (state:ReduxState) => state.repository[repositoryName];
-  const ret:PromiseState = (state:ReduxState) => fromState(state);
+export const getPromise = (repositoryName: string) => {
+  const fromState = (state: ReduxState): PromiseState => state.repository[repositoryName];
+  const ret = (state: ReduxState): PromiseState => fromState(state);
   ret.fromState = fromState;
   return ret;
 };
