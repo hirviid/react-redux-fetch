@@ -71,7 +71,7 @@
     "seamless-immutable": "^7.1.2"
   },
   "peerDependencies": {
-    "lodash": "4.14.2",
+    "lodash": "^4.17.4",
     "react": "^0.14.0 || ^15.0.0-0",
     "react-redux": "^4.0.0 || ^5.0.0",
     "redux": "^2.0.0 || ^3.0.0"
