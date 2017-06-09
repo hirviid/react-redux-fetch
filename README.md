@@ -222,7 +222,7 @@ For now, the following customizations are possible, this will be extended in the
     ```
     Or replace the request headers:
     ```js
-    container.replaceRequestHeaders('requestHeaders', { 'Content-Type', 'application/xml' });
+    container.replaceRequestHeaders({ 'Content-Type', 'application/xml' });
     ```
 
 - **reducers**
