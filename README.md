@@ -181,7 +181,7 @@ The returned array should be an array of objects, with the following properties:
 - `request`: **Object|Function, required**. Use a function if you want to pass dynamic data to the request config (e.g. body data).
     * `url`: **String, required**.  The URL to make the request to.
     * `body`: **Object, optional**. The object that will be sent as JSON in the body of the request.
-    * `headers`: **Object, optional**. Use this to set the headers, for this request only. Use `container.registerRequestHeader()` to set headers for every request.
+    * `headers`: **Object|Function<header>, optional**. Use this to set the headers, for this request only. Use `container.registerRequestHeader()` to set headers for every request.
     * `meta`: **Object, optional**. Everything passed to 'meta' will be passed to every part in the react-redux-fetch flow.
     * `comparison`: **Any, optional**. If provided, a new request is not made if the `comparison` value between dispatch calls is the same.
     * `force`: **boolean, optional**. If `true`, overrules the `comparison` property.
