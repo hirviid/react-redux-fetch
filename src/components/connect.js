@@ -17,15 +17,16 @@ import buildActionsFromMappings, {
   validateResourceObject,
 } from '../utils/buildActionsFromMappings';
 import helpers from '../utils/helpers';
+import type { reduxAction } from '../types';
 
 // const defaultRequestType = 'get';
 
 type Props = {
-  dispatch(): void,
+  dispatch(action: reduxAction): void,
   fetchData: Object,
 };
 
-type FuncOrObj = Function | Object;
+type FuncOrArr = Function | Array<*>;
 type OptionalFuncOrObj = Function | Object | null;
 
 function getDisplayName(WrappedComponent) {
@@ -33,12 +34,12 @@ function getDisplayName(WrappedComponent) {
 }
 
 function connect(
-  mapPropsToRequestsToProps: FuncOrObj,
+  mapPropsToRequestsToProps: FuncOrArr,
   componentMapStateToProps?: OptionalFuncOrObj = null,
   componentMapDispatchToProps?: OptionalFuncOrObj = null,
 ) {
   return function wrapWithReactReduxFetch(WrappedComponent: ReactClass<*>) {
-    class ReactReduxFetch extends Component {
+    class ReactReduxFetch extends Component<void, Props, void> {
       /**
        * @param {Object} fetchData The complete react-redux-fetch state leaf
        * @param {Array} mappings Array of objects with shape:
@@ -58,8 +59,6 @@ function connect(
 
         return data;
       };
-
-      props: Props;
 
       /**
        * @param {Function} dispatch Redux dispatch function
@@ -89,12 +88,16 @@ function connect(
        * @param {Object} context React context
        * @return {Array} an array with request configurations
        **/
-      buildMappings = (props: Props = this.props, context: Object = this.context): Array<*> =>
-        (isFunction(mapPropsToRequestsToProps)
+      buildMappings = (props: Props, context: Object): Array<*> => {
+        const finalProps = props || this.props;
+        const finalContext = context || this.context || {};
+
+        return isFunction(mapPropsToRequestsToProps)
           ? // $FlowFixMe
-            mapPropsToRequestsToProps(props, context || {})
+            mapPropsToRequestsToProps(finalProps, finalContext)
           : // $FlowFixMe
-            mapPropsToRequestsToProps);
+            mapPropsToRequestsToProps;
+      };
 
       render() {
         const { fetchData, ...other } = this.props;
@@ -137,7 +140,7 @@ function connect(
 // function factory(defaults = {}, options = {}) {
 function factory() {
   function connectImpl(
-    map: FuncOrObj,
+    map: FuncOrArr,
     mapStateToProps?: OptionalFuncOrObj,
     mapDispatchToProps?: OptionalFuncOrObj,
   ) {
@@ -147,8 +150,4 @@ function factory() {
   return connectImpl;
 }
 
-export default factory(
-  {
-    // TODO add defaults
-  },
-);
+export default factory();

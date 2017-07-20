@@ -1,7 +1,11 @@
+// @flow
 import isFunction from 'lodash/isFunction';
 import isObject from 'lodash/isObject';
 
-const ensureObject = (item, itemArg) => {
+type FuncOrObj = Function | Object;
+
+const ensureObject: Function = (item: FuncOrObj, itemArg: Array<*>): Object => {
+  // $FlowFixMe
   const obj = isFunction(item) ? item(...itemArg) : item;
   return isObject(obj) ? obj : {};
 };

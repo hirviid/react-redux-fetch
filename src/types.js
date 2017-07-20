@@ -1,5 +1,9 @@
 // @flow
 
+export type reduxAction = {
+  type: string,
+};
+
 export type PromiseState = {
   pending: boolean,
   fulfilled: boolean,
