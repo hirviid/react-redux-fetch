@@ -1,22 +1,21 @@
 import container from '../container';
-import handleResponse from '../utils/handleResponse';
 import onFulfillment from '../utils/onFulfillment';
 import onRejection from '../utils/onRejection';
 
-const fetchRequest = (store, next, action, config) => {
-  const req = container.getDefinition('requestBuilder').getArgument('build')(action.url, {
-    method: config.method,
+const fetchRequest = (store, next, action) => {
+  const req = container.getDefinition('requestBuilder').getArgument('build')(action.request.url, {
+    method: action.method,
     body: action.request.body,
+    headers: action.request.headers,
   });
   const meta = action.request.meta || {};
-  next(action);
 
   return fetch(req).then((response) => {
     meta.response = response;
     return response;
-  }).then(handleResponse).then(
-    onFulfillment(store, next, action, meta, config.method),
-    onRejection(store, next, action, meta, config.method)
+  }).then(container.getUtil('handleResponse')).then(
+    onFulfillment(store, next, action, meta),
+    onRejection(store, next, action, meta),
   );
 };
 

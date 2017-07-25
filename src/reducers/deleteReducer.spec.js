@@ -9,7 +9,7 @@ describe('deleteReducer', () => {
   describe('@@INIT', () => {
     const newState = deleteReducer(undefined, {});
 
-    it('should set pending to true', () => {
+    it('should set pending to false', () => {
       newState.pending.should.equal(false);
     });
 
@@ -34,6 +34,9 @@ describe('deleteReducer', () => {
     const action = {
       type: FETCH.for('delete').REQUEST,
       key: 'toDelete',
+      request: {
+        meta: {},
+      },
     };
     const newState = deleteReducer(state.toDelete, action);
 
@@ -62,10 +65,12 @@ describe('deleteReducer', () => {
     const action = {
       type: FETCH.for('delete').FULFILL,
       key: 'myList',
-      meta: {
-        removeFromList: {
-          idName: 'id',
-          id: 2,
+      request: {
+        meta: {
+          removeFromList: {
+            idName: 'id',
+            id: 2,
+          },
         },
       },
     };
@@ -100,10 +105,12 @@ describe('deleteReducer', () => {
       value: {
         id: 2,
       },
-      meta: {
-        removeFromList: {
-          idName: 'id',
-          id: 2,
+      request: {
+        meta: {
+          removeFromList: {
+            idName: 'id',
+            id: 2,
+          },
         },
       },
     };

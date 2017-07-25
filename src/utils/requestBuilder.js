@@ -1,13 +1,20 @@
 import isObject from 'lodash/isObject';
+import isFunction from 'lodash/isFunction';
 import container from '../container';
 
+const requestBuilder = (
+  url,
+  { body, method = 'get', headers = container.getDefinition('requestHeaders').getArguments() } = {},
+) => {
+  const finalHeaders = isFunction(headers)
+    ? headers(container.getDefinition('requestHeaders').getArguments())
+    : headers;
 
-const requestBuilder = (url, { body, method = 'get', headers = container.getDefinition('requestHeaders').getArguments() } = {}) => (
-  new Request(url, {
+  return new Request(url, {
     method,
-    headers,
-    body: isObject(body) ? JSON.stringify(body) : body,
-  })
-);
+    headers: finalHeaders,
+    body: isObject(body) && !(body instanceof FormData) ? JSON.stringify(body) : body,
+  });
+};
 
 export default requestBuilder;

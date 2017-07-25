@@ -1,5 +1,8 @@
 [ignore]
 .*/node_modules/fbjs/*
 
+[libs]
+./flow-typed/npm/lodash_v4.x.x.js
+
 [options]
 esproposal.class_instance_fields=enable

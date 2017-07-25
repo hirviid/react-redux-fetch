@@ -4,7 +4,7 @@ const fetchFulfill = (state, action) =>
   state
     .merge(REJECTED)
     .setIn(['reason'], action.reason)
-    .setIn(['meta'], action.meta)
-    .setIn(['meta', 'status'], action.meta.response && action.meta.response.status);
+    .setIn(['meta'], action.request.meta)
+    .setIn(['meta', 'status'], action.request.meta.response && action.request.meta.response.status);
 
 export default fetchFulfill;

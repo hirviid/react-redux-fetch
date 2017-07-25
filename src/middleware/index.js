@@ -5,6 +5,8 @@ import container from '../container';
 export default store => next => (action) => {
   const methodConfigs = container.getDefinition('requestMethods').getArguments();
 
+  next(action);
+
   each(methodConfigs, (config, method) => {
     if (action.type === FETCH.for(method).REQUEST && config.middleware) {
       // if (!config.middleware) {
@@ -13,6 +15,4 @@ export default store => next => (action) => {
       config.middleware(store, next, action, config);
     }
   });
-
-  return next(action);
 };
