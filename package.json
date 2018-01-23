@@ -5,6 +5,7 @@
   "main": "./lib/index.js",
   "types": "./react-redux-fetch.d.ts",
   "scripts": {
+    "install:peers": "yarn add $(jq -r '.peerDependencies|keys|join(\" \")' package.json)",
     "build": "npm run build:lib && npm run build:flow",
     "build:lib": "babel src --out-dir lib",
     "build:flow": "flow-copy-source -v -i '{**/test/*.js,**/*.test.js}' src lib",
@@ -64,6 +65,10 @@
     "rimraf": "^2.6.1"
   },
   "dependencies": {
+    "lodash": "4.17.4",
+    "react": "16.2.0",
+    "react-redux": "5.0.6",
+    "redux": "3.7.2",
     "seamless-immutable": "^7.1.2"
   },
   "peerDependencies": {
