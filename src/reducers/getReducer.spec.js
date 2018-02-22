@@ -66,7 +66,7 @@ describe('getReducer', () => {
         id: 2,
         text: 'new text',
       },
-      request: { meta: null },
+      request: { meta: { } },
     };
 
     it('should store the new value', () => {
@@ -74,7 +74,9 @@ describe('getReducer', () => {
         pending: false,
         fulfilled: true,
         rejected: false,
-        meta: null,
+        meta: {
+          response: {},
+        },
         value: {
           id: 2,
           text: 'new text',
