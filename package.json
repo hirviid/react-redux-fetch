@@ -65,6 +65,7 @@
     "rimraf": "^2.6.1"
   },
   "dependencies": {
+    "iterators-polyfill": "1.0.2",
     "lodash": "4.17.4",
     "react": "16.2.0",
     "react-redux": "5.0.6",

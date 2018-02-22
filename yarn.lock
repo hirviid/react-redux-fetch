@@ -2030,6 +2030,10 @@ isstream@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
 
+iterators-polyfill@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/iterators-polyfill/-/iterators-polyfill-1.0.2.tgz#23b415256bd023d236c39ad7c7ea3a4862184c4a"
+
 js-tokens@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
