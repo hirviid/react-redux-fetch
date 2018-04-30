@@ -110,6 +110,7 @@ class PokemonList extends React.Component {
 // connect(): Declarative way to define the resource needed for this component
 export default connect([{
     resource: 'allPokemon',
+    method: 'get', // You can omit this, this is the default 
     request: {
         url: 'http://pokeapi.co/api/v2/pokemon/'
     }
@@ -117,7 +118,7 @@ export default connect([{
 ```
 
 ## How does it work?
-Every entry in the config array passed to `connect()` is mapped to 2 properties, a function to make the actually request and an object containing the response.
+Every entry in the config array passed to `connect()` is mapped to 2 properties, a function to make the actual request and an object containing the response.
 
 The function name consists of 3 parts:
  - dispatch:  to indicate that by calling this function a redux action is dispatched

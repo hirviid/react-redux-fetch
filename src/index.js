@@ -1,4 +1,5 @@
 // @flow
+import 'iterators-polyfill';
 import connect from './components/connect';
 
 import container from './container';

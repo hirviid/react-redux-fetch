@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
+import type { ComponentType } from 'react';
 import { connect as reduxConnect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import isFunction from 'lodash/isFunction';
@@ -29,7 +30,7 @@ type Props = {
 type FuncOrArr = Function | Array<*>;
 type OptionalFuncOrObj = Function | Object | null;
 
-function getDisplayName(WrappedComponent) {
+function getDisplayName(WrappedComponent: ComponentType<*>): string {
   return WrappedComponent.displayName || WrappedComponent.name || 'Component';
 }
 
@@ -38,8 +39,8 @@ function connect(
   componentMapStateToProps?: OptionalFuncOrObj = null,
   componentMapDispatchToProps?: OptionalFuncOrObj = null,
 ) {
-  return function wrapWithReactReduxFetch(WrappedComponent: ReactClass<*>) {
-    class ReactReduxFetch extends Component<void, Props, void> {
+  return function wrapWithReactReduxFetch(WrappedComponent: ComponentType<*>) {
+    class ReactReduxFetch extends Component<Props, void> {
       /**
        * @param {Object} fetchData The complete react-redux-fetch state leaf
        * @param {Array} mappings Array of objects with shape:
