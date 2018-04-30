@@ -84,7 +84,7 @@ class PokemonList extends React.Component {
         allPokemonFetch: PropTypes.object
     };
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.dispatchAllPokemonGet();
     }
 
@@ -166,6 +166,9 @@ connect([{
    // ... configuration, see below
 }])(yourComponent);
 ```
+**Note: This is the preferred way, because this allows react-redux-fetch to keep 
+the generated `dispatch` functions in state and is therefore more performant.**
+
 
 Or a function returning an array. This function receives the props and context, which can then be used in your configuration to dynamically build your urls.
 ```jsx

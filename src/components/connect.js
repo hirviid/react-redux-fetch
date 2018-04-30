@@ -27,6 +27,10 @@ type Props = {
   fetchData: Object,
 };
 
+type State = {
+  dispatchFunctions?: Object,
+}
+
 type FuncOrArr = Function | Array<*>;
 type OptionalFuncOrObj = Function | Object | null;
 
@@ -40,7 +44,24 @@ function connect(
   componentMapDispatchToProps?: OptionalFuncOrObj = null,
 ) {
   return function wrapWithReactReduxFetch(WrappedComponent: ComponentType<*>) {
-    class ReactReduxFetch extends Component<Props, void> {
+    class ReactReduxFetch extends Component<Props, State> {
+      constructor(props) {
+        super(props);
+
+        // if mapPropsToRequestsToProps is a function,
+        // we can't cache our dispatch functions because they might depend on the props.
+        // We could support this in the future by building the functions again when te props change.
+        if (typeof mapPropsToRequestsToProps === 'function') {
+          return;
+        }
+
+        this.state = {
+          dispatchFunctions: this.actionsFromProps(props.dispatch, mapPropsToRequestsToProps),
+        };
+      }
+
+      state = {};
+
       /**
        * @param {Object} fetchData The complete react-redux-fetch state leaf
        * @param {Array} mappings Array of objects with shape:
@@ -67,7 +88,7 @@ function connect(
        *                {resource: ..., method: ..., request: ...}
        * @return {Object} functions for the WrappedComponent e.g.: 'dispatchUserFetch()'
        **/
-      actionsFromProps = (dispatch, mappings: Array<*>) =>
+      actionsFromProps = (dispatch, mappings: Array<*>): Object =>
         reduce(
           buildActionsFromMappings(mappings),
           (actions, actionCreator, key) =>
@@ -102,9 +123,10 @@ function connect(
 
       render() {
         const { fetchData, ...other } = this.props;
+        const { dispatchFunctions } = this.state;
 
         const mappings = this.buildMappings(this.props, this.context);
-        const actions = this.actionsFromProps(this.props.dispatch, mappings);
+        const actions = dispatchFunctions || this.actionsFromProps(this.props.dispatch, mappings);
         const data = this.getFilteredFetchData(fetchData, mappings);
 
         return <WrappedComponent {...other} {...actions} {...data} />;
