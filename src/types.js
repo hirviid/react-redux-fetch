@@ -31,4 +31,5 @@ export type FulfillAction = {
       },
     },
   },
+  resource: string
 };
