@@ -29,6 +29,11 @@ export type FulfillAction = {
         path?: string,
         idName: string,
       },
+      [key:string]: any
     },
   },
+  resource: {
+    name: string,
+    action?: string
+  }
 };
