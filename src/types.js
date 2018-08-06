@@ -28,8 +28,7 @@ export type FulfillAction = {
       addToList?: {
         path?: string,
         idName: string,
-      },
-      [key:string]: any
+      }
     },
   },
   resource: {
