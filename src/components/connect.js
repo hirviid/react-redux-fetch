@@ -82,12 +82,12 @@ function connect(
         return data;
       };
 
-      /**
+       /**
        * @param {Function} dispatch Redux dispatch function
        * @param {Array} mappings Array of objects with shape:
        *                {resource: ..., method: ..., request: ...}
        * @return {Object} functions for the WrappedComponent e.g.: 'dispatchUserFetch()'
-       **/
+        * */
       actionsFromProps = (dispatch, mappings: Array<*>): Object =>
         reduce(
           buildActionsFromMappings(mappings),
@@ -109,7 +109,7 @@ function connect(
        * @param {Object} props React props
        * @param {Object} context React context
        * @return {Array} an array with request configurations
-       **/
+       * */
       buildMappings = (props: Props, context: Object): Array<*> => {
         const finalProps = props || this.props;
         const finalContext = context || this.context || {};
