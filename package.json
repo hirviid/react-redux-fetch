@@ -1,6 +1,6 @@
 {
   "name": "react-redux-fetch",
-  "version": "0.12.5",
+  "version": "0.12.7",
   "description": "A declarative and customizable way to fetch data for React components and manage that data in the Redux state",
   "main": "./lib/index.js",
   "types": "./react-redux-fetch.d.ts",
@@ -41,6 +41,8 @@
   },
   "homepage": "https://github.com/hirviid/react-redux-fetch#readme",
   "devDependencies": {
+    "@types/react": "16.4.7",
+    "@types/react-redux": "6.0.4",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.2",

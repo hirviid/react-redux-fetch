@@ -1,8 +1,8 @@
-declare module 'react-redux-fetch' {
-  import * as React from 'react';
-  import * as RR from 'react-redux';
+import * as React from 'react';
+import * as RR from 'react-redux';
+import {InferableComponentEnhancerWithProps} from "react-redux";
 
-  interface Definition {
+interface Definition {
     replaceArgument: (path: string, arg: any) => Definition;
     addArgument: (key: string, arg: any) => Definition;
     getArguments: () => Object;
@@ -18,8 +18,8 @@ declare module 'react-redux-fetch' {
     replaceRequestHeaders: (headers: Object) => Definition;
   }
 
-  export function reducer();
-  export function middleware();
+  export function reducer(): Reducer;
+  export function middleware(): () => () => () => void;
   export const container: Container;
 
   interface Resource {
@@ -37,6 +37,18 @@ declare module 'react-redux-fetch' {
     force?: boolean;
   }
 
+  export interface Reducer {
+    [key:string]: PromiseState
+  }
+
+  export interface PromiseState {
+    pending: boolean,
+    fulfilled: boolean,
+    rejected: boolean,
+    value: any,
+    meta: any
+  }
+
   type RequestType = Request | ((...args: any[]) => Request);
 
   interface FetchConfig {
@@ -47,13 +59,12 @@ declare module 'react-redux-fetch' {
 
   type FetchConfigType<TProps> = ((props: TProps, context: any) => FetchConfig[]) | FetchConfig[];
 
-  export function connect(fetchItems: FetchConfigType<any>[]): RR.InferableComponentDecorator;
+  export function connect(fetchItems: FetchConfigType<any>[]): RR.InferableComponentEnhancer<FetchConfigType<any>[]>;
 
-  export function connect<TStateProps, TDispatchProps, TOwnProps>(
+  export function connect<TStateProps, TDispatchProps = {}, TOwnProps = {}, State = {}>(
     fetchItems: FetchConfigType<TStateProps & TDispatchProps & TOwnProps>,
-    mapStateToProps?: RR.MapStateToProps<TStateProps, TOwnProps> | RR.MapStateToPropsFactory<TStateProps, TOwnProps>,
+    mapStateToProps?: RR.MapStateToProps<TStateProps, TOwnProps, State> | RR.MapStateToPropsFactory<TStateProps, TOwnProps, State>,
     mapDispatchToProps?: RR.MapDispatchToProps<TDispatchProps, TOwnProps> | RR.MapDispatchToPropsFactory<TDispatchProps, TOwnProps>,
-  ) : RR.ComponentDecorator<TStateProps & TDispatchProps, TOwnProps>;
+  ) : RR.InferableComponentEnhancerWithProps<TStateProps & TDispatchProps, TOwnProps>;
 
   export default connect;
-}
