@@ -64,18 +64,17 @@
     "flow-bin": "^0.54.1",
     "flow-copy-source": "^1.1.0",
     "mocha": "^3.2.0",
+    "react": "16.4.2",
+    "react-redux": "5.0.7",
     "rimraf": "^2.6.1"
   },
   "dependencies": {
     "iterators-polyfill": "1.0.2",
-    "lodash": "4.17.4",
-    "react": "16.2.0",
-    "react-redux": "5.0.6",
-    "redux": "3.7.2",
+    "memoize-one": "4.0.0",
     "seamless-immutable": "^7.1.2"
   },
   "peerDependencies": {
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.5",
     "react": "^0.14.0 || ^15.0.0-0 || ^16.0.0",
     "react-redux": "^4.0.0 || ^5.0.0",
     "redux": "^2.0.0 || ^3.0.0"

@@ -1,5 +1,6 @@
 // @flow
 import connect from './components/connect';
+import ReduxFetch from './components/ReduxFetch';
 
 import container from './container';
 import middleware from './middleware';
@@ -19,6 +20,7 @@ export {
   FETCH,
   selectors,
   buildActionsFromMappings,
+  ReduxFetch,
 };
 
 export default connect;

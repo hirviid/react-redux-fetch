@@ -3,6 +3,7 @@ import reduce from 'lodash/fp/reduce';
 import capitalizeFirstLetter from './capitalizeFirstLetter';
 import container from '../container';
 import reactReduxFetchActions from '../actions';
+import type { ReactReduxFetchResource, Resource, Request } from '../types';
 
 const defaultRequestType = 'get';
 const comparisonCache = {};
@@ -11,24 +12,6 @@ type RequestMethodConfig = {
   method: string,
   middleware: Function,
   reducer: Function,
-};
-
-type Resource = {
-  name: string,
-  action?: string,
-};
-
-type Request = {
-  url: string,
-  meta?: Object,
-  comparison?: string,
-  force?: boolean,
-};
-
-type Mapping = {
-  resource: string | Resource,
-  request: Function | Request,
-  method: string,
 };
 
 type RequestAction = {
@@ -55,7 +38,7 @@ function requestMethodToActionKey(key: string, requestMethod: string = defaultRe
   return `${finalKey}${capitalizeFirstLetter(requestMethodConfig.method)}`;
 }
 
-export function ensureResourceIsObject(mapping: Mapping): Resource {
+export function ensureResourceIsObject(mapping: ReactReduxFetchResource): Resource {
   if (typeof mapping.resource === 'string') {
     return {
       name: mapping.resource,
@@ -73,7 +56,7 @@ export function validateResourceObject(resource: Resource) {
   }
 }
 
-function actionFromMapping(mapping: Mapping): { name: string, fn: Function } {
+function actionFromMapping(mapping: ReactReduxFetchResource): { name: string, fn: Function } {
   const finalRequestFn: Request | Function = mapping.request;
   const resource: Resource = ensureResourceIsObject(mapping);
   validateResourceObject(resource);
@@ -86,20 +69,20 @@ function actionFromMapping(mapping: Mapping): { name: string, fn: Function } {
   );
 
   const actionFn = (...args): ?RequestAction => {
-    const finalRequest = typeof finalRequestFn === 'function'
-      ? finalRequestFn(...args)
-      : finalRequestFn;
+    const finalRequest: Request =
+      typeof finalRequestFn === 'function' ? finalRequestFn(...args) : finalRequestFn;
 
-    const action = finalRequest.force ||
+    const action =
+      finalRequest.force ||
       !container.getUtil('equals')(comparisonCache[actionKey], finalRequest.comparison)
-      ? reactReduxFetchActions.for(requestMethod).request(
-          Object.assign({}, mapping, {
-            method: requestMethod,
-            request: finalRequest,
-            resource,
-          }),
-        )
-      : null;
+        ? reactReduxFetchActions.for(requestMethod).request(
+            Object.assign({}, mapping, {
+              method: requestMethod,
+              request: finalRequest,
+              resource,
+            }),
+          )
+        : null;
 
     comparisonCache[actionKey] = finalRequest.comparison;
 
@@ -112,14 +95,11 @@ function actionFromMapping(mapping: Mapping): { name: string, fn: Function } {
   };
 }
 
-export default function buildActionsFromMappings(mappings: Array<Mapping>): Object {
-  const actionsBuilder = reduce(
-    (actions: Object, mapping: Mapping) => {
-      const action = actionFromMapping(mapping);
-      return Object.assign(actions, { [action.name]: action.fn });
-    },
-    {},
-  );
+export default function buildActionsFromMappings(mappings: Array<ReactReduxFetchResource>): Object {
+  const actionsBuilder = reduce((actions: Object, mapping: ReactReduxFetchResource) => {
+    const action = actionFromMapping(mapping);
+    return Object.assign(actions, { [action.name]: action.fn });
+  }, {});
 
   return actionsBuilder(mappings);
 }
