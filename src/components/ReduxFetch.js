@@ -5,7 +5,7 @@ import reduce from 'lodash/reduce';
 import map from 'lodash/map';
 import isEqual from 'lodash/isEqual';
 import memoizeOne from 'memoize-one';
-import { getModel } from '../reducers/selectors';
+import { getPromise } from '../reducers/selectors';
 import capitalizeFirstLetter from '../utils/capitalizeFirstLetter';
 import buildActionsFromMappings, {
   ensureResourceIsObject,
@@ -32,14 +32,14 @@ const getResourceNames = memoizeOne((config: Config) =>
   }),
 );
 
-class ReduxFetch extends React.PureComponent<Props, State> {
+class ReduxFetch extends React.Component<Props, State> {
   /**
    * @param {Function} dispatch Redux dispatch function
    * @param {Array} mappings Array of objects with shape:
    *                {resource: ..., method: ..., request: ...}
    * @return {Object} functions for the WrappedComponent e.g.: 'dispatchUserFetch()'
    * */
-  static actionsFromProps = (dispatch, mappings: Config): Object =>
+  static actionsFromProps = (dispatch: Function, mappings: Config): Object =>
     reduce(
       buildActionsFromMappings(mappings),
       (actions, actionCreator, key) =>
@@ -53,25 +53,6 @@ class ReduxFetch extends React.PureComponent<Props, State> {
         }),
       {},
     );
-
-  /**
-   * @param {Object} fetchData The complete react-redux-fetch state leaf
-   * @param {Array} config Array of objects with shape:
-   *                {resource: ..., method: ..., request: ...}
-   * @return {Object} all the resources the WrappedComponent requested
-   */
-  static getFilteredFetchData = (fetchData, config: Config) => {
-    const resourceNames = getResourceNames(config);
-    return reduce(
-      resourceNames,
-      (data, resourceName) => {
-        // eslint-disable-next-line no-param-reassign
-        data[`${resourceName}Fetch`] = fetchData[resourceName] || {};
-        return data;
-      },
-      {},
-    );
-  };
 
   constructor(props: Props) {
     super(props);
@@ -88,27 +69,33 @@ class ReduxFetch extends React.PureComponent<Props, State> {
   }
 
   shouldComponentUpdate(nextProps) {
-    if (this.props.children !== nextProps.children) {
-      return true;
-    }
-
-    const prevData = ReduxFetch.getFilteredFetchData(this.props.fetchData, this.props.config);
-    const nextData = ReduxFetch.getFilteredFetchData(nextProps.fetchData, nextProps.config);
-    return !isEqual(prevData, nextData);
+    return (
+      this.props.children !== nextProps.children ||
+      !isEqual(this.props.fetchData, nextProps.fetchData)
+    );
   }
 
   render() {
-    const { children, fetchData, config } = this.props;
+    const { children, fetchData } = this.props;
     const { dispatchFunctions } = this.state;
 
-    const data = ReduxFetch.getFilteredFetchData(fetchData, config);
-
-    return children({ ...data, ...dispatchFunctions });
+    return children({ ...fetchData, ...dispatchFunctions });
   }
 }
 
-const mapStateToProps = state => ({
-  fetchData: getModel(state),
+const getFetchData = (state, config: Config) =>
+  reduce(
+    getResourceNames(config),
+    (data, resourceName) => {
+      // eslint-disable-next-line no-param-reassign
+      data[`${resourceName}Fetch`] = getPromise(resourceName).fromState(state) || {};
+      return data;
+    },
+    {},
+  );
+
+const mapStateToProps = (state, props: Props) => ({
+  fetchData: getFetchData(state, props.config),
 });
 
 export default connect(mapStateToProps)(ReduxFetch);
