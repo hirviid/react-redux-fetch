@@ -41,6 +41,8 @@
   },
   "homepage": "https://github.com/hirviid/react-redux-fetch#readme",
   "devDependencies": {
+    "@types/react": "16.4.7",
+    "@types/react-redux": "6.0.4",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.2",
