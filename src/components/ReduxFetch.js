@@ -11,17 +11,22 @@ import buildActionsFromMappings, {
   ensureResourceIsObject,
   validateResourceObject,
 } from '../utils/buildActionsFromMappings';
-import type { ReactReduxFetchResource } from '../types';
+import type { ReactReduxFetchResource, PromiseState } from '../types';
 
+type DispatchFunctions = Object;
 type Config = Array<ReactReduxFetchResource>;
+
 type Props = {
   config: Config,
   dispatch: Function,
   children: Object => React.Node,
   fetchData: Object,
+  onFulfil?: (string, PromiseState, DispatchFunctions) => void,
+  onReject?: (string, PromiseState, DispatchFunctions) => void,
 };
+
 type State = {
-  dispatchFunctions: Object,
+  dispatchFunctions: DispatchFunctions,
 };
 
 const getResourceNames = memoizeOne((config: Config) =>
@@ -68,11 +73,29 @@ class ReduxFetch extends React.Component<Props, State> {
     };
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps: Props) {
     return (
       this.props.children !== nextProps.children ||
       !isEqual(this.props.fetchData, nextProps.fetchData)
     );
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    const onFulfil = this.props.onFulfil;
+    const onReject = this.props.onReject;
+
+    if (onFulfil || onReject) {
+      map(this.props.fetchData, (repository: PromiseState, key: string) => {
+        if (prevProps.fetchData[key].pending) {
+          if (onFulfil && repository.fulfilled) {
+            onFulfil(key, repository, this.state.dispatchFunctions);
+          }
+          if (onReject && repository.rejected) {
+            onReject(key, repository, this.state.dispatchFunctions);
+          }
+        }
+      });
+    }
   }
 
   render() {
@@ -83,6 +106,8 @@ class ReduxFetch extends React.Component<Props, State> {
   }
 }
 
+// TODO: this can probably be memoized with a custom moization function,
+// this should make 'shouldComponentUpdate' obsolete
 const getFetchData = (state, config: Config) =>
   reduce(
     getResourceNames(config),
