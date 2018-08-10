@@ -124,7 +124,7 @@ const getFetchData = (state, config: Config) =>
     {},
   );
 
-const mapStateToProps = (state, props: Props) => ({
+const mapStateToProps = (state, props: PropsFromParent) => ({
   fetchData: getFetchData(state, props.config),
 });
 
