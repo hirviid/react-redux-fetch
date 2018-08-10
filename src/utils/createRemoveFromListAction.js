@@ -7,7 +7,7 @@ import find from 'lodash/find';
 import type { PromiseState, FulfillAction } from '../types';
 
 export default function createAddToListAction(
-  state: PromiseState,
+  state: PromiseState<*>,
   action: FulfillAction,
 ): FulfillAction {
   if (action.request.meta && action.request.meta.removeFromList) {
@@ -19,7 +19,7 @@ export default function createAddToListAction(
     // [action.value]
     const actionValueList = !isArray(actionValue) ? [actionValue] : actionValue;
     // meta.removeFromList.id
-    const idsInMeta = id ? id instanceof Array ? id : [id] : []; // eslint-disable-line
+    const idsInMeta = id ? (id instanceof Array ? id : [id]) : []; // eslint-disable-line
 
     if (!isArray(stateValue)) {
       throw Error("Cannot use 'meta.removeFromList' if the value in the state is not an array!");

@@ -8,7 +8,7 @@ import find from 'lodash/find';
 import type { PromiseState, FulfillAction } from '../types';
 
 export default function createAddToListAction(
-  state: PromiseState,
+  state: PromiseState<*>,
   action: FulfillAction,
 ): FulfillAction {
   if (action.request.meta && action.request.meta.addToList) {

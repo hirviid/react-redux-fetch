@@ -1,14 +1,26 @@
 // @flow
 
+export type Resource = {
+  name: string,
+  action?: string,
+};
+
+export type Request = {
+  url: string,
+  meta?: Object,
+  comparison?: string,
+  force?: boolean,
+};
+
 export type reduxAction = {
   type: string,
 };
 
-export type PromiseState = {
+export type PromiseState<T> = {
   pending: boolean,
   fulfilled: boolean,
   rejected: boolean,
-  value: *,
+  value: T,
   request: {
     meta: *,
   },
@@ -28,11 +40,16 @@ export type FulfillAction = {
       addToList?: {
         path?: string,
         idName: string,
-      }
+      },
     },
   },
-  resource: {
-    name: string,
-    action?: string
-  }
+  resource: Resource,
 };
+
+export type ReactReduxFetchResource = {
+  resource: string | Resource,
+  method?: 'GET' | 'PUT' | 'POST' | 'DELETE',
+  request: () => Request | Request,
+};
+
+export type FetchConfig = (() => Array<ReactReduxFetchResource>) | Array<ReactReduxFetchResource>;
