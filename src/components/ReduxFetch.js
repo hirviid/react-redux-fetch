@@ -16,14 +16,19 @@ import type { ReactReduxFetchResource, PromiseState } from '../types';
 type DispatchFunctions = Object;
 type Config = Array<ReactReduxFetchResource>;
 
-type Props = {
+type PropsFromParent = {
   config: Config,
-  dispatch: Function,
   children: Object => React.Node,
-  fetchData: Object,
-  onFulfil?: (string, PromiseState, DispatchFunctions) => void,
-  onReject?: (string, PromiseState, DispatchFunctions) => void,
+  onFulfil?: (string, PromiseState<*>, DispatchFunctions) => void,
+  onReject?: (string, PromiseState<*>, DispatchFunctions) => void,
 };
+
+type ReduxProps = {
+  dispatch: Function,
+  fetchData: Object,
+};
+
+type Props = PropsFromParent & ReduxProps;
 
 type State = {
   dispatchFunctions: DispatchFunctions,
@@ -85,7 +90,7 @@ class ReduxFetch extends React.Component<Props, State> {
     const onReject = this.props.onReject;
 
     if (onFulfil || onReject) {
-      map(this.props.fetchData, (repository: PromiseState, key: string) => {
+      map(this.props.fetchData, (repository: PromiseState<*>, key: string) => {
         if (prevProps.fetchData[key].pending) {
           if (onFulfil && repository.fulfilled) {
             onFulfil(key, repository, this.state.dispatchFunctions);

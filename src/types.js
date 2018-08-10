@@ -16,11 +16,11 @@ export type reduxAction = {
   type: string,
 };
 
-export type PromiseState = {
+export type PromiseState<T> = {
   pending: boolean,
   fulfilled: boolean,
   rejected: boolean,
-  value: *,
+  value: T,
   request: {
     meta: *,
   },
