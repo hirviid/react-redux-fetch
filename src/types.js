@@ -33,6 +33,9 @@ export type FulfillAction = {
   type: string,
   key: string,
   value: *,
+  reason?: {
+    cause: *,
+  },
   request: {
     meta?: {
       removeFromList?: {
