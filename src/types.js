@@ -16,13 +16,16 @@ export type reduxAction = {
   type: string,
 };
 
-export type PromiseState<T> = {
+export type PromiseState<T, C = *, M = *> = {
   pending: boolean,
   fulfilled: boolean,
   rejected: boolean,
   value: T,
+  reason?: {
+    cause: C,
+  },
   request: {
-    meta: *,
+    meta: M,
   },
 };
 
@@ -49,7 +52,7 @@ export type FulfillAction = {
 export type ReactReduxFetchResource = {
   resource: string | Resource,
   method?: 'GET' | 'PUT' | 'POST' | 'DELETE',
-  request: () => Request | Request,
+  request: (...args: Array<any>) => Request | Request,
 };
 
 export type FetchConfig = (() => Array<ReactReduxFetchResource>) | Array<ReactReduxFetchResource>;
