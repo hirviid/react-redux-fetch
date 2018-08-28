@@ -1,70 +1,92 @@
-import * as React from 'react';
 import * as RR from 'react-redux';
-import {InferableComponentEnhancerWithProps} from "react-redux";
+import * as React from 'react';
 
 interface Definition {
-    replaceArgument: (path: string, arg: any) => Definition;
-    addArgument: (key: string, arg: any) => Definition;
-    getArguments: () => Object;
-    getArgument: (key: string) => any;
-  }
+  replaceArgument: (path: string, arg: any) => Definition;
+  addArgument: (key: string, arg: any) => Definition;
+  getArguments: () => Object;
+  getArgument: (key: string) => any;
+}
 
-  interface Container {
-    changeRequestMethodConfig: (method: string, key: string, value: any) => Definition;
-    getDefinition: (name: string) => Definition;
-    registerReducer: (name: string, reducer: Function) => Definition;
-    registerRequestHeader: (name: string, value: string) => Definition;
-    registerRequestMethod: (method: string, args: { method: string, middleware: Function, reducer: Function }) => Definition;
-    replaceRequestHeaders: (headers: Object) => Definition;
-  }
+interface Container {
+  changeRequestMethodConfig: (method: string, key: string, value: any) => Definition;
+  getDefinition: (name: string) => Definition;
+  registerReducer: (name: string, reducer: Function) => Definition;
+  registerRequestHeader: (name: string, value: string) => Definition;
+  registerRequestMethod: (method: string, args: { method: string, middleware: Function, reducer: Function }) => Definition;
+  replaceRequestHeaders: (headers: Object) => Definition;
+}
 
-  export function reducer(): Reducer;
-  export function middleware(): () => () => () => void;
-  export const container: Container;
+export function reducer(): Reducer;
 
-  interface Resource {
-    name: string;
-    action?: string;
-  }
+export function middleware(): () => () => () => void;
 
-  type ResourceType = string | Resource;
+export const container: Container;
 
-  interface Request {
-    url: string;
-    body?: Object;
-    meta?: Object;
-    comparison?: any;
-    force?: boolean;
-  }
+interface Resource {
+  name: string;
+  action?: string;
+}
 
-  export interface Reducer {
-    [key:string]: PromiseState
-  }
+type ResourceType = string | Resource;
 
-  export interface PromiseState {
-    pending: boolean,
-    fulfilled: boolean,
-    rejected: boolean,
-    value: any,
-    meta: any
-  }
+interface Request {
+  url: string;
+  body?: Object;
+  meta?: Object;
+  comparison?: any;
+  force?: boolean;
+}
 
-  type RequestType = Request | ((...args: any[]) => Request);
+export interface Reducer {
+  [key: string]: PromiseState
+}
 
-  interface FetchConfig {
-    resource: ResourceType;
-    method?: string;
-    request: RequestType;
-  }
+export interface PromiseState {
+  pending: boolean,
+  fulfilled: boolean,
+  rejected: boolean,
+  value: any,
+  meta: any
+}
 
-  type FetchConfigType<TProps> = ((props: TProps, context: any) => FetchConfig[]) | FetchConfig[];
+type RequestType = Request | ((...args: any[]) => Request);
 
-  export function connect(fetchItems: FetchConfigType<any>[]): RR.InferableComponentEnhancer<FetchConfigType<any>[]>;
+export interface FetchConfig {
+  resource: ResourceType;
+  method?: string;
+  request: RequestType;
+}
 
-  export function connect<TStateProps, TDispatchProps = {}, TOwnProps = {}, State = {}>(
-    fetchItems: FetchConfigType<TStateProps & TDispatchProps & TOwnProps>,
-    mapStateToProps?: RR.MapStateToProps<TStateProps, TOwnProps, State> | RR.MapStateToPropsFactory<TStateProps, TOwnProps, State>,
-    mapDispatchToProps?: RR.MapDispatchToProps<TDispatchProps, TOwnProps> | RR.MapDispatchToPropsFactory<TDispatchProps, TOwnProps>,
-  ) : RR.InferableComponentEnhancerWithProps<TStateProps & TDispatchProps, TOwnProps>;
+type FetchConfigType<TProps> = ((props: TProps, context: any) => FetchConfig[]) | FetchConfig[];
 
-  export default connect;
+type Children = DispatchFunctions & FetchData;
+
+type DispatchFunctions = {
+  [key: string]: () => void;
+}
+
+type FetchData = {
+  [key: string]: PromiseState
+}
+
+export type ReduxFetchProps = {
+  config: Array<FetchConfig>;
+  children: (children: Children) => React.ReactNode;
+  onFulfil?: (key: string, state: PromiseState, dispatchFunctions: object) => void;
+  onReject?: (key: string, state: PromiseState, dispatchFunctions: object) => void;
+}
+
+export class ReduxFetch extends React.Component<ReduxFetchProps>{}
+
+export function connect(fetchItems: FetchConfigType<any>[]): RR.InferableComponentEnhancer<FetchConfigType<any>[]>;
+
+export function connect<TStateProps, TDispatchProps = {}, TOwnProps = {}, State = {}>(
+  fetchItems: FetchConfigType<TStateProps & TDispatchProps & TOwnProps>,
+  mapStateToProps?: RR.MapStateToProps<TStateProps, TOwnProps, State> | RR.MapStateToPropsFactory<TStateProps, TOwnProps, State>,
+  mapDispatchToProps?: RR.MapDispatchToProps<TDispatchProps, TOwnProps> | RR.MapDispatchToPropsFactory<TDispatchProps, TOwnProps>,
+): RR.InferableComponentEnhancerWithProps<TStateProps & TDispatchProps, TOwnProps>;
+
+export default connect;
+
+
