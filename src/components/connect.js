@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import type { ComponentType } from 'react';
 import { connect as reduxConnect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import type { Dispatch } from 'redux';
 import isFunction from 'lodash/isFunction';
 import isObject from 'lodash/isObject';
 import merge from 'lodash/merge';
@@ -23,7 +24,7 @@ import type { reduxAction } from '../types';
 // const defaultRequestType = 'get';
 
 type Props = {
-  dispatch(action: reduxAction): void,
+  dispatch: Dispatch<reduxAction>,
   fetchData: Object,
 };
 
@@ -82,12 +83,12 @@ function connect(
         return data;
       };
 
-       /**
+      /**
        * @param {Function} dispatch Redux dispatch function
        * @param {Array} mappings Array of objects with shape:
        *                {resource: ..., method: ..., request: ...}
        * @return {Object} functions for the WrappedComponent e.g.: 'dispatchUserFetch()'
-        * */
+       * */
       actionsFromProps = (dispatch, mappings: Array<*>): Object =>
         reduce(
           buildActionsFromMappings(mappings),
@@ -116,9 +117,9 @@ function connect(
 
         return isFunction(mapPropsToRequestsToProps)
           ? // $FlowFixMe
-            mapPropsToRequestsToProps(finalProps, finalContext)
+          mapPropsToRequestsToProps(finalProps, finalContext)
           : // $FlowFixMe
-            mapPropsToRequestsToProps;
+          mapPropsToRequestsToProps;
       };
 
       render() {
@@ -149,10 +150,12 @@ function connect(
     let mapDispatchToProps;
 
     if (isFunction(componentMapDispatchToProps)) {
-      // $FlowFixMe
-      mapDispatchToProps = dispatch => merge({ dispatch }, componentMapDispatchToProps(dispatch));
+      mapDispatchToProps = (dispatch: Dispatch<reduxAction>) =>
+        // $FlowFixMe: suppressing until assert issue is resolved (https://github.com/facebook/flow/issues/34)
+        merge({ dispatch }, componentMapDispatchToProps(dispatch));
     } else if (isObject(componentMapDispatchToProps)) {
-      mapDispatchToProps = dispatch =>
+      mapDispatchToProps = (dispatch: Dispatch<reduxAction>) =>
+        // $FlowFixMe: suppressing until assert issue is resolved (https://github.com/facebook/flow/issues/34)
         merge({ dispatch }, bindActionCreators(componentMapDispatchToProps, dispatch));
     }
 
