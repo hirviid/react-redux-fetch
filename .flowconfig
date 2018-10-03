@@ -3,6 +3,8 @@
 
 [libs]
 ./flow-typed/npm/lodash_v4.x.x.js
+./flow-typed/npm/react-redux_v5.x.x.js
+./flow-typed/npm/redux_v4.x.x.js
 
 [options]
 esproposal.class_instance_fields=enable
