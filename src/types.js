@@ -1,7 +1,8 @@
 // @flow
+export type ResourceName = string;
 
 export type Resource = {
-  name: string,
+  name: ResourceName,
   action?: string,
 };
 
@@ -53,7 +54,7 @@ export type FulfillAction = {
 };
 
 export type ReactReduxFetchResource = {
-  resource: string | Resource,
+  resource: ResourceName | Resource,
   method?: 'GET' | 'PUT' | 'POST' | 'DELETE',
   request: (...args: Array<any>) => Request | Request,
 };
