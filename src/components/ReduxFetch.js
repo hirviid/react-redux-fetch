@@ -20,7 +20,7 @@ type Config = Array<ReactReduxFetchResource>;
 type PropsFromParent = {
   config: Config,
   children: Object => React.Node,
-  fetchOnMount?: Boolean | Array<ResourceName>,
+  fetchOnMount?: boolean | Array<ResourceName>,
   onFulfil?: (ResourceName, PromiseState<*>, DispatchFunctions) => void,
   onReject?: (ResourceName, PromiseState<*>, DispatchFunctions) => void,
 };

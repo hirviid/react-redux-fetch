@@ -2,9 +2,7 @@
 .*/node_modules/fbjs/*
 
 [libs]
-./flow-typed/npm/lodash_v4.x.x.js
-./flow-typed/npm/react-redux_v5.x.x.js
-./flow-typed/npm/redux_v4.x.x.js
+./flow-typed/
 
 [options]
 esproposal.class_instance_fields=enable
