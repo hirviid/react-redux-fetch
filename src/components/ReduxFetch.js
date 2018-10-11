@@ -16,11 +16,12 @@ import type { ReactReduxFetchResource, PromiseState, ResourceName } from '../typ
 
 type DispatchFunctions = Object;
 type Config = Array<ReactReduxFetchResource>;
+type FetchOnMountItem = ResourceName | { resource: ResourceName, params?: Array<string> };
 
 type PropsFromParent = {
   config: Config,
   children: Object => React.Node,
-  fetchOnMount?: boolean | Array<ResourceName>,
+  fetchOnMount?: boolean | Array<FetchOnMountItem>,
   onFulfil?: (ResourceName, PromiseState<*>, DispatchFunctions) => void,
   onReject?: (ResourceName, PromiseState<*>, DispatchFunctions) => void,
 };
@@ -97,13 +98,18 @@ class ReduxFetch extends React.Component<Props, State> {
     }
 
     if (Array.isArray(fetchOnMount)) {
-      fetchOnMount.forEach((resourceName: ResourceName) =>
+      fetchOnMount.forEach((item: FetchOnMountItem) => {
+        const { resource = item, params = [] } = item;
+
+        if (!Array.isArray(params)) throw new Error("'params' should be an array.");
+        if (typeof resource !== 'string') throw new Error("'resource' should be a string.");
+
         forEach(dispatchFunctions, (dispatchFn, fnName) => {
-          if (fnName.toLowerCase().includes(resourceName.toLowerCase())) {
-            dispatchFn();
+          if (fnName.toLowerCase().includes(resource.toLowerCase())) {
+            dispatchFn(...params);
           }
-        }),
-      );
+        });
+      });
     }
   }
 
