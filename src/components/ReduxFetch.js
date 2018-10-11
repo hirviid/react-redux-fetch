@@ -99,7 +99,7 @@ class ReduxFetch extends React.Component<Props, State> {
 
     if (Array.isArray(fetchOnMount)) {
       fetchOnMount.forEach((item: FetchOnMountItem) => {
-        const { resource = item, params = [] } = item;
+        const { resource, params = [] } = typeof item === 'object' ? item : { resource: item, params: [] };
 
         if (!Array.isArray(params)) throw new Error("'params' should be an array.");
         if (typeof resource !== 'string') throw new Error("'resource' should be a string.");
