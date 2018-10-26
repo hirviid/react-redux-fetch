@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import reduce from 'lodash/reduce';
 import map from 'lodash/map';
 import isEqual from 'lodash/isEqual';
+import forEach from 'lodash/forEach';
 import memoizeOne from 'memoize-one';
 import { getPromise } from '../reducers/selectors';
 import capitalizeFirstLetter from '../utils/capitalizeFirstLetter';
@@ -11,7 +12,7 @@ import buildActionsFromMappings, {
   ensureResourceIsObject,
   validateResourceObject,
 } from '../utils/buildActionsFromMappings';
-import type { ReactReduxFetchResource, PromiseState } from '../types';
+import type { ReactReduxFetchResource, PromiseState, ResourceName } from '../types';
 
 type DispatchFunctions = Object;
 type Config = Array<ReactReduxFetchResource>;
@@ -19,8 +20,9 @@ type Config = Array<ReactReduxFetchResource>;
 type PropsFromParent = {
   config: Config,
   children: Object => React.Node,
-  onFulfil?: (string, PromiseState<*>, DispatchFunctions) => void,
-  onReject?: (string, PromiseState<*>, DispatchFunctions) => void,
+  fetchOnMount?: boolean | Array<ResourceName>,
+  onFulfil?: (ResourceName, PromiseState<*>, DispatchFunctions) => void,
+  onReject?: (ResourceName, PromiseState<*>, DispatchFunctions) => void,
 };
 
 type ReduxProps = {
@@ -54,7 +56,7 @@ class ReduxFetch extends React.Component<Props, State> {
       buildActionsFromMappings(mappings),
       (actions, actionCreator, key) =>
         Object.assign({}, actions, {
-          [`dispatch${capitalizeFirstLetter(key)}`]: (...args) => {
+          [ReduxFetch.getDispatchFunctionName(key)]: (...args) => {
             const action = actionCreator(...args);
             if (action) {
               dispatch(action);
@@ -63,6 +65,9 @@ class ReduxFetch extends React.Component<Props, State> {
         }),
       {},
     );
+
+  static getDispatchFunctionName = (resourceName: ResourceName) =>
+    `dispatch${capitalizeFirstLetter(resourceName)}`;
 
   constructor(props: Props) {
     super(props);
@@ -76,6 +81,30 @@ class ReduxFetch extends React.Component<Props, State> {
     this.state = {
       dispatchFunctions: ReduxFetch.actionsFromProps(props.dispatch, props.config),
     };
+  }
+
+  componentDidMount() {
+    const { fetchOnMount } = this.props;
+    const { dispatchFunctions } = this.state;
+
+    if (!fetchOnMount) {
+      return;
+    }
+
+    if (typeof fetchOnMount === 'boolean') {
+      forEach(dispatchFunctions, dispatchFn => dispatchFn());
+      return;
+    }
+
+    if (Array.isArray(fetchOnMount)) {
+      fetchOnMount.forEach((resourceName: ResourceName) =>
+        forEach(dispatchFunctions, (dispatchFn, fnName) => {
+          if (fnName.toLowerCase().includes(resourceName.toLowerCase())) {
+            dispatchFn();
+          }
+        }),
+      );
+    }
   }
 
   shouldComponentUpdate(nextProps: Props) {
@@ -124,7 +153,7 @@ const getFetchData = (state, config: Config) =>
     {},
   );
 
-const mapStateToProps = (state, props: Props) => ({
+const mapStateToProps = (state, props: PropsFromParent) => ({
   fetchData: getFetchData(state, props.config),
 });
 

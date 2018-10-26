@@ -1,6 +1,6 @@
 {
   "name": "react-redux-fetch",
-  "version": "0.12.7",
+  "version": "0.14.1",
   "description": "A declarative and customizable way to fetch data for React components and manage that data in the Redux state",
   "main": "./lib/index.js",
   "types": "./react-redux-fetch.d.ts",
@@ -61,7 +61,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
-    "flow-bin": "^0.54.1",
+    "flow-bin": "^0.81.0",
     "flow-copy-source": "^1.1.0",
     "mocha": "^3.2.0",
     "react": "16.4.2",
@@ -77,6 +77,6 @@
     "lodash": "^4.17.5",
     "react": "^0.14.0 || ^15.0.0-0 || ^16.0.0",
     "react-redux": "^4.0.0 || ^5.0.0",
-    "redux": "^2.0.0 || ^3.0.0"
+    "redux": "^2.0.0 || ^3.0.0 || ^4.0.0"
   }
 }
