@@ -81,9 +81,7 @@ class HomeSplash extends React.Component {
         <div className="inner">
           <ProjectTitle />
           <PromoSection>
-            <Button href="#try">Try It Out</Button>
-            <Button href={docUrl('doc1.html', language)}>Example Link</Button>
-            <Button href={docUrl('doc2.html', language)}>Example Link 2</Button>
+            <Button href={docUrl('doc1.html', language)}>Get started</Button>
           </PromoSection>
         </div>
       </SplashContainer>
@@ -93,99 +91,157 @@ class HomeSplash extends React.Component {
 
 const Block = props => (
   <Container padding={['bottom', 'top']} id={props.id} background={props.background}>
-    <GridBlock align="center" contents={props.children} layout={props.layout} />
+    <GridBlock align={props.align} contents={props.children} layout={props.layout} />
   </Container>
 );
+Block.defaultProps = {
+  align: 'center',
+};
 
 const Features = () => (
   <Block layout="fourColumn">
     {[
       {
-        content: 'This is the content of my feature',
-        image: imgUrl('docusaurus.svg'),
+        content:
+          'No more creating actions, action types, reducers, middleware and selectors for every API call. React-redux-fetch removes this boilerplate without losing flexibility.',
+        image: imgUrl('react-redux-fetch-blue.svg'),
         imageAlign: 'top',
-        title: 'Feature One',
+        title: 'Remove boilerplate',
       },
       {
-        content: 'The content of my second feature',
-        image: imgUrl('docusaurus.svg'),
+        content:
+          'Almost every part of react-redux-fetch can be replaced with a custom implementation. Use the sensible defaults, or customize where needed.',
+        image: imgUrl('feature-customize.svg'),
         imageAlign: 'top',
-        title: 'Feature Two',
+        title: 'Highly customizable',
       },
     ]}
   </Block>
 );
 
-const FeatureCallout = () => (
-  <div className="productShowcaseSection paddingBottom" style={{ textAlign: 'center' }}>
-    <h2>Feature Callout</h2>
-    <MarkdownBlock>These are features of this project</MarkdownBlock>
-  </div>
-);
-
-const LearnHow = () => (
-  <Block background="light">
+const GetStarted = props => (
+  <Block layout="twoColumn" background="light" {...props}>
     {[
       {
-        content: 'Talk about learning how to use this',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'right',
-        title: 'Learn How',
+        content: `To download react-redux-fetch, run:
+        
+\`\`\`sh
+npm install --save react-redux-fetch
+\`\`\`
+or
+\`\`\`sh
+yarn add react-redux-fetch
+\`\`\`        
+        `,
+        title: 'Installation',
+      },
+      {
+        content: `
+1. Connect the react-redux-fetch middleware to the Store using applyMiddleware:
+
+\`\`\`js
+  // configureStore.js
+
+  import { middleware as fetchMiddleware } from "react-redux-fetch";       
+  import { applyMiddleware, createStore } from "redux";
+  
+  const configureStore = (initialState, rootReducer) => {
+    const middleware = [fetchMiddleware, otherMiddleware];
+  
+    const store = createStore(
+      rootReducer,
+      initialState,
+      applyMiddleware(...middleware)
+    );
+  
+    return store;
+  };
+
+  export default configureStore;
+\`\`\`      
+
+2. Mount react-redux-fetch reducer to the state at repository:
+\`\`\`js
+  // rootReducer.js
+
+  import { combineReducers } from 'redux';
+  import { reducer as fetchReducer } from 'react-redux-fetch';
+
+  const rootReducer = combineReducers({
+    // ... other reducers
+    repository: fetchReducer
+  });
+
+  export default rootReducer;
+\`\`\`
+        `,
+        title: 'Setup',
       },
     ]}
   </Block>
 );
 
-const TryOut = () => (
-  <Block id="try">
+const Usage = props => (
+  <Block layout="twoColumn" {...props}>
     {[
+      {
+        content: `
+\`\`\`js
+
+import React from 'react';
+import PropTypes from 'prop-types'
+import connect from 'react-redux-fetch';
+
+class PokemonList extends React.Component {
+    static propTypes = {
+        dispatchAllPokemonGet: PropTypes.func.isRequired,
+        allPokemonFetch: PropTypes.object
+    };
+
+    componentDidMount() {
+        this.props.dispatchAllPokemonGet();
+    }
+
+    render() {
+        const {allPokemonFetch} = this.props;
+
+        if (allPokemonFetch.rejected) {
+            return <div>Oops... Could not fetch Pokémon!</div>;
+        }
+
+        if (allPokemonFetch.fulfilled) {
+            return (
+              <ul>
+                {allPokemonFetch.value.results.map(pokemon => (
+                    <li key={pokemon.name}>{pokemon.name}</li>
+                ))}
+              </ul>
+            );  
+        }
+
+        return <div>Loading...</div>;
+    }
+}
+
+// connect(): Declarative way to define the resource needed for this component
+export default connect([{
+    resource: 'allPokemon',
+    method: 'get', // You can omit this, this is the default 
+    request: {
+        url: 'http://pokeapi.co/api/v2/pokemon/'
+    }
+}])(PokemonList);   
+\`\`\`     
+`,
+        title: 'Usage: Higher order Component',
+      },
       {
         content: 'Talk about trying this out',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'left',
-        title: 'Try it Out',
+        title: 'Usage: Render props',
       },
     ]}
   </Block>
 );
-
-const Description = () => (
-  <Block background="dark">
-    {[
-      {
-        content: 'This is another description of how this project is useful',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'right',
-        title: 'Description',
-      },
-    ]}
-  </Block>
-);
-
-const Showcase = (props) => {
-  if ((siteConfig.users || []).length === 0) {
-    return null;
-  }
-
-  const showcase = siteConfig.users.filter(user => user.pinned).map(user => (
-    <a href={user.infoLink} key={user.infoLink}>
-      <img src={user.image} alt={user.caption} title={user.caption} />
-    </a>
-  ));
-
-  return (
-    <div className="productShowcaseSection paddingBottom">
-      <h2>Who is Using This?</h2>
-      <p>This project is used by all these people</p>
-      <div className="logos">{showcase}</div>
-      <div className="more-users">
-        <a className="button" href={pageUrl('users.html', props.language)}>
-          More {siteConfig.title} Users
-        </a>
-      </div>
-    </div>
-  );
-};
 
 class Index extends React.Component {
   render() {
@@ -196,11 +252,8 @@ class Index extends React.Component {
         <HomeSplash language={language} />
         <div className="mainContainer">
           <Features />
-          <FeatureCallout />
-          <LearnHow />
-          <TryOut />
-          <Description />
-          <Showcase language={language} />
+          <GetStarted align="left" />
+          <Usage align="left" />
         </div>
       </div>
     );
