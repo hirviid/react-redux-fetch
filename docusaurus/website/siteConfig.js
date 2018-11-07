@@ -20,9 +20,9 @@ const siteConfig = {
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
-    { doc: 'doc1', label: 'Getting started' },
-    { doc: 'doc4', label: 'API' },
-    { doc: 'doc4', label: 'Examples' },
+    { doc: 'getting-started', label: 'Getting started' },
+    { doc: 'redux-fetch-config', label: 'API' },
+    { doc: 'redux-fetch-config', label: 'Examples' },
     // { page: 'help', label: 'Help' },
     // { blog: true, label: 'Blog' },
     {

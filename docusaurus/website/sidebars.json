@@ -1,8 +1,8 @@
 {
   "docs": {
-    "Docusaurus": ["doc1"],
-    "First Category": ["doc2"],
-    "Second Category": ["doc3"]
+    "Getting Started": ["getting-started", "basic-example", "how-does-it-work"],
+    "Typing": ["flow-type", "typescript"],
+    "API": ["redux-fetch-config", "render-prop", "hoc"]
   },
   "docs-other": {
     "First Category": ["doc4", "doc5"]

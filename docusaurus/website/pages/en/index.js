@@ -9,7 +9,7 @@ const React = require('react');
 
 const CompLibrary = require('../../core/CompLibrary.js');
 
-const MarkdownBlock = CompLibrary.MarkdownBlock; /* Used to read markdown */
+// // const MarkdownBlock = CompLibrary.MarkdownBlock; /* Used to read markdown */
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
@@ -81,7 +81,7 @@ class HomeSplash extends React.Component {
         <div className="inner">
           <ProjectTitle />
           <PromoSection>
-            <Button href={docUrl('doc1.html', language)}>Get started</Button>
+            <Button href={docUrl('getting-started', language)}>Get started</Button>
           </PromoSection>
         </div>
       </SplashContainer>
@@ -142,8 +142,8 @@ yarn add react-redux-fetch
 \`\`\`js
   // configureStore.js
 
-  import { middleware as fetchMiddleware } from "react-redux-fetch";       
-  import { applyMiddleware, createStore } from "redux";
+  import { middleware as fetchMiddleware } from 'react-redux-fetch';       
+  import { applyMiddleware, createStore } from 'redux';
   
   const configureStore = (initialState, rootReducer) => {
     const middleware = [fetchMiddleware, otherMiddleware];
@@ -190,7 +190,7 @@ const Usage = props => (
 
 import React from 'react';
 import PropTypes from 'prop-types'
-import connect from 'react-redux-fetch';
+import reduxFetch from 'react-redux-fetch';
 
 class PokemonList extends React.Component {
     static propTypes = {
@@ -223,8 +223,8 @@ class PokemonList extends React.Component {
     }
 }
 
-// connect(): Declarative way to define the resource needed for this component
-export default connect([{
+// reduxFetch(): Declarative way to define the resource needed for this component
+export default reduxFetch([{
     resource: 'allPokemon',
     method: 'get', // You can omit this, this is the default 
     request: {
@@ -236,7 +236,45 @@ export default connect([{
         title: 'Usage: Higher order Component',
       },
       {
-        content: 'Talk about trying this out',
+        content: `
+\`\`\`js
+
+import React from 'react';
+import { ReduxFetch } from 'react-redux-fetch';
+
+const fetchConfig = [{
+  resource: 'allPokemon',
+  method: 'get', // You can omit this, this is the default 
+  request: {
+      url: 'http://pokeapi.co/api/v2/pokemon/'
+  }
+}];
+
+const PokemonList = () => (
+  <ReduxFetch config={fetchConfig} fetchOnMount>
+    {({ allPokemonFetch }) => {
+      if (allPokemonFetch.rejected) {
+        return <div>Oops... Could not fetch Pokémon!</div>;
+      }
+
+      if (allPokemonFetch.fulfilled) {
+        return (
+          <ul>
+            {allPokemonFetch.value.results.map(pokemon => (
+                <li key={pokemon.name}>{pokemon.name}</li>
+            ))}
+          </ul>
+        );  
+      }
+
+      return <div>Loading...</div>;  
+    }}
+  </ReduxFetch>
+);
+
+export default PokemonList;
+\`\`\`     
+        `,
         title: 'Usage: Render props',
       },
     ]}
