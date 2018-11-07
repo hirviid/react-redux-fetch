@@ -56,7 +56,7 @@ export type FulfillAction = {
 export type ReactReduxFetchResource = {
   resource: ResourceName | Resource,
   method?: 'GET' | 'PUT' | 'POST' | 'DELETE',
-  request: (...args: Array<any>) => Request | Request,
+  request: ((...args: Array<any>) => Request) | Request,
 };
 
 export type FetchConfig = (() => Array<ReactReduxFetchResource>) | Array<ReactReduxFetchResource>;
