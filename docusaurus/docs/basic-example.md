@@ -46,7 +46,9 @@ const PokemonList = () => (
 export default PokemonList;
 ```
 
-[Try it out a render prop example in codesandbox](https://codesandbox.io/s/553olm44p)
+[> Try it out a render prop example in codesandbox](https://codesandbox.io/s/553olm44p)
+
+[> Read more about `<ReduxFetch />`](/react-redux-fetch/docs/render-prop)
 
 ## Higher order component
 
@@ -98,4 +100,6 @@ export default reduxFetch([
 ])(PokemonList);
 ```
 
-[Try it out a HoC example in codesandbox](https://codesandbox.io/s/zrzyk78wp)
+[> Try it out a HoC example in codesandbox](https://codesandbox.io/s/zrzyk78wp)
+
+[> Read more about `reduxFetch()`](/react-redux-fetch/docs/hoc)
