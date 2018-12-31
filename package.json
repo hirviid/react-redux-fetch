@@ -39,7 +39,7 @@
   "bugs": {
     "url": "https://github.com/hirviid/react-redux-fetch/issues"
   },
-  "homepage": "https://github.com/hirviid/react-redux-fetch#readme",
+  "homepage": "https://hirviid.github.io/react-redux-fetch",
   "devDependencies": {
     "@types/react": "16.4.7",
     "@types/react-redux": "6.0.4",

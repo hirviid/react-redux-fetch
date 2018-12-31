@@ -2,9 +2,7 @@
   "docs": {
     "Getting Started": ["getting-started", "basic-example", "how-does-it-work"],
     "Typing": ["flow-type", "typescript"],
-    "API": ["redux-fetch-config", "render-prop", "hoc", "container", "build-actions-from-mappings"]
-  },
-  "docs-other": {
-    "First Category": ["doc4", "doc5"]
+    "API": ["render-prop", "hoc", "redux-fetch-config", "container", "build-actions-from-mappings"],
+    "Examples": ["examples"]
   }
 }

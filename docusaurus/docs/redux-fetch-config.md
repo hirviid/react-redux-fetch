@@ -4,7 +4,10 @@ title: fetchConfig
 ---
 
 To use `reduxFetch()` (hoc), or `<ReduxFetch />` (render prop), you need to define a special object `fetchConfig` to describe the API call you want to make.
-This fetchConfig object has the following required and optional properties:
+
+**Because you can describe multiple API resources per react-redux-fetch instance, this object should be provided in an array** (or [function in case of the HoC](<(/react-redux-fetch/docs/hoc)>)) to react-redux-fetch:
+
+The fetchConfig object has the following required and optional properties:
 
 ## Properties
 
@@ -31,8 +34,6 @@ This fetchConfig object has the following required and optional properties:
   - `force`: **boolean [optional]**. If `true`, overrules the `comparison` property.
 
 ## Example
-
-Because you can describe multiple API resources per react-redux-fetch instance, this object should be provided in an array (or [function in case of the HoC](<(/react-redux-fetch/docs/hoc)>)) to react-redux-fetch:
 
 ```js
 const fetchConfigs = [

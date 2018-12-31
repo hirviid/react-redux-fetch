@@ -4,4 +4,4 @@ title: Flow type
 ---
 
 React Redux Fetch supports flow type.
-TODO
+See definition file: [https://github.com/hirviid/react-redux-fetch/blob/master/src/types.js](https://github.com/hirviid/react-redux-fetch/blob/master/src/types.js)

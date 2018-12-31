@@ -16,7 +16,20 @@ var reduxFetch = require('react-redux-fetch'); // ES5
 import reduxFetch from 'react-redux-fetch'; // ES6
 ```
 
-## Props you can pass to reduxFetch
+## Parameters you can pass to reduxFetch
+
+```js
+reduxFetch(fetchConfig, mapStateToProps?, mapDispatchToProps?)(YourComponent);
+```
+
+- `fetchConfig`: **Array<ReactReduxFetchResource>|(props, context) => Array<ReactReduxFetchResource> [required]**
+
+  Read more in the [FetchConfig documentation](/react-redux-fetch/docs/redux-fetch-config) for all possible config properties.
+  When used as a function, the function receives the props and the context, which can then be used in your configuration to dynamically build your urls.
+  Note: Using just the Array is preferred, because this allows react-redux-fetch to cache the generated dispatch functions.
+
+* `mapStateToProps`: [See react-redux documentation](https://react-redux.js.org/api/connect)
+* `mapDispatchToProps`: [See react-redux documentation](https://react-redux.js.org/api/connect)
 
 ## Usage
 

@@ -22,7 +22,7 @@ const siteConfig = {
   headerLinks: [
     { doc: 'getting-started', label: 'Getting started' },
     { doc: 'redux-fetch-config', label: 'API' },
-    { doc: 'redux-fetch-config', label: 'Examples' },
+    { doc: 'examples', label: 'Examples' },
     // { page: 'help', label: 'Help' },
     // { blog: true, label: 'Blog' },
     {
