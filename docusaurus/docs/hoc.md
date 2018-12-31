@@ -16,7 +16,7 @@ var reduxFetch = require('react-redux-fetch'); // ES5
 import reduxFetch from 'react-redux-fetch'; // ES6
 ```
 
-## Parameters you can pass to reduxFetch
+## Arguments you can pass to reduxFetch
 
 ```js
 reduxFetch(fetchConfig, mapStateToProps?, mapDispatchToProps?)(YourComponent);

@@ -34,9 +34,9 @@ class Footer extends React.Component {
           </a>
           <div>
             <h5>Docs</h5>
-            <a href={this.docUrl('getting-started.html', this.props.language)}>Getting Started</a>
-            <a href={this.docUrl('redux-fetch-config.html', this.props.language)}>API Reference</a>
-            <a href={this.docUrl('examples.html', this.props.language)}>Examples</a>
+            <a href={this.docUrl('getting-started.html')}>Getting Started</a>
+            <a href={this.docUrl('redux-fetch-config.html')}>API Reference</a>
+            <a href={this.docUrl('examples.html')}>Examples</a>
           </div>
 
           <div>
