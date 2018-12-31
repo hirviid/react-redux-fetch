@@ -1,0 +1,8 @@
+{
+  "docs": {
+    "Getting Started": ["getting-started", "basic-example", "how-does-it-work"],
+    "Typing": ["flow-type", "typescript"],
+    "API": ["render-prop", "hoc", "redux-fetch-config", "container", "build-actions-from-mappings"],
+    "Examples": ["examples"]
+  }
+}
