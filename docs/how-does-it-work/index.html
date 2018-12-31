@@ -1,0 +1,84 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>How does it work? · React Redux Fetch</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="This page briefly talks about how the configuration you pass is mapped to 2 properties, a function to trigger the fetch, and an object containing the response. You can find the example also on [codesandbox](https://codesandbox.io/s/zrzyk78wp)."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="How does it work? · React Redux Fetch"/><meta property="og:type" content="website"/><meta property="og:url" content="https://hirviid.github.io/react-redux-fetch/index.html"/><meta property="og:description" content="This page briefly talks about how the configuration you pass is mapped to 2 properties, a function to trigger the fetch, and an object containing the response. You can find the example also on [codesandbox](https://codesandbox.io/s/zrzyk78wp)."/><meta property="og:image" content="https://hirviid.github.io/react-redux-fetch/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://hirviid.github.io/react-redux-fetch/img/docusaurus.png"/><link rel="shortcut icon" href="/react-redux-fetch/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/react-redux-fetch/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/react-redux-fetch/"><img class="logo" src="/react-redux-fetch/img/react-redux-fetch.svg" alt="React Redux Fetch"/><h2 class="headerTitleWithLogo">React Redux Fetch</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/react-redux-fetch/docs/getting-started" target="_self">Getting started</a></li><li class="siteNavGroupActive"><a href="/react-redux-fetch/docs/redux-fetch-config" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/react-redux-fetch/docs/examples" target="_self">Examples</a></li><li class=""><a href="https://www.github.com/hirviid/react-redux-fetch" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Getting Started</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Getting Started</h3><ul><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/getting-started">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/basic-example">Basic Example</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/react-redux-fetch/docs/how-does-it-work">How does it work?</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Typing</h3><ul><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/flow-type">Flow type</a></li><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/typescript">Typescript</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">API</h3><ul><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/render-prop">&lt;ReduxFetch /&gt;</a></li><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/hoc">reduxFetch()</a></li><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/redux-fetch-config">fetchConfig</a></li><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/container">container</a></li><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/build-actions-from-mappings">buildActionsFromMappings</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Examples</h3><ul><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/examples">Examples</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docMainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">How does it work?</h1></header><article><div><span><p>This page briefly talks about how the configuration you pass is mapped to 2 properties, a function to trigger the fetch, and an object containing the response. You can find the example also on <a href="https://codesandbox.io/s/zrzyk78wp">codesandbox</a>.</p>
+<h2><a class="anchor" aria-hidden="true" id="fetchconfig"></a><a href="#fetchconfig" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>FetchConfig</h2>
+<p>You write data source declarations in a <strong>fetchConfig</strong> array.</p>
+<p>This is the minimal configuration to make 1 call:</p>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">const</span> fetchConfig = [
+  {
+    <span class="hljs-attr">resource</span>: <span class="hljs-string">'photos'</span>,
+    <span class="hljs-attr">request</span>: {
+      <span class="hljs-attr">url</span>: <span class="hljs-string">'//jsonplaceholder.typicode.com/albums/1/photos'</span>,
+    },
+  },
+];
+</code></pre>
+<p>You can read more about all the options in the <a href="/react-redux-fetch/docs/redux-fetch-config">fetchConfig API docs</a>.</p>
+<p>This <strong>fetchConfig</strong> array is passed to the <code>reduxFetch</code> HoC, or the <code>&lt;ReduxFetch /&gt;</code> component as follows:</p>
+<ol>
+<li><a href="/react-redux-fetch/docs/hoc">HoC</a>: <code>reduxFetch(fetchConfig)(MyComponent)</code></li>
+<li><a href="/react-redux-fetch/docs/render-prop">Render prop</a>: <code>&lt;ReduxFetch config={fetchConfig}&gt;{() =&gt; { /* ... */ }}&lt;/ReduxFetch&gt;</code></li>
+</ol>
+<p>React Redux Fetch takes this configuration, and provides 2 things back as <em>props</em>:</p>
+<h4><a class="anchor" aria-hidden="true" id="1-a-function-to-make-the-actual-request"></a><a href="#1-a-function-to-make-the-actual-request" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. A function to make the actual request.</h4>
+<ul>
+<li><p>From the example above, that would be <strong>dispatchPhotosGet</strong>. This function name consists of 3 parts:</p>
+<ul>
+<li>dispatch: to indicate that by calling this function a redux action is dispatched</li>
+<li>[resourceName]: the name of the resource declared in the config</li>
+<li>[method]: The method of the request (Get/Delete/Post/Put)</li>
+</ul></li>
+</ul>
+<h4><a class="anchor" aria-hidden="true" id="2-an-object-containing-the-promise-state-with-response"></a><a href="#2-an-object-containing-the-promise-state-with-response" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. An object containing the promise state with response</h4>
+<ul>
+<li><p>From the example above, that would be <strong>photosFetch</strong>. This object has the following properties:</p>
+<ul>
+<li>pending, fulfilled, rejected: Promise flags</li>
+<li>value: The actual response body</li>
+<li>meta: The actual response object</li>
+</ul></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="actions-dispatched"></a><a href="#actions-dispatched" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Actions dispatched</h2>
+<h3><a class="anchor" aria-hidden="true" id="request"></a><a href="#request" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Request</h3>
+<p>When calling <code>this.props.dispatchPhotosGet();</code>, react-redux-fetch dispatches the action <code>react-redux-fetch/GET_REQUEST</code>:</p>
+<p><img src="/react-redux-fetch/img/how-it-works/request-action.png" alt="react-redux-fetch/GET_REQUEST"  /></p>
+<p>The action creates a new state tree &quot;photos&quot;, inside the repository state tree:</p>
+<p><img src="/react-redux-fetch/img/how-it-works/request-state.png" alt="react-redux-fetch/GET_REQUEST"  /></p>
+<p>The react-redux-fetch middleware takes this action and builds the request with <a href="https://developer.mozilla.org/en/docs/Web/API/Fetch_API">Fetch API</a>. This part of the state is passed as a prop to the AlbumPhotos component:</p>
+<p><img src="/react-redux-fetch/img/how-it-works/request-props.png" alt="react-redux-fetch/GET_REQUEST"  /></p>
+<h3><a class="anchor" aria-hidden="true" id="fulfil"></a><a href="#fulfil" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fulfil</h3>
+<p>When the request fulfills (i.e. receiving a status code between 200 and 300), react-redux-fetch dispatches the action <code>react-redux-fetch/GET_FULFIL</code>:</p>
+<p><img src="/react-redux-fetch/img/how-it-works/fulfil-action.png" alt="react-redux-fetch/GET_REQUEST"  /></p>
+<p>With updated state tree:</p>
+<p><img src="/react-redux-fetch/img/how-it-works/fulfil-state.png" alt="react-redux-fetch/GET_REQUEST"  /></p>
+<p>This part of the state is passed as a prop to the AlbumPhotos component:</p>
+<p><img src="/react-redux-fetch/img/how-it-works/fulfil-props.png" alt="react-redux-fetch/GET_REQUEST"  /></p>
+<h3><a class="anchor" aria-hidden="true" id="reject"></a><a href="#reject" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reject</h3>
+<p>Similarly, when the request fails, react-redux-fetch dispatches the action <code>react-redux-fetch/GET_REJECT</code>:</p>
+<p><img src="/react-redux-fetch/img/how-it-works/reject-props.png" alt="react-redux-fetch/GET_REQUEST"  /></p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/react-redux-fetch/docs/basic-example"><span class="arrow-prev">← </span><span>Previous</span></a><a class="docs-next button" href="/react-redux-fetch/docs/flow-type"><span>Next</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav docOnPageNav"><ul class="toc-headings"><li><a href="#fetchconfig">FetchConfig</a></li><li><a href="#actions-dispatched">Actions dispatched</a><ul class="toc-headings"><li><a href="#request">Request</a></li><li><a href="#fulfil">Fulfil</a></li><li><a href="#reject">Reject</a></li></ul></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/react-redux-fetch/" class="nav-home"><img src="/react-redux-fetch/img/react-redux-fetch.svg" alt="React Redux Fetch" width="66" height="58"/></a><div><h5>Docs</h5><a href="/react-redux-fetch/docs/en/getting-started.html">Getting Started</a><a href="/react-redux-fetch/docs/en/redux-fetch-config.html">API Reference</a><a href="/react-redux-fetch/docs/en/examples.html">Examples</a></div><div><h5>More</h5><a href="https://www.npmjs.com/package/react-redux-fetch">npm</a><a href="https://github.com/hirviid/react-redux-fetch">GitHub</a><a class="github-button" href="https://github.com/hirviid/react-redux-fetch" data-icon="octicon-star" data-count-href="/hirviid/react-redux-fetch" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright"></section></footer></div></body></html>

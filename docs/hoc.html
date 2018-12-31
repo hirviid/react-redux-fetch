@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>reduxFetch() · React Redux Fetch</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="The `reduxFetch()` function is one of the two ways to connect react-redux-fetch to your component. [You can read more about the other way (ReduxFetch component) here](/react-redux-fetch/docs/render-prop)."/><meta name="docsearch:language" content="en"/><meta property="og:title" content="reduxFetch() · React Redux Fetch"/><meta property="og:type" content="website"/><meta property="og:url" content="https://hirviid.github.io/react-redux-fetch/index.html"/><meta property="og:description" content="The `reduxFetch()` function is one of the two ways to connect react-redux-fetch to your component. [You can read more about the other way (ReduxFetch component) here](/react-redux-fetch/docs/render-prop)."/><meta property="og:image" content="https://hirviid.github.io/react-redux-fetch/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://hirviid.github.io/react-redux-fetch/img/docusaurus.png"/><link rel="shortcut icon" href="/react-redux-fetch/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/react-redux-fetch/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/react-redux-fetch/"><img class="logo" src="/react-redux-fetch/img/react-redux-fetch.svg" alt="React Redux Fetch"/><h2 class="headerTitleWithLogo">React Redux Fetch</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive"><a href="/react-redux-fetch/docs/getting-started" target="_self">Getting started</a></li><li class="siteNavGroupActive"><a href="/react-redux-fetch/docs/redux-fetch-config" target="_self">API</a></li><li class="siteNavGroupActive"><a href="/react-redux-fetch/docs/examples" target="_self">Examples</a></li><li class=""><a href="https://www.github.com/hirviid/react-redux-fetch" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>API</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Getting Started</h3><ul><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/getting-started">Getting Started</a></li><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/basic-example">Basic Example</a></li><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/how-does-it-work">How does it work?</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Typing</h3><ul><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/flow-type">Flow type</a></li><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/typescript">Typescript</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">API</h3><ul><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/render-prop">&lt;ReduxFetch /&gt;</a></li><li class="navListItem navListItemActive"><a class="navItem" href="/react-redux-fetch/docs/hoc">reduxFetch()</a></li><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/redux-fetch-config">fetchConfig</a></li><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/container">container</a></li><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/build-actions-from-mappings">buildActionsFromMappings</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Examples</h3><ul><li class="navListItem"><a class="navItem" href="/react-redux-fetch/docs/examples">Examples</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docMainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">reduxFetch()</h1></header><article><div><span><p>The <code>reduxFetch()</code> function is one of the two ways to connect react-redux-fetch to your component. <a href="/react-redux-fetch/docs/render-prop">You can read more about the other way (ReduxFetch component) here</a>.</p>
+<p>The technique used for <code>reduxFetch()</code> is a commonly used technique for code sharing in React, called &quot;<a href="https://reactjs.org/docs/higher-order-components.html">Higher order Component</a>&quot;.</p>
+<h2><a class="anchor" aria-hidden="true" id="importing"></a><a href="#importing" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Importing</h2>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">var</span> reduxFetch = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react-redux-fetch'</span>); <span class="hljs-comment">// ES5</span>
+
+<span class="hljs-keyword">import</span> reduxFetch <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux-fetch'</span>; <span class="hljs-comment">// ES6</span>
+</code></pre>
+<h2><a class="anchor" aria-hidden="true" id="parameters-you-can-pass-to-reduxfetch"></a><a href="#parameters-you-can-pass-to-reduxfetch" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters you can pass to reduxFetch</h2>
+<pre><code class="hljs css language-js">reduxFetch(fetchConfig, mapStateToProps?, mapDispatchToProps?)(YourComponent);
+</code></pre>
+<ul>
+<li><p><code>fetchConfig</code>: <strong>Array<ReactReduxFetchResource>|(props, context) =&gt; Array<ReactReduxFetchResource> [required]</strong></p>
+<p>Read more in the <a href="/react-redux-fetch/docs/redux-fetch-config">FetchConfig documentation</a> for all possible config properties.
+When used as a function, the function receives the props and the context, which can then be used in your configuration to dynamically build your urls.
+Note: Using just the Array is preferred, because this allows react-redux-fetch to cache the generated dispatch functions.</p></li>
+</ul>
+<ul>
+<li><code>mapStateToProps</code>: <a href="https://react-redux.js.org/api/connect">See react-redux documentation</a></li>
+<li><code>mapDispatchToProps</code>: <a href="https://react-redux.js.org/api/connect">See react-redux documentation</a></li>
+</ul>
+<h2><a class="anchor" aria-hidden="true" id="usage"></a><a href="#usage" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
+<pre><code class="hljs css language-js"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> reduxFetch <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux-fetch'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PokemonList</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+  <span class="hljs-comment">// ...</span>
+}
+
+<span class="hljs-comment">// reduxFetch(): Declarative way to define the resource needed for this component</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> reduxFetch([
+  {
+    <span class="hljs-attr">resource</span>: <span class="hljs-string">'allPokemon'</span>,
+    <span class="hljs-attr">method</span>: <span class="hljs-string">'get'</span>, <span class="hljs-comment">// You can omit this, this is the default</span>
+    request: {
+      <span class="hljs-attr">url</span>: <span class="hljs-string">'http://pokeapi.co/api/v2/pokemon/'</span>,
+    },
+  },
+])(PokemonList);
+</code></pre>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-prev button" href="/react-redux-fetch/docs/render-prop"><span class="arrow-prev">← </span><span>Previous</span></a><a class="docs-next button" href="/react-redux-fetch/docs/redux-fetch-config"><span>Next</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav docOnPageNav"><ul class="toc-headings"><li><a href="#importing">Importing</a></li><li><a href="#parameters-you-can-pass-to-reduxfetch">Parameters you can pass to reduxFetch</a></li><li><a href="#usage">Usage</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/react-redux-fetch/" class="nav-home"><img src="/react-redux-fetch/img/react-redux-fetch.svg" alt="React Redux Fetch" width="66" height="58"/></a><div><h5>Docs</h5><a href="/react-redux-fetch/docs/en/getting-started.html">Getting Started</a><a href="/react-redux-fetch/docs/en/redux-fetch-config.html">API Reference</a><a href="/react-redux-fetch/docs/en/examples.html">Examples</a></div><div><h5>More</h5><a href="https://www.npmjs.com/package/react-redux-fetch">npm</a><a href="https://github.com/hirviid/react-redux-fetch">GitHub</a><a class="github-button" href="https://github.com/hirviid/react-redux-fetch" data-icon="octicon-star" data-count-href="/hirviid/react-redux-fetch" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright"></section></footer></div></body></html>

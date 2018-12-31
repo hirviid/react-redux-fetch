@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang=""><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>React Redux Fetch · A declarative and customizable way to fetch data in React.</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="A declarative and customizable way to fetch data in React."/><meta property="og:title" content="React Redux Fetch · A declarative and customizable way to fetch data in React."/><meta property="og:type" content="website"/><meta property="og:url" content="https://hirviid.github.io/react-redux-fetch/index.html"/><meta property="og:description" content="A declarative and customizable way to fetch data in React."/><meta property="og:image" content="https://hirviid.github.io/react-redux-fetch/img/docusaurus.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://hirviid.github.io/react-redux-fetch/img/docusaurus.png"/><link rel="shortcut icon" href="/react-redux-fetch/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css"/><script type="text/javascript" src="https://buttons.github.io/buttons.js"></script><link rel="stylesheet" href="/react-redux-fetch/css/main.css"/></head><body><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/react-redux-fetch/"><img class="logo" src="/react-redux-fetch/img/react-redux-fetch.svg" alt="React Redux Fetch"/><h2 class="headerTitleWithLogo">React Redux Fetch</h2></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/react-redux-fetch/docs/getting-started" target="_self">Getting started</a></li><li class=""><a href="/react-redux-fetch/docs/redux-fetch-config" target="_self">API</a></li><li class=""><a href="/react-redux-fetch/docs/examples" target="_self">Examples</a></li><li class=""><a href="https://www.github.com/hirviid/react-redux-fetch" target="_self">GitHub</a></li></ul></nav></div></header></div></div><div class="navPusher"><div><div class="homeContainer"><div class="homeSplashFade"><div class="wrapper homeWrapper"><div class="projectLogo"><img src="/react-redux-fetch/img/react-redux-fetch.svg" alt="Project Logo"/></div><div class="inner"><h2 class="projectTitle">React Redux Fetch<small>A declarative and customizable way to fetch data in React.</small></h2><div class="section promoSection"><div class="promoRow"><div class="pluginRowBlock"><div class="pluginWrapper buttonWrapper"><a class="button" href="/react-redux-fetch/docs/getting-started" target="_self">Get started</a></div></div></div></div></div></div></div></div><div class="mainContainer"><div class="container paddingBottom paddingTop"><div class="wrapper"><div class="gridBlock"><div class="blockElement alignCenter fourByGridBlock imageAlignTop"><div class="blockImage"><img src="/react-redux-fetch/img/react-redux-fetch-blue.svg"/></div><div class="blockContent"><h2><div><span><p>Remove boilerplate</p>
+</span></div></h2><div><span><p>No more creating actions, action types, reducers, middleware and selectors for every API call. React-redux-fetch removes this boilerplate without losing flexibility.</p>
+</span></div></div></div><div class="blockElement alignCenter fourByGridBlock imageAlignTop"><div class="blockImage"><img src="/react-redux-fetch/img/feature-customize.svg"/></div><div class="blockContent"><h2><div><span><p>Highly customizable</p>
+</span></div></h2><div><span><p>Almost every part of react-redux-fetch can be replaced with a custom implementation. Use the sensible defaults, or customize where needed.</p>
+</span></div></div></div></div></div></div><div class="container lightBackground paddingBottom paddingTop"><div class="wrapper"><div class="gridBlock"><div class="blockElement twoByGridBlock"><div class="blockContent"><h2><div><span><p>Installation</p>
+</span></div></h2><div><span><p>To download react-redux-fetch, run:</p>
+<pre><code class="hljs css language-sh">npm install --save react-redux-fetch
+</code></pre>
+<p>or</p>
+<pre><code class="hljs css language-sh">yarn add react-redux-fetch
+</code></pre>
+</span></div></div></div><div class="blockElement twoByGridBlock"><div class="blockContent"><h2><div><span><p>Setup</p>
+</span></div></h2><div><span><ol>
+<li>Connect the react-redux-fetch middleware to the Store using applyMiddleware:</li>
+</ol>
+<pre><code class="hljs css language-js">  <span class="hljs-comment">// configureStore.js</span>
+
+  <span class="hljs-keyword">import</span> { middleware <span class="hljs-keyword">as</span> fetchMiddleware } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux-fetch'</span>;       
+  <span class="hljs-keyword">import</span> { applyMiddleware, createStore } <span class="hljs-keyword">from</span> <span class="hljs-string">'redux'</span>;
+  
+  <span class="hljs-keyword">const</span> configureStore = <span class="hljs-function">(<span class="hljs-params">initialState, rootReducer</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> middleware = [fetchMiddleware, otherMiddleware];
+  
+    <span class="hljs-keyword">const</span> store = createStore(
+      rootReducer,
+      initialState,
+      applyMiddleware(...middleware)
+    );
+  
+    <span class="hljs-keyword">return</span> store;
+  };
+
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> configureStore;
+</code></pre>
+<ol start="2">
+<li>Mount react-redux-fetch reducer to the state at repository:</li>
+</ol>
+<pre><code class="hljs css language-js">  <span class="hljs-comment">// rootReducer.js</span>
+
+  <span class="hljs-keyword">import</span> { combineReducers } <span class="hljs-keyword">from</span> <span class="hljs-string">'redux'</span>;
+  <span class="hljs-keyword">import</span> { reducer <span class="hljs-keyword">as</span> fetchReducer } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux-fetch'</span>;
+
+  <span class="hljs-keyword">const</span> rootReducer = combineReducers({
+    <span class="hljs-comment">// ... other reducers</span>
+    repository: fetchReducer
+  });
+
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> rootReducer;
+</code></pre>
+</span></div></div></div></div></div></div><div class="container paddingBottom paddingTop"><div class="wrapper"><div class="gridBlock"><div class="blockElement twoByGridBlock"><div class="blockContent"><h2><div><span><p>Usage: Higher order Component</p>
+</span></div></h2><div><span><pre><code class="hljs css language-js">
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> PropTypes <span class="hljs-keyword">from</span> <span class="hljs-string">'prop-types'</span>
+<span class="hljs-keyword">import</span> reduxFetch <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux-fetch'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PokemonList</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">React</span>.<span class="hljs-title">Component</span> </span>{
+    <span class="hljs-keyword">static</span> propTypes = {
+        <span class="hljs-attr">dispatchAllPokemonGet</span>: PropTypes.func.isRequired,
+        <span class="hljs-attr">allPokemonFetch</span>: PropTypes.object
+    };
+
+    componentDidMount() {
+        <span class="hljs-keyword">this</span>.props.dispatchAllPokemonGet();
+    }
+
+    render() {
+        <span class="hljs-keyword">const</span> {allPokemonFetch} = <span class="hljs-keyword">this</span>.props;
+
+        <span class="hljs-keyword">if</span> (allPokemonFetch.rejected) {
+            <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Oops... Could not fetch Pokémon!<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>;
+        }
+
+        <span class="hljs-keyword">if</span> (allPokemonFetch.fulfilled) {
+            <span class="hljs-keyword">return</span> (
+              <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+                {allPokemonFetch.value.results.map(pokemon =&gt; (
+                    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{pokemon.name}</span>&gt;</span>{pokemon.name}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+                ))}
+              <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></span>
+            );  
+        }
+
+        <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Loading...<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>;
+    }
+}
+
+<span class="hljs-comment">// reduxFetch(): Declarative way to define the resource needed for this component</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> reduxFetch([{
+    <span class="hljs-attr">resource</span>: <span class="hljs-string">'allPokemon'</span>,
+    <span class="hljs-attr">method</span>: <span class="hljs-string">'get'</span>, <span class="hljs-comment">// You can omit this, this is the default </span>
+    request: {
+        <span class="hljs-attr">url</span>: <span class="hljs-string">'http://pokeapi.co/api/v2/pokemon/'</span>
+    }
+}])(PokemonList);   
+</code></pre>
+</span></div></div></div><div class="blockElement twoByGridBlock"><div class="blockContent"><h2><div><span><p>Usage: Render props</p>
+</span></div></h2><div><span><pre><code class="hljs css language-js">
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> { ReduxFetch } <span class="hljs-keyword">from</span> <span class="hljs-string">'react-redux-fetch'</span>;
+
+<span class="hljs-keyword">const</span> fetchConfig = [{
+  <span class="hljs-attr">resource</span>: <span class="hljs-string">'allPokemon'</span>,
+  <span class="hljs-attr">method</span>: <span class="hljs-string">'get'</span>, <span class="hljs-comment">// You can omit this, this is the default </span>
+  request: {
+      <span class="hljs-attr">url</span>: <span class="hljs-string">'http://pokeapi.co/api/v2/pokemon/'</span>
+  }
+}];
+
+<span class="hljs-keyword">const</span> PokemonList = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ReduxFetch</span> <span class="hljs-attr">config</span>=<span class="hljs-string">{fetchConfig}</span> <span class="hljs-attr">fetchOnMount</span>&gt;</span>
+    {({ allPokemonFetch }) =&gt; {
+      if (allPokemonFetch.rejected) {
+        return <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Oops... Could not fetch Pokémon!<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>;
+      }
+
+      if (allPokemonFetch.fulfilled) {
+        return (
+          <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+            {allPokemonFetch.value.results.map(pokemon =&gt; (
+                <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{pokemon.name}</span>&gt;</span>{pokemon.name}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+            ))}
+          <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+        );  
+      }
+
+      return <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Loading...<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>;  
+    }}
+  <span class="hljs-tag">&lt;/<span class="hljs-name">ReduxFetch</span>&gt;</span></span>
+);
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> PokemonList;
+</code></pre>
+</span></div></div></div></div></div></div></div></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/react-redux-fetch/" class="nav-home"><img src="/react-redux-fetch/img/react-redux-fetch.svg" alt="React Redux Fetch" width="66" height="58"/></a><div><h5>Docs</h5><a href="/react-redux-fetch/docs/getting-started.html">Getting Started</a><a href="/react-redux-fetch/docs/redux-fetch-config.html">API Reference</a><a href="/react-redux-fetch/docs/examples.html">Examples</a></div><div><h5>More</h5><a href="https://www.npmjs.com/package/react-redux-fetch">npm</a><a href="https://github.com/hirviid/react-redux-fetch">GitHub</a><a class="github-button" href="https://github.com/hirviid/react-redux-fetch" data-icon="octicon-star" data-count-href="/hirviid/react-redux-fetch" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright"></section></footer></div></body></html>
