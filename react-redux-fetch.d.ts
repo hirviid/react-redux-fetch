@@ -23,12 +23,14 @@ export function middleware(): () => () => () => void;
 
 export const container: Container;
 
+type ResourceName = string;
+
 interface Resource {
-  name: string;
+  name: ResourceName;
   action?: string;
 }
 
-type ResourceType = string | Resource;
+type ResourceType = ResourceName | Resource;
 
 interface Request {
   url: string;
@@ -84,6 +86,7 @@ export interface ReduxFetchProps extends RenderableProps<ReduxFetchRenderProps> 
   config: Array<FetchConfig>;
   onFulfil?: (key: string, state: PromiseState, dispatchFunctions: object) => void;
   onReject?: (key: string, state: PromiseState, dispatchFunctions: object) => void;
+  fetchOnMount?: boolean | Array<Resource>,
 }
 
 export var ReduxFetch: React.ComponentType<ReduxFetchProps>
