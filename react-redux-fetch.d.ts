@@ -42,12 +42,17 @@ export interface Reducer {
   [key: string]: PromiseState
 }
 
-export interface PromiseState {
+export interface PromiseState<T = any, C = any, M = any> {
   pending: boolean,
   fulfilled: boolean,
   rejected: boolean,
-  value: any,
-  meta: any
+  value?: T,
+  reason?: {
+    cause: C,
+  },
+  request?: {
+    meta: M,
+  },
 }
 
 type RequestType = Request | ((...args: any[]) => Request);
@@ -60,24 +65,28 @@ export interface FetchConfig {
 
 type FetchConfigType<TProps> = ((props: TProps, context: any) => FetchConfig[]) | FetchConfig[];
 
-type Children = DispatchFunctions & FetchData;
-
 type DispatchFunctions = {
-  [key: string]: () => void;
+  [key: string]: (...args: any[]) => void;
 }
 
 type FetchData = {
   [key: string]: PromiseState
 }
 
-export type ReduxFetchProps = {
+export type ReduxFetchRenderProps = DispatchFunctions & FetchData;
+
+export interface RenderableProps<T> {
+  children?: ((props: T) => React.ReactNode) | React.ReactNode
+  render?: (props: T) => React.ReactNode
+}
+
+export interface ReduxFetchProps extends RenderableProps<ReduxFetchRenderProps> {
   config: Array<FetchConfig>;
-  children: (children: Children) => React.ReactNode;
   onFulfil?: (key: string, state: PromiseState, dispatchFunctions: object) => void;
   onReject?: (key: string, state: PromiseState, dispatchFunctions: object) => void;
 }
 
-export class ReduxFetch extends React.Component<ReduxFetchProps>{}
+export var ReduxFetch: React.ComponentType<ReduxFetchProps>
 
 export function connect(fetchItems: FetchConfigType<any>[]): RR.InferableComponentEnhancer<FetchConfigType<any>[]>;
 

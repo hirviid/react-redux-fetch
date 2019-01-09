@@ -19,7 +19,8 @@ type Config = Array<ReactReduxFetchResource>;
 
 type PropsFromParent = {
   config: Config,
-  children: Object => React.Node,
+  children?: Object => React.Node,
+  render?: Object => React.Node,
   fetchOnMount?: boolean | Array<ResourceName>,
   onFulfil?: (ResourceName, PromiseState<*>, DispatchFunctions) => void,
   onReject?: (ResourceName, PromiseState<*>, DispatchFunctions) => void,
@@ -133,10 +134,19 @@ class ReduxFetch extends React.Component<Props, State> {
   }
 
   render() {
-    const { children, fetchData } = this.props;
+    const { children, render, fetchData } = this.props;
     const { dispatchFunctions } = this.state;
 
-    return children({ ...fetchData, ...dispatchFunctions });
+    const cb = render || children;
+
+    if (typeof cb !== 'function' && process.env.NODE_ENV !== 'production') {
+      // eslint-disable-next-line
+      console.error(
+        'Warning: Must specify either a render prop, or a render function as children',
+      );
+    }
+
+    return cb({ ...fetchData, ...dispatchFunctions });
   }
 }
 
