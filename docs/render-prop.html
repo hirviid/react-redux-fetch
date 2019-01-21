@@ -39,9 +39,9 @@
 <li><p><code>fetchOnMount</code>: <strong>Boolean|Array<ResourceName> [optional]</strong></p>
 <p>Automatically call an API endpoint when the component is rendered. When a boolean is given, all endpoints from the <code>config</code> prop are called. When an array is given, only the resource names which are given to the <code>fetchOnMount</code> prop are called.</p></li>
 <li><p><code>onFulfil</code>: <strong>(ResourceName, PromiseState&lt;*&gt;, DispatchFunctions) =&gt; void [optional]</strong></p>
-<p>Called when a certain resource transitions from the pending to the fulfilled state.</p></li>
+<p>Called every time one of the configured resources transitions from the pending to the fulfilled state.</p></li>
 <li><p><code>onReject</code>: <strong>(ResourceName, PromiseState&lt;*&gt;, DispatchFunctions) =&gt; void [optional]</strong></p>
-<p>Called when a certain resource transitions from the pending to the rejected state.</p></li>
+<p>Called every time one of the configured resources transitions from the pending to the rejected state.</p></li>
 <li><p><code>children</code>: <strong>Object =&gt; React.Node [required]</strong></p>
 <p>A function which receives an object of promise states and dispatch functions.
 You can read more about the <a href="/react-redux-fetch/docs/how-does-it-work#1-a-function-to-make-the-actual-request">generated promise states and dispatch functions here</a>. The function should return a React node, which will be rendered.</p></li>
