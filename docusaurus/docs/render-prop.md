@@ -28,11 +28,11 @@ import { ReduxFetch } from 'react-redux-fetch'; // ES6
 
 - `onFulfil`: **(ResourceName, PromiseState<\*>, DispatchFunctions) => void [optional]**
 
-  Called when a certain resource transitions from the pending to the fulfilled state.
+  Called every time one of the configured resources transitions from the pending to the fulfilled state.
 
 - `onReject`: **(ResourceName, PromiseState<\*>, DispatchFunctions) => void [optional]**
 
-  Called when a certain resource transitions from the pending to the rejected state.
+  Called every time one of the configured resources transitions from the pending to the rejected state.
 
 - `children`: **Object => React.Node [required]**
 
