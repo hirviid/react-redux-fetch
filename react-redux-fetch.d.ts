@@ -32,9 +32,12 @@ interface Resource {
 
 type ResourceType = ResourceName | Resource;
 
+type Headers = {[key: string]: string};
+
 interface Request {
   url: string;
   body?: Object;
+  headers?: Headers | ((headers: Headers) => Headers);
   meta?: Object;
   comparison?: any;
   force?: boolean;
