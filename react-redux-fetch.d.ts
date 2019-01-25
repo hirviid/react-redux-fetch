@@ -55,6 +55,15 @@ export interface PromiseState<T = any, C = any, M = any> {
   reason?: {
     cause: C,
   },
+  meta?: {
+    status: number,
+    response: {
+      headers: Headers,
+      ok: boolean,
+      status: number,
+      statusText: string,
+    }
+  },
   request?: {
     meta: M,
   },
