@@ -23,6 +23,7 @@ type PropsFromParent = {
   render?: Object => React.Node,
   fetchOnMount?: boolean | Array<ResourceName>,
   onFulfil?: (ResourceName, PromiseState<*>, DispatchFunctions) => void,
+  onFulfilAll?: () => void,
   onReject?: (ResourceName, PromiseState<*>, DispatchFunctions) => void,
 };
 
@@ -117,6 +118,7 @@ class ReduxFetch extends React.Component<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     const onFulfil = this.props.onFulfil;
+    const onFulfilAll = this.props.onFulfilAll;
     const onReject = this.props.onReject;
 
     if (onFulfil || onReject) {
@@ -131,21 +133,21 @@ class ReduxFetch extends React.Component<Props, State> {
         }
       });
     }
+
+    if (onFulfilAll) {
+      const { allFetches: prevFetches } = this.createAllFetchesRepository(
+        prevProps.fetchData
+      );
+      const { allFetches } = this.createAllFetchesRepository(
+        this.props.fetchData
+      );
+      if (prevFetches.pending && allFetches.fulfilled) {
+        onFulfilAll();
+      }
+    }
   }
 
-  render() {
-    const { children, render, fetchData } = this.props;
-    const { dispatchFunctions } = this.state;
-
-    const cb = render || children;
-
-    if (typeof cb !== 'function' && process.env.NODE_ENV !== 'production') {
-      // eslint-disable-next-line
-      console.error(
-        'Warning: Must specify either a render prop, or a render function as children',
-      );
-    }
-
+  createAllFetchesRepository = (fetchData: Object) => {
     const allPendingBools = map(
       fetchData,
       (repository: PromiseState<*>) => repository.pending
@@ -157,13 +159,31 @@ class ReduxFetch extends React.Component<Props, State> {
       pendingBoolean => pendingBoolean
     );
 
-    return cb({
-      ...fetchData,
-      ...dispatchFunctions,
+    return {
       allFetches: {
         fulfilled: allPendingBools.length > 0 ? !aFetchIsPending : false,
         pending: allPendingBools.length > 0 ? aFetchIsPending : false,
       },
+    };
+  };
+
+  render() {
+    const { children, render, fetchData } = this.props;
+    const { dispatchFunctions } = this.state;
+
+    const cb = render || children;
+
+    if (typeof cb !== 'function' && process.env.NODE_ENV !== 'production') {
+      // eslint-disable-next-line
+      console.error(
+        'Warning: Must specify either a render prop, or a render function as children'
+      );
+    }
+
+    return cb({
+      ...fetchData,
+      ...dispatchFunctions,
+      ...this.createAllFetchesRepository(fetchData),
     });
   }
 }
