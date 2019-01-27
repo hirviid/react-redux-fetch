@@ -12,7 +12,11 @@ import buildActionsFromMappings, {
   ensureResourceIsObject,
   validateResourceObject,
 } from '../utils/buildActionsFromMappings';
-import type { ReactReduxFetchResource, PromiseState, ResourceName } from '../types';
+import type {
+  ReactReduxFetchResource,
+  PromiseState,
+  ResourceName,
+} from '../types';
 
 type DispatchFunctions = Object;
 type Config = Array<ReactReduxFetchResource>;
@@ -81,7 +85,10 @@ class ReduxFetch extends React.Component<Props, State> {
     }
 
     this.state = {
-      dispatchFunctions: ReduxFetch.actionsFromProps(props.dispatch, props.config),
+      dispatchFunctions: ReduxFetch.actionsFromProps(
+        props.dispatch,
+        props.config,
+      ),
     };
   }
 
@@ -136,10 +143,10 @@ class ReduxFetch extends React.Component<Props, State> {
 
     if (onFulfilAll) {
       const { allFetches: prevFetches } = this.createAllFetchesRepository(
-        prevProps.fetchData
+        prevProps.fetchData,
       );
       const { allFetches } = this.createAllFetchesRepository(
-        this.props.fetchData
+        this.props.fetchData,
       );
       if (prevFetches.pending && allFetches.fulfilled) {
         onFulfilAll();
@@ -150,13 +157,13 @@ class ReduxFetch extends React.Component<Props, State> {
   createAllFetchesRepository = (fetchData: Object) => {
     const allPendingBools = map(
       fetchData,
-      (repository: PromiseState<*>) => repository.pending
+      (repository: PromiseState<*>) => repository.pending,
     ).filter(
-      pendingBoolean => pendingBoolean !== undefined && pendingBoolean !== null
+      pendingBoolean => pendingBoolean !== undefined && pendingBoolean !== null,
     );
 
     const aFetchIsPending = allPendingBools.some(
-      pendingBoolean => pendingBoolean
+      pendingBoolean => pendingBoolean,
     );
 
     return {
@@ -176,7 +183,7 @@ class ReduxFetch extends React.Component<Props, State> {
     if (typeof cb !== 'function' && process.env.NODE_ENV !== 'production') {
       // eslint-disable-next-line
       console.error(
-        'Warning: Must specify either a render prop, or a render function as children'
+        'Warning: Must specify either a render prop, or a render function as children',
       );
     }
 
@@ -195,7 +202,8 @@ const getFetchData = (state, config: Config) =>
     getResourceNames(config),
     (data, resourceName) => {
       // eslint-disable-next-line no-param-reassign
-      data[`${resourceName}Fetch`] = getPromise(resourceName).fromState(state) || {};
+      data[`${resourceName}Fetch`] =
+        getPromise(resourceName).fromState(state) || {};
       return data;
     },
     {},
