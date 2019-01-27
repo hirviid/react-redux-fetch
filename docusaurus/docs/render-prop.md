@@ -32,7 +32,7 @@ import { ReduxFetch } from 'react-redux-fetch'; // ES6
 
 - `onFulfilAll`: **() => void [optional]**
 
-  Called when all resources transitioned from the pending to the fulfilled state.
+  Called when all resources from a given config are transitioned from pending to the fulfilled state.
 
 - `onReject`: **(ResourceName, PromiseState<\*>, DispatchFunctions) => void [optional]**
 
