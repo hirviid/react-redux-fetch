@@ -158,18 +158,19 @@ class ReduxFetch extends React.Component<Props, State> {
     const allPendingBools = map(
       fetchData,
       (repository: PromiseState<*>) => repository.pending,
-    ).filter(
-      pendingBoolean => pendingBoolean !== undefined && pendingBoolean !== null,
     );
 
     const aFetchIsPending = allPendingBools.some(
-      pendingBoolean => pendingBoolean,
+      pendingBoolean => pendingBoolean === true,
     );
+
+    const containsTrue = allPendingBools.includes(true);
+    const containsFalse = allPendingBools.includes(false);
 
     return {
       allFetches: {
-        fulfilled: allPendingBools.length > 0 ? !aFetchIsPending : false,
-        pending: allPendingBools.length > 0 ? aFetchIsPending : false,
+        fulfilled: containsTrue || containsFalse ? !aFetchIsPending : false,
+        pending: containsTrue || containsFalse ? aFetchIsPending : false,
       },
     };
   };
