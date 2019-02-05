@@ -69,6 +69,10 @@ export interface PromiseState<T = any, C = any, M = any> {
   },
 }
 
+export type FetchAction<TValue = any> = PromiseState<TValue> & {
+  type: string;
+};
+
 type RequestType = Request | ((...args: any[]) => Request);
 
 export interface FetchConfig {
@@ -101,7 +105,9 @@ export interface ReduxFetchProps extends RenderableProps<ReduxFetchRenderProps> 
   fetchOnMount?: boolean | Array<Resource>,
 }
 
-export var ReduxFetch: React.ComponentType<ReduxFetchProps>
+export function buildActionsFromMappings(config: Array<FetchConfig>): {[key: string]: (...args: any[]) => FetchAction};
+
+export var ReduxFetch: React.ComponentType<ReduxFetchProps>;
 
 export function connect(fetchItems: FetchConfigType<any>[]): RR.InferableComponentEnhancer<FetchConfigType<any>[]>;
 
