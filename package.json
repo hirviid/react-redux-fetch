@@ -1,7 +1,7 @@
 {
-  "name": "react-redux-fetch-extra",
-  "version": "0.15.2",
-  "description": "Fork of React-Redux-Fetch. A declarative and customizable way to fetch data for React components and manage that data in the Redux state",
+  "name": "react-redux-fetch",
+  "version": "0.14.7",
+  "description": "A declarative and customizable way to fetch data for React components and manage that data in the Redux state",
   "main": "./lib/index.js",
   "types": "./react-redux-fetch.d.ts",
   "scripts": {
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/backedchicken/react-redux-fetch.git"
+    "url": "git+https://github.com/hirviid/react-redux-fetch.git"
   },
   "files": [
     "lib",
@@ -36,6 +36,10 @@
   ],
   "author": "David Van Gompel",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hirviid/react-redux-fetch/issues"
+  },
+  "homepage": "https://hirviid.github.io/react-redux-fetch",
   "devDependencies": {
     "@types/react": "16.4.7",
     "@types/react-redux": "6.0.4",
