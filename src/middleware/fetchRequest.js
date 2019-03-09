@@ -4,6 +4,7 @@ import onRejection from '../utils/onRejection';
 
 const fetchRequest = (store, next, action) => {
   const req = container.getDefinition('requestBuilder').getArgument('build')(action.request.url, {
+    ...action.request,
     method: action.method,
     body: action.request.body,
     headers: action.request.headers,

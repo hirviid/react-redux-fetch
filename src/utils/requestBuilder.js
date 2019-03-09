@@ -4,7 +4,7 @@ import container from '../container';
 
 const requestBuilder = (
   url,
-  options: RequestInit
+  options,
 ) => {
   const headers = options.headers;
   const finalHeaders = isFunction(headers)
