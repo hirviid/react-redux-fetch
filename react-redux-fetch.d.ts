@@ -100,8 +100,8 @@ export interface RenderableProps<T> {
 
 export interface ReduxFetchProps extends RenderableProps<ReduxFetchRenderProps> {
   config: Array<FetchConfig>;
-  onFulfil?: (key: string, state: PromiseState, dispatchFunctions: object) => void;
-  onReject?: (key: string, state: PromiseState, dispatchFunctions: object) => void;
+  onFulfil?: (key: string, state: PromiseState, dispatchFunctions: DispatchFunctions) => void;
+  onReject?: (key: string, state: PromiseState, dispatchFunctions: DispatchFunctions) => void;
   fetchOnMount?: boolean | Array<ResourceName>,
 }
 
