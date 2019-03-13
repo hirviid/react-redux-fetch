@@ -109,6 +109,20 @@ export function buildActionsFromMappings(config: Array<FetchConfig>): {[key: str
 
 export var ReduxFetch: React.ComponentType<ReduxFetchProps>;
 
+export const actions: {
+  for: (verb: string) => {
+    request: (data: any) => FetchAction,
+    fulfill: (data: any) => FetchAction,
+    reject: (data: any) => FetchAction,
+  },
+  clear: (resourceName: ResourceName) => {
+    type: string,
+    resource: {
+      name: ResourceName
+    }
+  }
+};
+
 export function connect(fetchItems: FetchConfigType<any>[]): RR.InferableComponentEnhancer<FetchConfigType<any>[]>;
 
 export function connect<TStateProps, TDispatchProps = {}, TOwnProps = {}, State = {}>(
