@@ -102,7 +102,7 @@ export interface ReduxFetchProps extends RenderableProps<ReduxFetchRenderProps> 
   config: Array<FetchConfig>;
   onFulfil?: (key: string, state: PromiseState, dispatchFunctions: object) => void;
   onReject?: (key: string, state: PromiseState, dispatchFunctions: object) => void;
-  fetchOnMount?: boolean | Array<Resource>,
+  fetchOnMount?: boolean | Array<ResourceName>,
 }
 
 export function buildActionsFromMappings(config: Array<FetchConfig>): {[key: string]: (...args: any[]) => FetchAction};
