@@ -1,5 +1,12 @@
+import {Reducer as ReduxReducer, AnyAction as ReduxAction, Middleware, Dispatch} from 'redux';
 import * as RR from 'react-redux';
 import * as React from 'react';
+
+export interface RequestMethodConfig {
+  method: string;
+  middleware: (store: any, next: Dispatch<ReduxAction>, action: ReduxAction, config: RequestMethodConfig) => Promise<any>;
+  reducer: ReduxReducer;
+}
 
 interface Definition {
   replaceArgument: (path: string, arg: any) => Definition;
@@ -13,7 +20,7 @@ interface Container {
   getDefinition: (name: string) => Definition;
   registerReducer: (name: string, reducer: Function) => Definition;
   registerRequestHeader: (name: string, value: string) => Definition;
-  registerRequestMethod: (method: string, args: { method: string, middleware: Function, reducer: Function }) => Definition;
+  registerRequestMethod: (method: string, args: RequestMethodConfig) => Definition;
   replaceRequestHeaders: (headers: Object) => Definition;
 }
 
@@ -108,6 +115,14 @@ export interface ReduxFetchProps extends RenderableProps<ReduxFetchRenderProps> 
 export function buildActionsFromMappings(config: Array<FetchConfig>): {[key: string]: (...args: any[]) => FetchAction};
 
 export var ReduxFetch: React.ComponentType<ReduxFetchProps>;
+
+export const FETCH: {
+  for: (verb: string) => {
+    REQUEST: string,
+    FULFILL: string,
+    REJECT: string,
+  }
+};
 
 export const actions: {
   for: (verb: string) => {
