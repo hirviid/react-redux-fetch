@@ -62,7 +62,7 @@ export interface PromiseState<T = any, C = any, M = any> {
   reason?: {
     cause: C,
   },
-  meta?: {
+  meta?: M & {
     status: number,
     response: {
       headers: Headers,
@@ -78,6 +78,7 @@ export interface PromiseState<T = any, C = any, M = any> {
 
 export type FetchAction<TValue = any> = PromiseState<TValue> & {
   type: string;
+  resource: Resource;
 };
 
 type RequestType = Request | ((...args: any[]) => Request);
@@ -136,6 +137,15 @@ export const actions: {
       name: ResourceName
     }
   }
+};
+
+export const selectors: {
+  getRepository: <TValue>(resourceName: ResourceName) => {
+    fromState: (state: any) => TValue | undefined
+  },
+  getPromise: <TValue>(resourceName: ResourceName) => {
+    fromState: (state: any) => PromiseState<TValue> | undefined
+  },
 };
 
 export function connect(fetchItems: FetchConfigType<any>[]): RR.InferableComponentEnhancer<FetchConfigType<any>[]>;
