@@ -1,4 +1,5 @@
 import {Reducer as ReduxReducer, AnyAction as ReduxAction, Middleware, Dispatch} from 'redux';
+import { Immutable } from 'seamless-immutable';
 import * as RR from 'react-redux';
 import * as React from 'react';
 
@@ -50,9 +51,9 @@ interface Request {
   force?: boolean;
 }
 
-export interface Reducer {
+export type Reducer = Immutable<{
   [key: string]: PromiseState
-}
+}>
 
 export interface PromiseState<T = any, C = any, M = any> {
   pending: boolean,
