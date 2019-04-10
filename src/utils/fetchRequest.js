@@ -2,7 +2,7 @@ import immutable from 'seamless-immutable';
 import { PENDING } from '../constants/request';
 
 const fetchRequest = (state, action) => {
-  if (state.value) {
+  if (state.value && !action.request.clearValueOnRequest) {
     return state.merge(PENDING).setIn(['meta'], action.request.meta);
   }
   return immutable(PENDING).setIn(['meta'], action.request.meta);

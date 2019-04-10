@@ -49,6 +49,7 @@ interface Request {
   meta?: Object;
   comparison?: any;
   force?: boolean;
+  clearValueOnRequest?: boolean;
 }
 
 export type Reducer = Immutable<{

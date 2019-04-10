@@ -31,7 +31,8 @@ The fetchConfig object has the following required and optional properties:
   - `headers`: **Object|Function<header> [optional]**. Use this to set the headers, for this request only. Use `container.registerRequestHeader()` to set headers for every request. When used as a function, the function receives the default headers as the first parameter.
   - `meta`: **Object [optional]**. Everything passed to 'meta' will be passed to every part in the react-redux-fetch flow.
   - `comparison`: **String [optional]**. If provided, a new request is not made if the `comparison` value between dispatch calls is the same.
-  - `force`: **boolean [optional]**. If `true`, overrules the `comparison` property.
+  - `force`: **boolean [optional]**. When `true`, overrules the `comparison` property.
+  - `clearValueOnRequest`: **boolean [optional]**. From v0.15.0: When `true`, the value is removed from the state while pending.
 
 ## Example
 
