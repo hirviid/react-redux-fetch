@@ -4,16 +4,20 @@ import container from '../container';
 
 const requestBuilder = (
   url,
-  { body, method = 'get', headers = container.getDefinition('requestHeaders').getArguments() } = {},
+  options,
 ) => {
+  const headers = options.headers;
   const finalHeaders = isFunction(headers)
     ? headers(container.getDefinition('requestHeaders').getArguments())
     : headers;
 
+  const body = options.body;
+  const finalBody = isObject(body) && !(body instanceof FormData) ? JSON.stringify(body) : body;
+
   return new Request(url, {
-    method,
+    ...options,
     headers: finalHeaders,
-    body: isObject(body) && !(body instanceof FormData) ? JSON.stringify(body) : body,
+    body: finalBody,
   });
 };
 

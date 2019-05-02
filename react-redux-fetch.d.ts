@@ -42,13 +42,24 @@ type ResourceType = ResourceName | Resource;
 
 type Headers = {[key: string]: string};
 
-interface Request {
+interface Request extends RequestInit {
   url: string;
-  body?: Object;
-  headers?: Headers | ((headers: Headers) => Headers);
+  body?: BodyInit | null;
+  headers?: HeadersInit;
   meta?: Object;
   comparison?: any;
   force?: boolean;
+  cache?: RequestCache;
+  credentials?: RequestCredentials;
+  integrity?: string;
+  keepalive?: boolean;
+  method?: string;
+  mode?: RequestMode;
+  redirect?: RequestRedirect;
+  referrer?: string;
+  referrerPolicy?: ReferrerPolicy;
+  signal?: AbortSignal | null;
+  window?: any;
   clearValueOnRequest?: boolean;
 }
 
