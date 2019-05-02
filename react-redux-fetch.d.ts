@@ -1,5 +1,13 @@
+import {Reducer as ReduxReducer, AnyAction as ReduxAction, Middleware, Dispatch} from 'redux';
+import { Immutable } from 'seamless-immutable';
 import * as RR from 'react-redux';
 import * as React from 'react';
+
+export interface RequestMethodConfig {
+  method: string;
+  middleware: (store: any, next: Dispatch<ReduxAction>, action: ReduxAction, config: RequestMethodConfig) => Promise<any>;
+  reducer: ReduxReducer;
+}
 
 interface Definition {
   replaceArgument: (path: string, arg: any) => Definition;
@@ -13,7 +21,7 @@ interface Container {
   getDefinition: (name: string) => Definition;
   registerReducer: (name: string, reducer: Function) => Definition;
   registerRequestHeader: (name: string, value: string) => Definition;
-  registerRequestMethod: (method: string, args: { method: string, middleware: Function, reducer: Function }) => Definition;
+  registerRequestMethod: (method: string, args: RequestMethodConfig) => Definition;
   replaceRequestHeaders: (headers: Object) => Definition;
 }
 
@@ -52,11 +60,12 @@ interface Request extends RequestInit {
   referrerPolicy?: ReferrerPolicy;
   signal?: AbortSignal | null;
   window?: any;
+  clearValueOnRequest?: boolean;
 }
 
-export interface Reducer {
+export type Reducer = Immutable<{
   [key: string]: PromiseState
-}
+}>
 
 export interface PromiseState<T = any, C = any, M = any> {
   pending: boolean,
@@ -66,7 +75,7 @@ export interface PromiseState<T = any, C = any, M = any> {
   reason?: {
     cause: C,
   },
-  meta?: {
+  meta?: M & {
     status: number,
     response: {
       headers: Headers,
@@ -82,6 +91,7 @@ export interface PromiseState<T = any, C = any, M = any> {
 
 export type FetchAction<TValue = any> = PromiseState<TValue> & {
   type: string;
+  resource: Resource;
 };
 
 type RequestType = Request | ((...args: any[]) => Request);
@@ -111,14 +121,45 @@ export interface RenderableProps<T> {
 
 export interface ReduxFetchProps extends RenderableProps<ReduxFetchRenderProps> {
   config: Array<FetchConfig>;
-  onFulfil?: (key: string, state: PromiseState, dispatchFunctions: object) => void;
-  onReject?: (key: string, state: PromiseState, dispatchFunctions: object) => void;
-  fetchOnMount?: boolean | Array<Resource>,
+  onFulfil?: (key: string, state: PromiseState, dispatchFunctions: DispatchFunctions) => void;
+  onReject?: (key: string, state: PromiseState, dispatchFunctions: DispatchFunctions) => void;
+  fetchOnMount?: boolean | Array<ResourceName>,
 }
 
 export function buildActionsFromMappings(config: Array<FetchConfig>): {[key: string]: (...args: any[]) => FetchAction};
 
 export var ReduxFetch: React.ComponentType<ReduxFetchProps>;
+
+export const FETCH: {
+  for: (verb: string) => {
+    REQUEST: string,
+    FULFILL: string,
+    REJECT: string,
+  }
+};
+
+export const actions: {
+  for: (verb: string) => {
+    request: (data: any) => FetchAction,
+    fulfill: (data: any) => FetchAction,
+    reject: (data: any) => FetchAction,
+  },
+  clear: (resourceName: ResourceName) => {
+    type: string,
+    resource: {
+      name: ResourceName
+    }
+  }
+};
+
+export const selectors: {
+  getRepository: <TValue>(resourceName: ResourceName) => {
+    fromState: (state: any) => TValue | undefined
+  },
+  getPromise: <TValue>(resourceName: ResourceName) => {
+    fromState: (state: any) => PromiseState<TValue> | undefined
+  },
+};
 
 export function connect(fetchItems: FetchConfigType<any>[]): RR.InferableComponentEnhancer<FetchConfigType<any>[]>;
 
