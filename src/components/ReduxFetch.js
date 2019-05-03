@@ -12,7 +12,11 @@ import buildActionsFromMappings, {
   ensureResourceIsObject,
   validateResourceObject,
 } from '../utils/buildActionsFromMappings';
-import type { ReactReduxFetchResource, PromiseState, ResourceName } from '../types';
+import type {
+  ReactReduxFetchResource,
+  PromiseState,
+  ResourceName,
+} from '../types';
 
 type DispatchFunctions = Object;
 type Config = Array<ReactReduxFetchResource>;
@@ -23,6 +27,7 @@ type PropsFromParent = {
   render?: Object => React.Node,
   fetchOnMount?: boolean | Array<ResourceName>,
   onFulfil?: (ResourceName, PromiseState<*>, DispatchFunctions) => void,
+  onFulfilAll?: () => void,
   onReject?: (ResourceName, PromiseState<*>, DispatchFunctions) => void,
 };
 
@@ -80,7 +85,10 @@ class ReduxFetch extends React.Component<Props, State> {
     }
 
     this.state = {
-      dispatchFunctions: ReduxFetch.actionsFromProps(props.dispatch, props.config),
+      dispatchFunctions: ReduxFetch.actionsFromProps(
+        props.dispatch,
+        props.config,
+      ),
     };
   }
 
@@ -117,6 +125,7 @@ class ReduxFetch extends React.Component<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     const onFulfil = this.props.onFulfil;
+    const onFulfilAll = this.props.onFulfilAll;
     const onReject = this.props.onReject;
 
     if (onFulfil || onReject) {
@@ -131,7 +140,40 @@ class ReduxFetch extends React.Component<Props, State> {
         }
       });
     }
+
+    if (onFulfilAll) {
+      const { allFetches: prevFetches } = this.createAllFetchesRepository(
+        prevProps.fetchData,
+      );
+      const { allFetches } = this.createAllFetchesRepository(
+        this.props.fetchData,
+      );
+      if (prevFetches.pending && allFetches.fulfilled) {
+        onFulfilAll();
+      }
+    }
   }
+
+  createAllFetchesRepository = (fetchData: Object) => {
+    const allPendingBools = map(
+      fetchData,
+      (repository: PromiseState<*>) => repository.pending,
+    );
+
+    const aFetchIsPending = allPendingBools.some(
+      pendingBoolean => pendingBoolean === true,
+    );
+
+    const containsTrue = allPendingBools.includes(true);
+    const containsFalse = allPendingBools.includes(false);
+
+    return {
+      allFetches: {
+        fulfilled: containsTrue || containsFalse ? !aFetchIsPending : false,
+        pending: containsTrue || containsFalse ? aFetchIsPending : false,
+      },
+    };
+  };
 
   render() {
     const { children, render, fetchData } = this.props;
@@ -146,7 +188,11 @@ class ReduxFetch extends React.Component<Props, State> {
       );
     }
 
-    return cb({ ...fetchData, ...dispatchFunctions });
+    return cb({
+      ...fetchData,
+      ...dispatchFunctions,
+      ...this.createAllFetchesRepository(fetchData),
+    });
   }
 }
 
@@ -157,7 +203,8 @@ const getFetchData = (state, config: Config) =>
     getResourceNames(config),
     (data, resourceName) => {
       // eslint-disable-next-line no-param-reassign
-      data[`${resourceName}Fetch`] = getPromise(resourceName).fromState(state) || {};
+      data[`${resourceName}Fetch`] =
+        getPromise(resourceName).fromState(state) || {};
       return data;
     },
     {},
