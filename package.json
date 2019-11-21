@@ -1,82 +1,38 @@
 {
-  "name": "react-redux-fetch",
-  "version": "0.15.0",
-  "description": "A declarative and customizable way to fetch data for React components and manage that data in the Redux state",
-  "main": "./lib/index.js",
-  "types": "./react-redux-fetch.d.ts",
-  "scripts": {
-    "install:peers": "yarn add $(jq -r '.peerDependencies|keys|join(\" \")' package.json)",
-    "build": "npm run build:lib && npm run build:flow",
-    "build:lib": "babel src --out-dir lib",
-    "build:flow": "flow-copy-source -v -i '{**/test/*.js,**/*.test.js}' src lib",
-    "clean": "rimraf lib dist coverage",
-    "lint": "eslint src test",
-    "fix": "eslint --fix src",
-    "prepublish": "npm run clean && npm run lint && npm run build",
-    "test": "mocha test/setup.js \"src/**/*.spec.js\" --reporter progress",
-    "test:watch": "npm test -- --watch",
-    "flow": "flow check src"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hirviid/react-redux-fetch.git"
-  },
-  "files": [
-    "lib",
-    "react-redux-fetch.d.ts"
-  ],
-  "keywords": [
-    "react",
-    "reactjs",
-    "redux",
-    "fetch",
-    "data",
-    "ajax",
-    "crud"
-  ],
-  "author": "David Van Gompel",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/hirviid/react-redux-fetch/issues"
-  },
-  "homepage": "https://hirviid.github.io/react-redux-fetch",
+  "name": "root",
+  "private": true,
   "devDependencies": {
-    "@types/react": "16.4.7",
-    "@types/react-redux": "6.0.4",
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.1",
-    "babel-eslint": "^7.2.2",
-    "babel-loader": "^7.0.0",
-    "babel-plugin-transform-decorators-legacy": "1.3.4",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-es2015-loose": "^8.0.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "babel-register": "^6.24.1",
-    "chai": "3.5.0",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-flowtype": "^2.32.1",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.3",
-    "flow-bin": "^0.81.0",
-    "flow-copy-source": "^1.1.0",
-    "mocha": "^3.2.0",
-    "react": "16.4.2",
-    "react-redux": "5.0.7",
-    "rimraf": "^2.6.1"
+    "husky": "^4.0.0-beta.1",
+    "lerna": "^3.4.3",
+    "lint-staged": "^9.2.1",
+    "prettier": "^1.18.2",
+    "tsc-watch": "^2.4.0",
+    "typescript": "^3.7.2"
+  },
+  "lint-staged": {
+    "src/**/*.ts*": [
+      "prettier --trailing-comma es5 --single-quote --print-width 100 --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "singleQuote": true,
+    "printWidth": 100
   },
   "dependencies": {
-    "iterators-polyfill": "1.0.2",
-    "memoize-one": "4.0.0",
-    "seamless-immutable": "^7.1.2"
-  },
-  "peerDependencies": {
-    "lodash": "^4.17.5",
-    "react": "^0.14.0 || ^15.0.0-0 || ^16.0.0",
-    "react-redux": "^4.0.0 || ^5.0.0",
-    "redux": "^2.0.0 || ^3.0.0 || ^4.0.0"
+    "@types/lodash": "^4.14.137",
+    "@types/memoize-one": "^4.1.1",
+    "@types/moment": "^2.13.0",
+    "@types/redux-persist": "^4.3.1",
+    "lodash": "^4.17.15",
+    "memoize-one": "^5.1.0",
+    "moment": "^2.24.0",
+    "redux-persist": "^5.10.0"
   }
 }

@@ -1,0 +1,20 @@
+{
+  "name": "react-redux-fetch-hooks",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "repository": "https://github.com/hirviid/react-redux-fetch-hooks",
+  "author": "hirviid",
+  "license": "MIT",
+  "scripts": {
+    "tsc": "tsc",
+    "tsc-watch": "tsc-watch"
+  },
+  "peerDependencies": {
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.4"
+  },
+  "devDependencies": {
+    "@types/react-redux": "^7.1.2"
+  }
+}
