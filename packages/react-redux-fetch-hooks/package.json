@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "repository": "https://github.com/hirviid/react-redux-fetch-hooks",
+  "repository": "https://github.com/hirviid/react-redux-fetch",
   "author": "hirviid",
   "license": "MIT",
   "scripts": {
@@ -16,5 +16,8 @@
   },
   "devDependencies": {
     "@types/react-redux": "^7.1.2"
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
