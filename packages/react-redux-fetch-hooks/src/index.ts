@@ -4,6 +4,7 @@ import { fetchMiddleware } from './middleware/fetchMiddleware';
 import { useFetch } from './useFetch';
 import { isFetchAction, isRequestAction, isSuccessAction } from './util/isFetchAction';
 import * as promiseState from './util/promiseState';
+export * from './types';
 
 export {
   repositoryReducer,

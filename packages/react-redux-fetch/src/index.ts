@@ -3,6 +3,7 @@ import { requestReducer } from './reducers/requestReducer';
 import { fetchMiddleware } from './middleware/fetchMiddleware';
 import { isFetchAction, isRequestAction, isSuccessAction } from './util/isFetchAction';
 import * as promiseState from './util/promiseState';
+export * from './types';
 
 export {
   repositoryReducer,
