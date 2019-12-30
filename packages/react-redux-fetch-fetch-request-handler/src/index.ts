@@ -1,4 +1,4 @@
-import { RequestHandler } from 'react-redux-fetch-hooks';
+import { RequestHandler } from '@react-redux-fetch/core';
 import newError from './errors';
 
 type Maybe<T> = T | undefined;

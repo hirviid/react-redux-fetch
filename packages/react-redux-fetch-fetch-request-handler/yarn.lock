@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@react-redux-fetch/core@^1.0.0-alpha.1":
+  version "1.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@react-redux-fetch/core/-/core-1.0.0-alpha.1.tgz#59726b1ec3a9d755cb535f116901678cc700b0e3"
+  integrity sha512-JlNraJD+DLqT/YSq66ywpVxUkCH+Oo6mhHd0hirZO83jc86jwJ2Q8iCbOIQf7a3KsgSPa3lmfGQKqTDPCS8vfg==
+
 "js-tokens@^3.0.0 || ^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -13,11 +18,6 @@ loose-envify@^1.4.0:
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
-
-react-redux-fetch-hooks@^1.0.0-alpha.2:
-  version "1.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/react-redux-fetch-hooks/-/react-redux-fetch-hooks-1.0.0-alpha.2.tgz#513b3da3b90a6d9140d10a8100e56eb5911fa156"
-  integrity sha512-i/BjLqQ5vt4GUOJMdmU1Jb7StsUBWC2B7M9vBRaYGND14HR0HH32EeSZkGHqVJMZ6I8PQ2iAyIDyl26kUFweOw==
 
 redux@^4.0.5:
   version "4.0.5"

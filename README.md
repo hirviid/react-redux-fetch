@@ -19,9 +19,9 @@ A declarative and customizable way to fetch data for React components and manage
 ### Installation
 
 ```
-npm install --save react-redux-fetch react-redux-fetch-hooks react-redux-fetch-fetch-request-handler
+npm install --save @react-redux-fetch/core @react-redux-fetch/hooks @react-redux-fetch/fetch-request-handler
 
-yarn add react-redux-fetch react-redux-fetch-hooks react-redux-fetch-fetch-request-handler
+yarn add @react-redux-fetch/core @react-redux-fetch/hooks @react-redux-fetch/fetch-request-handler
 ```
 
 ### Setup
@@ -31,8 +31,8 @@ yarn add react-redux-fetch react-redux-fetch-hooks react-redux-fetch-fetch-reque
    ```js
    // ...
    import { createStore, applyMiddleware } from 'redux';
-   import { fetchMiddleware } from 'react-redux-fetch';
-   import { fetchRequestHandler } from 'react-redux-fetch-fetch-request-handler';
+   import { fetchMiddleware } from '@react-redux-fetch/core';
+   import { fetchRequestHandler } from '@react-redux-fetch/fetch-request-handler';
    // ...
 
    const store = createStore(
@@ -53,7 +53,7 @@ yarn add react-redux-fetch react-redux-fetch-hooks react-redux-fetch-fetch-reque
 
    ```js
    import { combineReducers } from 'redux';
-   import { repositoryReducer, requestReducer } from 'react-redux-fetch';
+   import { repositoryReducer, requestReducer } from '@react-redux-fetch/core';
 
    const rootReducer = combineReducers({
      // ... other reducers
@@ -79,7 +79,7 @@ yarn add react-redux-fetch react-redux-fetch-hooks react-redux-fetch-fetch-reque
 4. Fetch data
 
    ```jsx
-   import { useFetch } from 'react-redux-fetch-hooks';
+   import { useFetch } from '@react-redux-fetch/hooks';
    import { useSelector } from 'react-redux';
 
    function App() {
