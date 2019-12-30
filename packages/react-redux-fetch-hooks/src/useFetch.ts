@@ -1,8 +1,8 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
-import { FetchConfig, PromiseState } from './types';
 import { useDispatch, useSelector } from 'react-redux';
-import { requestAction } from './actions';
-import { getRequestStateKey } from './util/getRequestStateKey';
+import { requestAction } from './lib/actions';
+import { getRequestStateKey } from './lib/util';
+import { FetchConfig, PromiseState } from './lib';
 
 type Options = {
   debugKey?: string;

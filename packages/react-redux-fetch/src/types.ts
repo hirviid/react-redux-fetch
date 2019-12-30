@@ -7,13 +7,14 @@ export type UnixDateTime = number;
 export type Method = string;
 export type Url = string;
 export type TransformFn = (prev: any, next: any) => any;
+export type OptimisticFn = (prev: any, next: any, phase: 'optimistic' | 'rollback') => any;
 
 export interface FetchConfig<Repository = AnyObject> {
   method?: Method;
   url: Url;
   repository: Partial<Record<keyof Repository, TransformFn>>;
   transform?: (responseValue: any, rawResponse?: any) => Partial<Record<keyof Repository, any>>;
-  optimistic?: Partial<Record<keyof Repository, TransformFn>>;
+  optimistic?: Partial<Record<keyof Repository, OptimisticFn>>;
   fetchOptions?: Record<string, any>;
 }
 
@@ -67,7 +68,7 @@ export type PromiseState = PendingPromiseState | SuccessPromiseState | ErrorProm
 export type Callback = (statusCode: StatusCode, responseBody: any, rawResponse?: any) => void;
 
 export type RequestHandler = (
-  fetchConfig: FetchConfig
+    fetchConfig: FetchConfig
 ) => {
   handle: (callback: Callback) => void;
 };
