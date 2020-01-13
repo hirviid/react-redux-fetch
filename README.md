@@ -32,7 +32,7 @@ yarn add @react-redux-fetch/core @react-redux-fetch/hooks @react-redux-fetch/fet
    // ...
    import { createStore, applyMiddleware } from 'redux';
    import { fetchMiddleware } from '@react-redux-fetch/core';
-   import { fetchRequestHandler } from '@react-redux-fetch/fetch-request-handler';
+   import { createFetchRequestHandler } from '@react-redux-fetch/fetch-request-handler';
    // ...
 
    const store = createStore(
@@ -40,7 +40,7 @@ yarn add @react-redux-fetch/core @react-redux-fetch/hooks @react-redux-fetch/fet
      composeEnhancers(
        applyMiddleware(
          fetchMiddleware({
-           requestHandler: fetchRequestHandler,
+           requestHandler: createFetchRequestHandler(),
          })
        )
      )
