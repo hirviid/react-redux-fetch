@@ -1,6 +1,6 @@
 {
   "name": "@react-redux-fetch/fetch-request-handler",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.6",
   "description": "Request handler with Fetch API for react-redux-fetch",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
