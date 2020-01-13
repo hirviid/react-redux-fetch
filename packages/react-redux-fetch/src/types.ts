@@ -52,6 +52,7 @@ export interface SuccessPromiseState {
   rejected: false;
   requestCount: number;
   lastSuccessAt: UnixDateTime;
+  response: unknown;
 }
 
 export interface ErrorPromiseState<TReason = any> {

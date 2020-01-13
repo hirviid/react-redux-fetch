@@ -27,7 +27,7 @@ export const requestReducer: Reducer = (state = {}, action): Record<string, Prom
         fulfilled: true,
         rejected: false,
         requestCount: state[successKey].requestCount,
-        // response: action.payload.response,
+        response: action.payload.response,
         lastSuccessAt: (new Date()).getTime(),
       },
     };
