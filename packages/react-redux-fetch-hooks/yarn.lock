@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@react-redux-fetch/core@^1.0.0-alpha.5":
-  version "1.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@react-redux-fetch/core/-/core-1.0.0-alpha.5.tgz#487abcde821d135fca0e1efb7a056ee2276e01d8"
-  integrity sha512-rO11BCx0sgH85pnIazkaJkSZ7T6n+sB4CtlaNmpAhFnMEy+cyOweR+ljDIKCyMVMSUP/OXk/3BF6rhTsfq7t2w==
-
 "@types/hoist-non-react-statics@^3.3.0":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz#1124aafe5118cb591977aeb1ceaaed1070eb039f"
