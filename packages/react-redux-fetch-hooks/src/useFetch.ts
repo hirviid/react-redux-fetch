@@ -32,7 +32,6 @@ export function useFetch<TMakeRequestParams extends Array<any>>(
 
   const request = useCallback(
     (...args: TMakeRequestParams) => {
-      console.log(args);
       const fetchConfig = savedMakeFetchConfig.current(...args);
 
       if (!fetchConfig) {
