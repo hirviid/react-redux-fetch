@@ -77,3 +77,7 @@ export type RequestHandler = (
 export interface ReactReduxFetchConfig {
   requestHandler: RequestHandler;
 }
+
+export interface ReactReduxFetchState {
+  requests: Record<string, PromiseState>
+}

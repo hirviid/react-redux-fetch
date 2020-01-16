@@ -13,7 +13,7 @@
     "prepublish": "npm run clean && npm run tsc"
   },
   "peerDependencies": {
-    "@react-redux-fetch/core": "^1.0.0-alpha.1",
+    "@react-redux-fetch/core": "^1.0.0-alpha.5",
     "react-redux": "^7.1.0",
     "redux": "^4.0.4"
   },
