@@ -1,4 +1,5 @@
 import { RequestHandler } from '@react-redux-fetch/core';
+import { getRequestStateKey } from '@react-redux-fetch/core/dist/util/getRequestStateKey';
 import { handleResponse } from './handleResponse';
 
 type Maybe<T> = T | undefined;
@@ -14,6 +15,8 @@ const isObject = (maybeObject: any): maybeObject is AnyObject =>
 const defaultConfig = {
   responseHandler: handleResponse,
 };
+
+const pendingRequests: Record<string, boolean> = {};
 
 export const createFetchRequestHandler = (
   config?: FetchRequestHandlerConfig
@@ -34,9 +37,23 @@ export const createFetchRequestHandler = (
   }
 
   return {
+    abort: () => {
+      delete pendingRequests[getRequestStateKey(fetchConfig)];
+    },
     handle: callback => {
       const request = new Request(url, { method, ...options });
       let response: Maybe<Response>;
+
+      pendingRequests[getRequestStateKey(fetchConfig)] = true;
+
+      const onFetchDone = (body: any) => {
+        if (!pendingRequests[getRequestStateKey(fetchConfig)]) {
+          return;
+        }
+
+        delete pendingRequests[getRequestStateKey(fetchConfig)];
+        callback(response ? response.status : 0, body, response);
+      };
 
       fetch(request)
         .then(_res => {
@@ -44,14 +61,7 @@ export const createFetchRequestHandler = (
           return _res;
         })
         .then(conf.responseHandler)
-        .then(
-          body => {
-            callback(response ? response.status : 0, body, response);
-          },
-          body => {
-            callback(response ? response.status : 0, body, response);
-          }
-        );
+        .then(onFetchDone, onFetchDone);
     },
   };
 };

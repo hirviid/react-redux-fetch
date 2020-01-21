@@ -1,5 +1,10 @@
-import {ErrorAction, FetchConfig, Method, RequestAction, SuccessAction, Url} from './types';
-import {REQUEST_FULFILLED, REQUEST_REJECTED, REQUEST_STARTED} from './actionTypes';
+import { ErrorAction, FetchConfig, Method, RequestAction, SuccessAction, Url } from './types';
+import {
+  REQUEST_CANCELLED,
+  REQUEST_FULFILLED,
+  REQUEST_REJECTED,
+  REQUEST_STARTED,
+} from './actionTypes';
 
 const createActionType = (actionType: string, url: Url, method: Method = 'GET') => {
   return `${actionType} ${method} ${url}`;
@@ -31,11 +36,7 @@ export const successAction = (
   };
 };
 
-export const errorAction = (
-  fetchConfig: FetchConfig,
-  reason: any,
-  response?: any,
-): ErrorAction => {
+export const errorAction = (fetchConfig: FetchConfig, reason: any, response?: any): ErrorAction => {
   return {
     __type: REQUEST_REJECTED,
     type: createActionType(REQUEST_REJECTED, fetchConfig.url, fetchConfig.method),
@@ -43,6 +44,16 @@ export const errorAction = (
       fetchConfig,
       reason,
       response,
+    },
+  };
+};
+
+export const cancelAction = (fetchConfig: FetchConfig) => {
+  return {
+    __type: REQUEST_CANCELLED,
+    type: createActionType(REQUEST_CANCELLED, fetchConfig.url, fetchConfig.method),
+    payload: {
+      fetchConfig,
     },
   };
 };

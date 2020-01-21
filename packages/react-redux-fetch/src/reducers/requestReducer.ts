@@ -5,7 +5,7 @@ import {PromiseState} from "../types";
 
 export const requestReducer: Reducer = (state = {}, action): Record<string, PromiseState> => {
   if (isRequestAction(action)) {
-    const requestKey = getRequestStateKey(action);
+    const requestKey = getRequestStateKey(action.payload.fetchConfig);
     return {
       ...state,
       [requestKey]: {
@@ -19,7 +19,7 @@ export const requestReducer: Reducer = (state = {}, action): Record<string, Prom
   }
 
   if (isSuccessAction(action)) {
-    const successKey = getRequestStateKey(action);
+    const successKey = getRequestStateKey(action.payload.fetchConfig);
     return {
       ...state,
       [successKey]: {
@@ -34,7 +34,7 @@ export const requestReducer: Reducer = (state = {}, action): Record<string, Prom
   }
 
   if (isErrorAction(action)) {
-    const errorKey = getRequestStateKey(action);
+    const errorKey = getRequestStateKey(action.payload.fetchConfig);
     return {
       ...state,
       [errorKey]: {

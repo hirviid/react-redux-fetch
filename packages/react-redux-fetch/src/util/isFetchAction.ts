@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux';
-import {ErrorAction, FetchAction, RequestAction, SuccessAction} from '../types';
-import {REQUEST_FULFILLED, REQUEST_REJECTED, REQUEST_STARTED} from '../actionTypes';
+import {CancelAction, ErrorAction, FetchAction, RequestAction, SuccessAction} from '../types';
+import {REQUEST_CANCELLED, REQUEST_FULFILLED, REQUEST_REJECTED, REQUEST_STARTED} from '../actionTypes';
 
 export const isFetchAction = (action: AnyAction): action is FetchAction => {
   return action.hasOwnProperty('__type');
@@ -17,3 +17,8 @@ export const isSuccessAction = (action: AnyAction): action is SuccessAction => {
 export const isErrorAction = (action: AnyAction): action is ErrorAction => {
   return isFetchAction(action) && action.__type === REQUEST_REJECTED;
 };
+
+export const isCancelAction = (action: AnyAction): action is CancelAction => {
+  return isFetchAction(action) && action.__type === REQUEST_CANCELLED;
+};
+

@@ -1,6 +1,5 @@
-import {FetchAction} from "../types";
+import {FetchConfig} from "../types";
 
-export function getRequestStateKey(action: FetchAction): string {
-  const fetchConfig = action.payload.fetchConfig;
+export function getRequestStateKey(fetchConfig: FetchConfig): string {
   return `${fetchConfig.method || 'GET'} ${fetchConfig.url}`;
 }

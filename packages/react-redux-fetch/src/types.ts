@@ -35,6 +35,10 @@ export interface ErrorAction extends FetchAction {
   payload: { fetchConfig: FetchConfig; response: any; reason: any };
 }
 
+export interface CancelAction extends FetchAction {
+  payload: { fetchConfig: FetchConfig };
+}
+
 export interface PendingPromiseState {
   pending: true;
   fulfilled: false;
@@ -72,6 +76,7 @@ export type RequestHandler = (
     fetchConfig: FetchConfig
 ) => {
   handle: (callback: Callback) => void;
+  abort: () => void;
 };
 
 export interface ReactReduxFetchConfig {

@@ -15,7 +15,7 @@ import { useFetch } from '../useFetch';
 type State = ReactReduxFetchState & {
   repository: {
     message: string;
-  };
+  },
 };
 
 const rootReducer = combineReducers({
@@ -31,6 +31,7 @@ const App: React.FC = props => {
 
 const mockNetworkInterface: RequestHandler = () => {
   return {
+    abort() {},
     handle(cb) {
       setTimeout(() => cb(200, { message: 'Hello World' }), 100);
     },
@@ -114,16 +115,20 @@ describe('useFetch', () => {
         );
       }
 
-      if (promiseState?.pending) {
+      if (promiseState.pending) {
         return <div data-testid="promise-state-pending">PENDING</div>;
       }
 
-      return (
-          <>
-            <div data-testid="promise-state-fulfilled">FULFILLED</div>
-            <div data-testid="value">{message}</div>
-          </>
-      );
+      if (promiseState.fulfilled) {
+        return (
+            <>
+              <div data-testid="promise-state-fulfilled">FULFILLED</div>
+              <div data-testid="value">{message}</div>
+            </>
+        );
+      }
+
+      return <div>Oops</div>;
     };
 
     const { container } = render(

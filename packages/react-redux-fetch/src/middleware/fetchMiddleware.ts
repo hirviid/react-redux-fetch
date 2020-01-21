@@ -1,6 +1,6 @@
 import { Middleware } from 'redux';
 import { ReactReduxFetchConfig } from '../types';
-import { isRequestAction } from '../util/isFetchAction';
+import { isCancelAction, isRequestAction } from '../util/isFetchAction';
 import { errorAction, successAction } from '../actions';
 
 type FetchMiddleware = (config: ReactReduxFetchConfig) => Middleware;
@@ -16,6 +16,11 @@ export const fetchMiddleware: FetchMiddleware = config => store => next => actio
         store.dispatch(errorAction(fetchConfig, responseBody, rawResponse));
       }
     });
+  }
+
+  if (isCancelAction(action)) {
+    const fetchConfig = action.payload.fetchConfig;
+    config.requestHandler(fetchConfig).abort();
   }
 
   next(action);

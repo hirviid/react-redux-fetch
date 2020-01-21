@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-"@react-redux-fetch/core@^1.0.0-alpha.5":
-  version "1.0.0-alpha.5"
-  resolved "https://registry.yarnpkg.com/@react-redux-fetch/core/-/core-1.0.0-alpha.5.tgz#487abcde821d135fca0e1efb7a056ee2276e01d8"
-  integrity sha512-rO11BCx0sgH85pnIazkaJkSZ7T6n+sB4CtlaNmpAhFnMEy+cyOweR+ljDIKCyMVMSUP/OXk/3BF6rhTsfq7t2w==
-
 "js-tokens@^3.0.0 || ^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
