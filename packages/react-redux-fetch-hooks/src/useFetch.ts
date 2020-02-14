@@ -20,7 +20,7 @@ export function useFetch<TMakeRequestParams extends Array<any>>(
 ): [
   PromiseState | undefined,
   (...args: TMakeRequestParams) => void,
-  (...args: TMakeRequestParams) => void
+  () => void
 ] {
   const { eager, debugKey } = options;
 
