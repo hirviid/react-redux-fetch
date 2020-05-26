@@ -1,6 +1,6 @@
 {
   "name": "@react-redux-fetch/fetch-request-handler",
-  "version": "1.0.0-alpha.9",
+  "version": "1.0.0-alpha.11",
   "description": "Request handler with Fetch API for react-redux-fetch",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -20,7 +20,7 @@
     "dist"
   ],
   "devDependencies": {
-    "rimraf": "^3.0.0",
-    "@react-redux-fetch/core": "^1.0.0-alpha.11"
+    "@react-redux-fetch/core": "^1.0.0-alpha.11",
+    "rimraf": "^3.0.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@react-redux-fetch/hooks",
-  "version": "1.0.0-alpha.10",
+  "version": "1.0.0-alpha.11",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "repository": "https://github.com/hirviid/react-redux-fetch",
@@ -17,8 +17,8 @@
     "@react-redux-fetch/core": "^1.0.0-alpha.11"
   },
   "devDependencies": {
-    "rimraf": "^3.0.0",
-    "@react-redux-fetch/core": "^1.0.0-alpha.11"
+    "@react-redux-fetch/core": "^1.0.0-alpha.11",
+    "rimraf": "^3.0.0"
   },
   "files": [
     "dist"
