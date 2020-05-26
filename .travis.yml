@@ -3,8 +3,10 @@ node_js:
   - 'node'
 cache:
   yarn: true
-script:
+before_script:
+  - yarn global add typescript
   - lerna bootstrap --force-local
+script:
   - yarn run test
 after_success:
   - yarn run test:coverage
