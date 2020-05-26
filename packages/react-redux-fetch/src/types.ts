@@ -12,6 +12,7 @@ export type OptimisticFn = (prev: any, next: any, phase: 'optimistic' | 'rollbac
 export interface FetchConfig<Repository = AnyObject> {
   method?: Method;
   url: Url;
+  requestKey?: string;
   repository: Partial<Record<keyof Repository, TransformFn>>;
   transform?: (responseValue: any, rawResponse?: any) => Partial<Record<keyof Repository, any>>;
   optimistic?: Partial<Record<keyof Repository, OptimisticFn>>;

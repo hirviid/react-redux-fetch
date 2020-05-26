@@ -6,6 +6,7 @@ import {PromiseState} from "../types";
 export const requestReducer: Reducer = (state = {}, action): Record<string, PromiseState> => {
   if (isRequestAction(action)) {
     const requestKey = getRequestStateKey(action.payload.fetchConfig);
+
     return {
       ...state,
       [requestKey]: {

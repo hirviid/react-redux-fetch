@@ -1,17 +1,18 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FetchConfig, PromiseState, ReactReduxFetchState, getRequestStateKey } from '@react-redux-fetch/core';
+import {
+  FetchConfig,
+  PromiseState,
+  ReactReduxFetchState,
+  getRequestStateKey,
+} from '@react-redux-fetch/core';
 import { requestAction, cancelAction } from '@react-redux-fetch/core/dist/actions';
-import {MakeFetchConfig, Options} from "./types";
+import { MakeFetchConfig, Options } from './types';
 
 export function useFetch<TMakeRequestParams extends Array<any>>(
   makeFetchConfig: MakeFetchConfig<TMakeRequestParams>,
   options: Options = {}
-): [
-  PromiseState | undefined,
-  (...args: TMakeRequestParams) => void,
-  () => void
-] {
+): [PromiseState | undefined, (...args: TMakeRequestParams) => void, () => void] {
   const { eager, debugKey } = options;
 
   debugKey && console.count(`${debugKey || ''} useFetch`);
@@ -22,7 +23,7 @@ export function useFetch<TMakeRequestParams extends Array<any>>(
 
   const [requestStateKey, setRequestStateKey] = useState();
   const promiseState = useSelector(
-    (state: ReactReduxFetchState) => state.requests[requestStateKey]
+    (state: ReactReduxFetchState) => requestStateKey ? state.requests[requestStateKey] : undefined
   );
 
   const request = useCallback(
@@ -55,6 +56,12 @@ export function useFetch<TMakeRequestParams extends Array<any>>(
   // Remember the latest callback.
   useEffect(() => {
     savedMakeFetchConfig.current = makeFetchConfig;
+    if (savedMakeFetchConfig.current.length === 0) {
+      savedFetchConfig.current = makeFetchConfig();
+      if (savedFetchConfig.current?.requestKey) {
+        setRequestStateKey(savedFetchConfig.current.requestKey);
+      }
+    }
   }, [makeFetchConfig]);
 
   useEffect(() => {

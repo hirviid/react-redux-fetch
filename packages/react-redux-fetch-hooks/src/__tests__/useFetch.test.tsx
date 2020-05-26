@@ -98,7 +98,6 @@ describe('useFetch', () => {
     }
   });
 
-
   it('Should load data after user interaction', async () => {
     const Content = () => {
       const [promiseState, onRequest] = useFetch(fetchConfig);
@@ -168,4 +167,54 @@ describe('useFetch', () => {
       expect(contentNode.textContent).toBe('Hello World');
     }
   });
+
+  it('Should have the correct promiseState in another component (using the requestKey option)', async () => {
+    const fetchConfigWithRequestKey = (): FetchConfig<State['repository']> => ({
+      url: '/message',
+      requestKey: 'veryAwesomeRequestKey',
+      repository: {
+        message: (_prev, next) => next.message,
+      },
+    });
+
+    const Content = () => {
+      useFetch(fetchConfigWithRequestKey, {eager: true});
+
+      return null;
+    }
+
+    const Content2 = () => {
+      const [promiseState] = useFetch(fetchConfigWithRequestKey);
+
+      if (promiseState?.pending) {
+        return <div data-testid="promise-state-pending">PENDING</div>;
+      }
+
+      if (promiseState?.fulfilled) {
+        return <div data-testid="promise-state-fulfilled">FULFILLED</div>;
+      }
+
+      return null;
+    }
+
+    const { container } = render(
+        <App>
+          <Content />
+          <Content2 />
+        </App>
+    );
+
+    {
+      const contentNode = await waitForElement(() =>
+          getByTestId(container, 'promise-state-pending')
+      );
+      expect(contentNode.textContent).toBe('PENDING');
+    }
+    {
+      const contentNode = await waitForElement(() =>
+          getByTestId(container, 'promise-state-fulfilled')
+      );
+      expect(contentNode.textContent).toBe('FULFILLED');
+    }
+  })
 });
