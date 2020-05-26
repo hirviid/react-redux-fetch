@@ -3,10 +3,10 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json'],
   globals: {
     'ts-jest': {
-      tsConfig: './tsconfig.base.json',
+      tsConfig: './config/tsconfig.base.json',
     },
   },
-  rootDir: '../packages',
+  rootDir: './packages',
   projects: ['<rootDir>'],
   testMatch: ['<rootDir>/*/src/**/__tests__/**/*.test.ts?(x)'],
   testPathIgnorePatterns: ['/examples', '/docusaurus'],

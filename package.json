@@ -2,9 +2,9 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "test": "jest --config ./config/jest.config.js --silent",
-    "test:watch": "npx jest --config ./config/jest.config.js --watch",
-    "test:coverage": "npx jest --config ./config/jest.config.js --verbose --coverage"
+    "test": "jest --silent",
+    "test:watch": "npx jest --watch",
+    "test:coverage": "npx jest --verbose --coverage"
   },
   "devDependencies": {
     "@testing-library/react": "^9.4.0",

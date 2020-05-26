@@ -10,7 +10,7 @@
     "tsc": "tsc",
     "tsc-watch": "tsc-watch",
     "clean": "rimraf dist",
-    "prepublish": "npm run clean && npm run tsc"
+    "prepublish": "yarn clean && yarn tsc"
   },
   "peerDependencies": {
     "redux": "^4.0.4"

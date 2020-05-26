@@ -2,6 +2,19 @@
 
 A declarative and customizable way to fetch data for React components and manage that data in the Redux state.
 
+<!--
+[![build status](https://img.shields.io/travis/hirviid/react-redux-fetch/next.svg?style=flat-square)](https://travis-ci.org/hirviid/react-redux-fetch)
+[![Codecov](https://img.shields.io/codecov/c/github/hirviid/react-redux-fetch/next.svg?style=flat-square)](https://travis-ci.org/hirviid/react-redux-fetch)
+-->
+
+@react-redux-fetch/core 
+
+[![npm version](https://img.shields.io/npm/v/@react-redux-fetch/core.svg?style=flat-square)](https://www.npmjs.com/package/@react-redux-fetch/core) 
+
+@react-redux-fetch/hooks
+
+[![npm version](https://img.shields.io/npm/v/@react-redux-fetch/hooks.svg?style=flat-square)](https://www.npmjs.com/package/@react-redux-fetch/hooks) 
+
 ## v0 Documentation
 
 - [Getting started](http://hirviid.github.io/react-redux-fetch/docs/getting-started)

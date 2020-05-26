@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - 'node'
+cache:
+  yarn: true
+script:
+  - lerna bootstrap --force-local
+  - yarn run test
+after_success:
+  - yarn run test:coverage
