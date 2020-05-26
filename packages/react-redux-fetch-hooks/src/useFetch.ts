@@ -3,16 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FetchConfig, PromiseState, ReactReduxFetchState } from '@react-redux-fetch/core';
 import { requestAction, cancelAction } from '@react-redux-fetch/core/dist/actions';
 import { getRequestStateKey } from '@react-redux-fetch/core/dist/util/getRequestStateKey';
-
-type Options = {
-  debugKey?: string;
-  eager?: boolean;
-  pollInterval?: number;
-};
-
-type MakeFetchConfig<TMakeRequestParams extends Array<any>> =
-  | ((...args: TMakeRequestParams) => FetchConfig | null)
-  | (() => FetchConfig | null);
+import {MakeFetchConfig, Options} from "./types";
 
 export function useFetch<TMakeRequestParams extends Array<any>>(
   makeFetchConfig: MakeFetchConfig<TMakeRequestParams>,
