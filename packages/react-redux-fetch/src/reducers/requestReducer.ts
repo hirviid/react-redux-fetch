@@ -42,6 +42,7 @@ export const requestReducer: Reducer = (state = {}, action): Record<string, Prom
         fulfilled: false,
         rejected: true,
         requestCount: state[errorKey].requestCount,
+        response: action.payload.response,
         reason: action.payload.reason,
         lastErrorAt: (new Date()).getTime(),
       }

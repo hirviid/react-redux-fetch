@@ -66,6 +66,7 @@ export interface ErrorPromiseState<TReason = any> {
   requestCount: number;
   lastErrorAt: UnixDateTime;
   reason: TReason;
+  response: unknown;
 }
 
 export type PromiseState = PendingPromiseState | SuccessPromiseState | ErrorPromiseState;
