@@ -1,8 +1,7 @@
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FetchConfig, PromiseState, ReactReduxFetchState } from '@react-redux-fetch/core';
+import { FetchConfig, PromiseState, ReactReduxFetchState, getRequestStateKey } from '@react-redux-fetch/core';
 import { requestAction, cancelAction } from '@react-redux-fetch/core/dist/actions';
-import { getRequestStateKey } from '@react-redux-fetch/core/dist/util/getRequestStateKey';
 import {MakeFetchConfig, Options} from "./types";
 
 export function useFetch<TMakeRequestParams extends Array<any>>(

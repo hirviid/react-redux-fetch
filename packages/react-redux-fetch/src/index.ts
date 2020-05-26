@@ -8,6 +8,7 @@ import {
   isErrorAction,
 } from './util/isFetchAction';
 import * as promiseState from './util/promiseState';
+export * from './util/getRequestStateKey';
 export * from './types';
 
 export {
