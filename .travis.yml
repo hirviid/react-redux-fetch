@@ -4,7 +4,7 @@ node_js:
 cache:
   yarn: true
 before_script:
-  - yarn global add typescript
+  - yarn global add typescript@4.0.2
   - lerna bootstrap --force-local
 script:
   - yarn run test

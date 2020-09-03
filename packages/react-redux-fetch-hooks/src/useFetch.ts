@@ -21,7 +21,7 @@ export function useFetch<TMakeRequestParams extends Array<any>>(
   const savedMakeFetchConfig = useRef<MakeFetchConfig<TMakeRequestParams>>(() => null);
   const savedFetchConfig = useRef<FetchConfig | null>();
 
-  const [requestStateKey, setRequestStateKey] = useState();
+  const [requestStateKey, setRequestStateKey] = useState<string>();
   const promiseState = useSelector(
     (state: ReactReduxFetchState) => requestStateKey ? state.requests[requestStateKey] : undefined
   );
