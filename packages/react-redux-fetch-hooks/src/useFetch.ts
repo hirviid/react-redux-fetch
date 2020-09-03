@@ -91,9 +91,5 @@ export function useFetch<TMakeRequestParams extends Array<any>>(
     }
   }, [request, eager]);
 
-  useEffect(() => {
-    return () => cancel();
-  }, [cancel]);
-
   return [promiseState, request, cancel];
 }
